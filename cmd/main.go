@@ -28,6 +28,7 @@ func main() {
 
 func routes() {
 	router.Handle("/", handler.Handler{H: handler.Index})
+	router.NotFound(handler.NotFound)
 
 	workDir, _ := os.Getwd()
 	filesDir := filesystem.Myfs{http.Dir(filepath.Join(workDir, "../web/static"))}
