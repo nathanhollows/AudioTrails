@@ -6,13 +6,12 @@ import (
 	"net/http"
 )
 
-// Index is the homepage of the game.
-// Prints a very simple page asking only for a team code.
-func Index(env *Env, w http.ResponseWriter, r *http.Request) error {
+// Admin handles the teams and shows the current status
+func Admin(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	templates := template.Must(template.ParseFiles(
 		"../web/template/index.html",
-		"../web/template/index/index.html"))
+		"../web/template/admin/index.html"))
 
 	if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
 		http.Error(w, err.Error(), 0)

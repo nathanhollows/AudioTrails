@@ -1,23 +1,36 @@
 package handler
 
-import "net/http"
+import (
+	"net/http"
 
+	"github.com/nathanhollows/AmazingTrace/pkg/game"
+)
+
+// Error is a simple error interface.
 type Error interface {
 	error
 	Status() int
 }
 
+// StatusError is a simple error struct.
 type StatusError struct {
 	Code int
 	Err  error
 }
 
+// Handler takes both a game manager and http function.
 type Handler struct {
-	H func(w http.ResponseWriter, r *http.Request) error
+	Env *Env
+	H   func(e *Env, w http.ResponseWriter, r *http.Request) error
+}
+
+// Env is the shared game manager for each request.
+type Env struct {
+	Manager game.Manager
 }
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	err := h.H(w, r)
+	err := h.H(h.Env, w, r)
 	if err != nil {
 		switch e := err.(type) {
 		case Error:

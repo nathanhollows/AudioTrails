@@ -10,15 +10,20 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/nathanhollows/AmazingTrace/pkg/filesystem"
+	"github.com/nathanhollows/AmazingTrace/pkg/game"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
 var router *chi.Mux
+var env handler.Env
 
 func init() {
 	router = chi.NewRouter()
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
+	env = handler.Env{
+		game.Manager{},
+	}
 }
 
 func main() {
@@ -27,7 +32,11 @@ func main() {
 }
 
 func routes() {
-	router.Handle("/", handler.Handler{H: handler.Index})
+	router.Handle("/", handler.Handler{Env: &env, H: handler.Index})
+	router.Handle("/start", handler.Handler{Env: &env, H: handler.Start})
+	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
+	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
+	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: handler.Clue})
 	router.NotFound(handler.NotFound)
 
 	workDir, _ := os.Getwd()

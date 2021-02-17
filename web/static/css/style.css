@@ -35,6 +35,10 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 2;
 }
 
+ul {
+    text-align: left;
+}
+
 input#code {
     background: transparent;
     border: 0.2em solid #ffd54f;
@@ -46,7 +50,7 @@ input#code {
     text-align: center;
 }
 
-button#submit {
+#submit {
     border-radius: 0;
     color: #212121;
     background-color: #ffd54f;
