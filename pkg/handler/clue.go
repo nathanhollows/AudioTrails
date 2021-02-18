@@ -4,13 +4,15 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 // Clue handles the scanned URL.
 // Either shows an error, the next clue, an opportunity, or a challenge.
 func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
-	url := r.URL.String()[1:6]
+	url := (r.URL.String()[1:6])
+	url = strings.ToUpper(url)
 
 	var page string = "error"
 
