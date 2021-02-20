@@ -22,8 +22,9 @@ func init() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
 	env = handler.Env{
-		game.Manager{},
+		Manager: game.Manager{},
 	}
+	env.Manager.CreateTeams(10)
 }
 
 func main() {
@@ -36,6 +37,7 @@ func routes() {
 	router.Handle("/wxvan", handler.Handler{Env: &env, H: handler.Index})
 	router.Handle("/start", handler.Handler{Env: &env, H: handler.Start})
 	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
+	router.Handle("/clues", handler.Handler{Env: &env, H: handler.Clues})
 	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: handler.Clue})
 	router.NotFound(handler.NotFound)
 

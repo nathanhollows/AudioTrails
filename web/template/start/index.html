@@ -15,7 +15,10 @@
     </ul>
     <p>
       Got it? Good.
-      <a class="btn btn-primary btn-lg btn-block mt-3" id="submit" href="#">Let's go</a>
+      <form action="/clues" method="POST">
+        <input type="hidden" name="team" value="{{.Team }}">
+      <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" id="submit" href="#">Let's go</button>
+      </form>
     </p>
 </div>
 {{ end }}

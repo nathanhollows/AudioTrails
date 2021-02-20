@@ -25,6 +25,10 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
 
+.text-danger {
+  color: #ff6c00 !important;
+}
+
 .content, .form{
   width: 100%;
   max-width: 330px;

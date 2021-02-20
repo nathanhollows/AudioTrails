@@ -13,7 +13,7 @@ func Admin(env *Env, w http.ResponseWriter, r *http.Request) error {
 		"../web/template/index.html",
 		"../web/template/admin/index.html"))
 
-	if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
+	if err := templates.ExecuteTemplate(w, "base", env.Manager); err != nil {
 		http.Error(w, err.Error(), 0)
 		log.Print("Template executing error: ", err)
 	}

@@ -1,32 +1,36 @@
 package handler
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/nathanhollows/AmazingTrace/pkg/game"
 )
 
-// Start begins the game for the team. Prints out their first clue
-func Start(env *Env, w http.ResponseWriter, r *http.Request) error {
+// Clues shows a team all of the clues they have unlocked
+func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {
-		Team string
+		Code  string
+		Team  game.Team
+		Clues []game.Clue
 	}
 
 	r.ParseForm()
-	team := r.PostForm.Get("code")
+	team := r.PostForm.Get("team")
 	data := Data{
-		Team: team,
+		Code:  team,
+		Team:  env.Manager.GetTeam(team),
+		Clues: game.Clues,
 	}
 
 	var page string
 	if env.Manager.CheckTeam(team) {
-		fmt.Println("Team ", team, " has checked in")
-		page = "../web/template/start/index.html"
+		page = "../web/template/clues/index.html"
 	} else {
-		page = "../web/template/index/error.html"
+		page = "../web/template/clues/error.html"
 	}
 
 	templates := template.Must(template.ParseFiles(

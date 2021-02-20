@@ -1,0 +1,12 @@
+{{ define "body" }}
+<div class="form">
+    <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
+    <h2 class="h3 mb-3 font-weight-normal">Your Clues</h2>
+
+    {{ len(.Team.Unlocked)}}
+    {{range $i := .Team.Unlocked}}
+      {{ $clue := index $.Clues $i }}
+      <p> {{ $clue.Text }} </p>
+    {{ end }}
+</div>
+{{ end }}

@@ -1,22 +1,24 @@
 package game
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 // Team holds the team specific information for a given team
 type Team struct {
-	Code string
-	Game Game
+	Code     string
+	LastSeen time.Time
+	Solved   []int
+	Unlocked []int
+	Events   []string
 }
 
 // Manager holds each of the teams
 type Manager struct {
 	Teams []Team
-}
-
-// Game holds the clues, challenges, and opportunities
-type Game struct {
-	Clue     int
-	Ordering []int
 }
 
 // Clues is the list of clues available to all players.
@@ -42,12 +44,47 @@ func (m Manager) GetClue(code string) (Clue, error) {
 
 // CheckTeam returns whether or not the team code is valid.
 func (m Manager) CheckTeam(code string) bool {
-	for _, clue := range Clues {
-		if clue.Code == code {
+	for _, team := range m.Teams {
+		if team.Code == code {
 			return true
 		}
 	}
 	return false
+}
+
+// GetTeam returns whether or not the team code is valid.
+func (m Manager) GetTeam(code string) Team {
+	for _, team := range m.Teams {
+		if team.Code == code {
+			return team
+		}
+	}
+	return Team{}
+}
+
+var symbols = []rune("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func newCode() string {
+	b := make([]rune, 5)
+	for i := 0; i < 5; i++ {
+		b[i] = symbols[rand.Intn(len(symbols))]
+	}
+	return string(b)
+}
+
+// CreateTeams will create however many teams are asked for.
+// Num must be > 0
+func (m *Manager) CreateTeams(num int) {
+	for i := 0; i < num; i++ {
+		m.Teams = append(m.Teams,
+			Team{
+				Code:     newCode(),
+				Solved:   []int{},
+				Unlocked: []int{rand.Intn(len(Clues)), rand.Intn(len(Clues))},
+			},
+		)
+		fmt.Println(m.Teams[i].Code)
+	}
 }
 
 // Get returns a Team given a code
@@ -56,6 +93,7 @@ func (m Manager) Get(code string) Team {
 }
 
 func init() {
+	rand.Seed(time.Now().UnixNano())
 	// Clues written by the wonderful Tamika!
 	Clues = append(Clues, Clue{"QWOP4", "St Daves", "Named after a saint but if you have a class here you will know, saint-like is the least like what your grades will show", ""})
 	Clues = append(Clues, Clue{"DFG5J", "Student Health", "Pregnancy tests and STI checks please? Book an appointment here to put your mind at ease", ""})
