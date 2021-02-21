@@ -20,7 +20,7 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 	var page string
 
 	r.ParseForm()
-	teamCode := r.PostForm.Get("team")
+	teamCode := r.PostForm.Get("code")
 	team := &game.Team{}
 	index, err := env.Manager.GetTeam(teamCode)
 	if err != nil {

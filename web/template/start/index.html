@@ -6,17 +6,17 @@
     How to play:
   </p>
     <ul>
-      <li>You have one hour to scan as many Amazing Trace posters as you can.</li>
-      <li>You will be given clues to help you find the next posters.</li>
-      <li>You must unlock the clue for a poster before you can scan it.</li>
-      <li>Scan the poster or follow the URL to get your next clue.</li>
-      <li>You may ask for help from people around campus.</li>
-      <li>Whichever team scans the most posters wins.</li>
+      <li>The game goes for one hour</li>
+      <li>Try to solve the clues and scan the matching posters before time is up</li>
+      <li>You'll have three clues for three different locations</li>
+      <li>You can keep solving clues until time is up</li>
+      <li>You can only scan posters that you have the matching clue for</li>
+      <li>Whichever team scans the most posters wins</li>
     </ul>
     <p>
       Got it? Good.
       <form action="/clues" method="POST">
-        <input type="hidden" name="team" value="{{.Team }}">
+        <input type="hidden" name="code" value="{{.Team }}">
       <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" id="submit" href="#">Let's go</button>
       </form>
     </p>

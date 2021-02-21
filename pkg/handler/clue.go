@@ -12,6 +12,18 @@ import (
 // Clue handles the scanned URL.
 func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
+	if len(r.URL.String()) != 6 {
+		templates := template.Must(template.ParseFiles(
+			"../web/template/index.html",
+			"../web/template/errors/notfound.html"))
+
+		if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
+			http.Error(w, err.Error(), 0)
+			log.Print("Template executing error: ", err)
+		}
+
+		return nil
+	}
 	clueCode := (r.URL.String()[1:6])
 	clueCode = strings.ToUpper(clueCode)
 	var page string = "404"
