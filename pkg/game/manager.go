@@ -87,11 +87,11 @@ func (team *Team) Solve(clueCode string) error {
 	return errors.New("this team has not unlocked this location")
 }
 
-var symbols = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var symbols = []rune("ABCDEFGHJKLMNPRSTUVWXYZ")
 
 func newCode() string {
-	b := make([]rune, 5)
-	for i := 0; i < 5; i++ {
+	b := make([]rune, 4)
+	for i := 0; i < 4; i++ {
 		b[i] = symbols[rand.Intn(len(symbols))]
 	}
 	return string(b)
