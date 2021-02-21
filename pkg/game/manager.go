@@ -81,9 +81,10 @@ func (team *Team) Solve(clueCode string) error {
 			team.UnlockedCount++
 			fmt.Println("Success!")
 			team.Unlocked[i] = team.UnlockedCount - 1
+			return nil
 		}
 	}
-	return nil
+	return errors.New("this team has not unlocked this location")
 }
 
 var symbols = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
