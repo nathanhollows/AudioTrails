@@ -3,7 +3,13 @@
     <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
     <h2 class="h3 mb-3 font-weight-normal">Admin Panel</h2>
     {{ range .Teams }}
-    <p>Team: {{.Code}}</p>
+    <h3 class="h6 mb-3 pt-3 font-weight-normal">{{ .Code }}</h3>
+    <p>
+        {{ len .Solved }} / {{ .UnlockedCount }} Solved<br />
+        {{ .UnlockedCount }} / {{ len .Clues }} Unlocked<br />
+        <br />
+        Last Seen {{ .LastSeen.Format "03:04:05" }}
+    </p>
     {{ end }}
 </div>
 {{ end }}

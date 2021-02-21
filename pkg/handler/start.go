@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,17 +15,19 @@ func Start(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	r.ParseForm()
-	team := r.PostForm.Get("code")
+	teamCode := r.Form.Get("code")
 	data := Data{
-		Team: team,
+		Team: teamCode,
 	}
 
 	var page string
-	if env.Manager.CheckTeam(team) {
-		fmt.Println("Team ", team, " has checked in")
-		page = "../web/template/start/index.html"
-	} else {
+	index, err := env.Manager.GetTeam(teamCode)
+	if err != nil {
 		page = "../web/template/index/error.html"
+	} else {
+		team := &env.Manager.Teams[index]
+		team.CheckIn()
+		page = "../web/template/start/index.html"
 	}
 
 	templates := template.Must(template.ParseFiles(

@@ -17,20 +17,23 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 		Team  game.Team
 		Clues []game.Clue
 	}
+	var page string
 
 	r.ParseForm()
-	team := r.PostForm.Get("team")
-	data := Data{
-		Code:  team,
-		Team:  env.Manager.GetTeam(team),
-		Clues: game.Clues,
+	teamCode := r.PostForm.Get("team")
+	team := &game.Team{}
+	index, err := env.Manager.GetTeam(teamCode)
+	if err != nil {
+		page = "../web/template/clues/error.html"
+	} else {
+		page = "../web/template/clues/index.html"
+		team = &env.Manager.Teams[index]
+		team.CheckIn()
 	}
 
-	var page string
-	if env.Manager.CheckTeam(team) {
-		page = "../web/template/clues/index.html"
-	} else {
-		page = "../web/template/clues/error.html"
+	data := Data{
+		Code: teamCode,
+		Team: *team,
 	}
 
 	templates := template.Must(template.ParseFiles(

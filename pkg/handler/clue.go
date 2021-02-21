@@ -5,20 +5,38 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/nathanhollows/AmazingTrace/pkg/game"
 )
 
 // Clue handles the scanned URL.
-// Either shows an error, the next clue, an opportunity, or a challenge.
 func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
-	url := (r.URL.String()[1:6])
-	url = strings.ToUpper(url)
+	clueCode := (r.URL.String()[1:6])
+	clueCode = strings.ToUpper(clueCode)
+	var page string = "404"
 
-	var page string = "error"
+	// When a team is entered
+	if r.Method == "POST" {
+		r.ParseForm()
+		teamCode := r.Form.Get("code")
+		index, err := env.Manager.GetTeam(teamCode)
+		team := &game.Team{}
+		if err != nil {
 
-	clue, err := env.Manager.GetClue(url)
+		} else {
+			page = "index"
+			team = &env.Manager.Teams[index]
+			team.LastSeen.Local().Hour()
+			team.Solve(clueCode)
+		}
+		team.CheckIn()
+
+	}
+
+	clue, err := env.Manager.GetClue(clueCode)
 	if err == nil {
-		page = "clue"
+		page = "index"
 	}
 
 	templates := template.Must(template.ParseFiles(

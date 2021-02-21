@@ -1,12 +1,25 @@
 {{ define "body" }}
 <div class="form">
-    <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
-    <h2 class="h3 mb-3 font-weight-normal">Your Clues</h2>
+  <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
+  <h2 class="h3 mb-3 font-weight-normal">Your Clues</h2>
 
-    {{ len(.Team.Unlocked)}}
-    {{range $i := .Team.Unlocked}}
-      {{ $clue := index $.Clues $i }}
-      <p> {{ $clue.Text }} </p>
-    {{ end }}
+  <h3 class="h6 my-5 font-weight-normal">
+    {{ .Team.UnlockedCount }} / {{ len .Team.Clues }} clues unlocked
+  </h3>
+  {{range $i := .Team.Unlocked}}
+  {{ $clue := index $.Team.Clues $i }}
+  <p>
+    {{ $clue.Text }}
+  </p>
+  {{ end }}
+  <h3 class="h6 my-5 font-weight-normal">
+    {{ len .Team.Solved }} / {{ len .Team.Clues }} clues solved
+    </h3>
+    {{range $i := .Team.Solved}}
+    <p>
+  {{$clue := index $.Team.Clues $i}}
+  {{$clue.Title}}
+    </p>
+  {{end}}
 </div>
 {{ end }}
