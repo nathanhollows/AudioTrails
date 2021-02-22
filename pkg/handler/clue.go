@@ -43,25 +43,7 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 	data.Clue = clue
 
-	session, err := env.Session.Get(r, "trace")
-	code := session.Values["code"]
-	teamCode := fmt.Sprintf("%v", code)
-	if teamCode != "" {
-		index, err := env.Manager.GetTeam(teamCode)
-		if err != nil {
-			page = "clue/index"
-		} else {
-			team := &env.Manager.Teams[index]
-			if err != nil {
-				page = "clue/notateam"
-			} else {
-				team = &env.Manager.Teams[index]
-				page = "clue/index"
-			}
-			team.CheckIn()
-			data.Team = *team
-		}
-	} else if r.Method == "POST" {
+	if r.Method == "POST" {
 		r.ParseForm()
 		teamCode := r.Form.Get("code")
 		index, err := env.Manager.GetTeam(teamCode)
@@ -78,6 +60,24 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 		}
 		team.CheckIn()
 		data.Team = *team
+	} else {
+		session, err := env.Session.Get(r, "trace")
+		code := session.Values["code"]
+		teamCode := fmt.Sprintf("%v", code)
+		index, err := env.Manager.GetTeam(teamCode)
+		if err != nil {
+			page = "clue/index"
+		} else {
+			team := &env.Manager.Teams[index]
+			if err != nil {
+				page = "clue/notateam"
+			} else {
+				team = &env.Manager.Teams[index]
+				page = "clue/index"
+			}
+			team.CheckIn()
+			data.Team = *team
+		}
 	}
 
 	templates := template.Must(template.ParseFiles(
