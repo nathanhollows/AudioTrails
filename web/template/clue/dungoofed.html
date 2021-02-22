@@ -1,0 +1,31 @@
+{{ define "body" }}
+<div class="form">
+  <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
+  <h2 class="h3 mb-3 font-weight-normal">Your Clues</h2>
+  <div class="text-danger">Nice try. You can't get a clue twice, and you can't log a location you haven't unlocked.</div>
+  <h3 class="h6 mb-3 mt-5 font-weight-normal">
+    Location 1
+  </h3>
+  {{ $clue := index $.Team.Clues (index .Team.Unlocked 0) }}
+  {{ $clue.Text }}
+  <h3 class="h6 mb-3 mt-5 font-weight-normal">
+    Location 2
+  </h3>
+  {{ $clue := index $.Team.Clues (index .Team.Unlocked 1) }}
+  {{ $clue.Text }}
+  <h3 class="h6 mb-3 mt-5 font-weight-normal">
+    Location 3
+  </h3>
+  {{ $clue := index $.Team.Clues (index .Team.Unlocked 2) }}
+  {{ $clue.Text }}
+  <h3 class="h6 my-5 font-weight-normal">
+    {{ len .Team.Solved }} / {{ len .Team.Clues }} clues solved
+  </h3>
+  {{range $i := .Team.Solved}}
+  <p>
+    {{$clue := index $.Team.Clues $i}}
+    {{$clue.Title}}
+  </p>
+  {{end}}
+</div>
+{{ end }}

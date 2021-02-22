@@ -13,9 +13,8 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {
-		Code  string
-		Team  game.Team
-		Clues []game.Clue
+		Clue game.Clue
+		Team game.Team
 	}
 	var page string
 
@@ -32,7 +31,7 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	data := Data{
-		Code: teamCode,
+		Clue: game.Clue{},
 		Team: *team,
 	}
 
