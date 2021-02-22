@@ -19,3 +19,31 @@ func Admin(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 	return nil
 }
+
+// FastForward completes three clues for a team.
+func FastForward(env *Env, w http.ResponseWriter, r *http.Request) error {
+	w.Header().Set("Content-Type", "text/html")
+
+	r.ParseForm()
+	teamCode := r.PostFormValue("code")
+
+	index, _ := env.Manager.GetTeam(teamCode)
+	team := &env.Manager.Teams[index]
+	team.FastForward()
+	http.Redirect(w, r, "/admin", 301)
+	return nil
+}
+
+// Hinder completes three clues for a team.
+func Hinder(env *Env, w http.ResponseWriter, r *http.Request) error {
+	w.Header().Set("Content-Type", "text/html")
+
+	r.ParseForm()
+	teamCode := r.PostFormValue("code")
+
+	index, _ := env.Manager.GetTeam(teamCode)
+	team := &env.Manager.Teams[index]
+	team.Hinder()
+	http.Redirect(w, r, "/admin", 301)
+	return nil
+}

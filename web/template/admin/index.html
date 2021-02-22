@@ -40,6 +40,14 @@
                     {{end}}
                     </ul>
                 </p>
+                <form action="/admin/ff" method="POST" class="d-inline-block">
+                    <input type="hidden" name="code" value="{{.Code}}">
+                    <button type="submit" class="btn btn-sm btn-primary">Fast Forward</button>
+                </form>
+                <form action="/admin/hinder" method="POST" class="d-inline-block">
+                    <input type="hidden" name="code" value="{{.Code}}">
+                    <button type="submit" class="btn btn-sm btn-danger">Hinder</button>
+                </form>
             </div>
         </div>
         {{ end }}

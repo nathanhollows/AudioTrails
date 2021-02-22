@@ -43,6 +43,8 @@ func routes() {
 	router.Handle("/WXVAN", handler.Handler{Env: &env, H: handler.Index})
 	router.Handle("/start", handler.Handler{Env: &env, H: handler.Start})
 	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
+	router.Handle("/admin/ff", handler.Handler{Env: &env, H: handler.FastForward})
+	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: handler.Hinder})
 	router.Handle("/clues", handler.Handler{Env: &env, H: handler.Clues})
 	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: handler.Clue})
 	router.NotFound(handler.NotFound)

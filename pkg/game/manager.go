@@ -76,6 +76,9 @@ func (team *Team) Solve(clueCode string) error {
 	team.CheckIn()
 
 	for i, pos := range team.Unlocked {
+		if pos > len(team.Clues)-1 {
+			continue
+		}
 		if team.Clues[pos].Code == clueCode {
 			team.Solved = append(team.Solved, pos)
 			team.UnlockedCount++
@@ -84,6 +87,28 @@ func (team *Team) Solve(clueCode string) error {
 		}
 	}
 	return errors.New("this team has not unlocked this location")
+}
+
+// FastForward will check if the team can solve the game then update the game state.
+func (team *Team) FastForward() {
+	team.CheckIn()
+
+	for i, pos := range team.Unlocked {
+		if team.UnlockedCount != len(team.Clues) {
+			team.Solved = append(team.Solved, pos)
+			team.UnlockedCount++
+			team.Unlocked[i] = team.UnlockedCount - 1
+		}
+	}
+}
+
+// Hinder will check if the team can solve the game then update the game state.
+func (team *Team) Hinder() {
+	team.CheckIn()
+
+	for i := 0; i < 3; i++ {
+		team.Clues[team.Unlocked[i]], team.Clues[len(team.Clues)-1-i] = team.Clues[len(team.Clues)-1-i], team.Clues[team.Unlocked[i]]
+	}
 }
 
 var symbols = []rune("ABCDEFGHJKLMNPRSTUVWXYZ")
