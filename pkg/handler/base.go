@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/gorilla/sessions"
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
 )
 
@@ -27,6 +28,7 @@ type Handler struct {
 // Env is the shared game manager for each request.
 type Env struct {
 	Manager game.Manager
+	Session sessions.Store
 }
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -31,6 +32,7 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 
 		return nil
 	}
+
 	clueCode := (r.URL.String()[1:6])
 	clueCode = strings.ToUpper(clueCode)
 	var page string = "clue/404"
@@ -41,8 +43,25 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 	data.Clue = clue
 
-	// When a team is entered
-	if r.Method == "POST" {
+	session, err := env.Session.Get(r, "trace")
+	code := session.Values["code"]
+	teamCode := fmt.Sprintf("%v", code)
+	if teamCode != "" {
+		index, err := env.Manager.GetTeam(teamCode)
+		if err != nil {
+			page = "clue/index"
+		} else {
+			team := &env.Manager.Teams[index]
+			if err != nil {
+				page = "clue/notateam"
+			} else {
+				team = &env.Manager.Teams[index]
+				page = "clue/index"
+			}
+			team.CheckIn()
+			data.Team = *team
+		}
+	} else if r.Method == "POST" {
 		r.ParseForm()
 		teamCode := r.Form.Get("code")
 		index, err := env.Manager.GetTeam(teamCode)
@@ -51,7 +70,6 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 			page = "clue/notateam"
 		} else {
 			team = &env.Manager.Teams[index]
-			team.LastSeen.Local().Hour()
 			if team.Solve(clueCode) != nil {
 				page = "clue/dungoofed"
 			} else {

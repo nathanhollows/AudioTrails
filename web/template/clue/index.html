@@ -4,7 +4,7 @@
     <h2 class="h3 mb-3 font-weight-normal">{{ .Clue.Title}}</h2>
     <p class="mb-3">Enter your team code</p>
     <label for="code" class="sr-only">Team Code</label>
-    <input type="text" id="code" name="code" class="form-control mb-4" required="" autofocus="" placeholder="code" maxlength="4">
+    <input type="text" id="code" name="code" class="form-control mb-4" required="" {{if not .Team.Code }}autofocus=""{{end}} placeholder="code" maxlength="4" value="{{ if .Team.Code}}{{ .Team.Code }}{{end}}">
     <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 </form>
 {{ end }}

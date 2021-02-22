@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/gorilla/sessions"
 	"github.com/nathanhollows/AmazingTrace/pkg/filesystem"
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
@@ -21,8 +22,12 @@ func init() {
 	router = chi.NewRouter()
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
+
+	var store = sessions.NewCookieStore([]byte("trace"))
+
 	env = handler.Env{
 		Manager: game.Manager{},
+		Session: store,
 	}
 	env.Manager.CreateTeams(10)
 }

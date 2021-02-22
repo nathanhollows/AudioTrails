@@ -27,6 +27,13 @@ func Start(env *Env, w http.ResponseWriter, r *http.Request) error {
 	} else {
 		team := &env.Manager.Teams[index]
 		team.CheckIn()
+		session, _ := env.Session.Get(r, "trace")
+		session.Values["code"] = team.Code
+		err := session.Save(r, w)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return nil
+		}
 		page = "../web/template/start/index.html"
 	}
 
