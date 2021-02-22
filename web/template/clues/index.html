@@ -3,21 +3,27 @@
   <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
   <h2 class="h3 mb-3 font-weight-normal">Your Clues</h2>
 
+  {{ if (lt (index .Team.Unlocked 0) 25)}}
   <h3 class="h6 mb-3 mt-5 font-weight-normal">
     Location 1
   </h3>
   {{ $clue := index $.Team.Clues (index .Team.Unlocked 0) }}
   {{ $clue.Text }}
+  {{end}}
+  {{ if (lt (index .Team.Unlocked 1) 25)}}
   <h3 class="h6 mb-3 mt-5 font-weight-normal">
     Location 2
   </h3>
   {{ $clue := index $.Team.Clues (index .Team.Unlocked 1) }}
   {{ $clue.Text }}
+  {{end}}
+  {{ if (lt (index .Team.Unlocked 2) 25)}}
   <h3 class="h6 mb-3 mt-5 font-weight-normal">
     Location 3
   </h3>
   {{ $clue := index $.Team.Clues (index .Team.Unlocked 2) }}
   {{ $clue.Text }}
+  {{end}}
   <h3 class="h6 my-5 font-weight-normal">
     {{ len .Team.Solved }} / {{ len .Team.Clues }} clues solved
   </h3>
@@ -28,4 +34,4 @@
   </p>
   {{end}}
 </div>
-{{ end }}
+  {{end}}
