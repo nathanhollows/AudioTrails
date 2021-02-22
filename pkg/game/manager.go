@@ -79,7 +79,6 @@ func (team *Team) Solve(clueCode string) error {
 		if team.Clues[pos].Code == clueCode {
 			team.Solved = append(team.Solved, pos)
 			team.UnlockedCount++
-			fmt.Println("Success!")
 			team.Unlocked[i] = team.UnlockedCount - 1
 			return nil
 		}
