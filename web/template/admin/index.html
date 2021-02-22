@@ -1,15 +1,48 @@
 {{ define "body" }}
-<div class="form">
-    <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
-    <h2 class="h3 mb-3 font-weight-normal">Admin Panel</h2>
-    {{ range .Teams }}
-    <h3 class="h6 mb-3 pt-3 font-weight-normal">{{ .Code }}</h3>
-    <p>
-        {{ len .Solved }} / {{ .UnlockedCount }} Solved<br />
-        {{ .UnlockedCount }} / {{ len .Clues }} Unlocked<br />
-        <br />
-        Last Seen {{ .LastSeen.Format "03:04:05" }}
-    </p>
-    {{ end }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="h6 mb-3 font-weight-normal">The Amazing Trace</h1>
+            <h2 class="h3 mb-3 font-weight-normal">Admin Panel</h2>
+        </div>
+    </div>
+    <div class="row text-left">
+        {{ range .Teams }}
+        <div class="col-md-4 col-sm-6">
+            <div class="col">
+                <h3 class="h6 my-3 pt-5 font-weight-normal">{{ .Code }}</h3>
+                <p>
+
+                    {{ len .Solved }} / {{ len .Clues }} Solved<br />
+                    <br />
+                    Last Seen {{ .LastSeen.Format "03:04:05" }}
+                </p>
+                {{ $clues := .Clues}}
+                <p>
+                    <strong class="mb-2">Looking For:</strong><br />
+                    <ul>
+                    {{range $i := .Unlocked}}
+                    {{ $clue := index $clues $i }}
+                    <li>
+                    {{ $clue.Title }}
+                    </li>
+                    {{end}}
+                    </ul>
+                </p>
+                <p>
+                    <strong class="mb-2">Solved:</strong><br />
+                    <ul>
+                    {{range $i := .Solved}}
+                    {{ $clue := index $clues $i }}
+                    <li>
+                    {{ $clue.Title }}
+                    </li>
+                    {{end}}
+                    </ul>
+                </p>
+            </div>
+        </div>
+        {{ end }}
+    </div>
 </div>
 {{ end }}
