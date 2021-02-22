@@ -145,7 +145,7 @@ func init() {
 	clues = append(clues, Clue{"I0AHP", "Botany Department", "Rhymes aside, may I just ask, can these experts revive my houseplants?", ""})
 	clues = append(clues, Clue{"2YXNQ", "Central Library", "This library is large and perhaps the most popular, where basic bitches study, according to critic I gather.", ""})
 	clues = append(clues, Clue{"C8P8S", "Microbiology Building", "Study something small and living too? This building is the place for you", ""})
-	clues = append(clues, Clue{"E0MBX", "School of Physiotherapy", "Is it you neck, your back, or something else that cracks? Head to this school to get back on track.", ""})
+	clues = append(clues, Clue{"E0MBX", "School of Physiotherapy", "Is it your neck, your back, or something else that cracks? Head to this school to get back on track.", ""})
 	clues = append(clues, Clue{"ZEEIB", "Locals HQ", "Third floor of union where you can go, for freshers who live in flats or at home.", ""})
 	clues = append(clues, Clue{"2SNU5", "Math / Stats Department", "I gave up on this subject long ago, but if you like numbers this place is your home.", ""})
 	clues = append(clues, Clue{"BS0MC", "Union Grill", "If a craving for burgers, fries, and iced coffee arrives, this grill on campus has what you need to survive.", ""})
@@ -153,5 +153,5 @@ func init() {
 	clues = append(clues, Clue{"FR4SQ", "OUSA Clubs and Socs", "Their dollar-deal lunches went up in price this year. Worth it? Ill let you judge here.", ""})
 	clues = append(clues, Clue{"H3903", "Critic Office", "Have an affinity for writing, drawing, or simply an opinion? Here, a love for journalism and magazines will make you fit in.", ""})
 	clues = append(clues, Clue{"4IYE5", "Owheo Building", "They put the it in IT and what else I dont really know, but the computer angels frequent here, to learn at Owheo.", ""})
-	clues = append(clues, Clue{"CFEK9", "Archway Lecture Theatres", "Consult you map for this one might be a little tricky, find the anagram of crawhAy and you should be there in a jiffy.", ""})
+	clues = append(clues, Clue{"CFEK9", "Archway Lecture Theatres", "Consult your map for this one might be a little tricky, find the anagram of 'crawhAy' and you should be there in a jiffy.", ""})
 }
