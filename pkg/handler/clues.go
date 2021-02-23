@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
+	"time"
 
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
 )
@@ -13,9 +16,12 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {
-		Clue game.Clue
-		Team game.Team
+		Clue     game.Clue
+		Team     game.Team
+		TimeLeft float64
 	}
+	data := Data{}
+
 	var page string
 
 	r.ParseForm()
@@ -28,12 +34,16 @@ func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
 		page = "../web/template/clues/index.html"
 		team = &env.Manager.Teams[index]
 		team.CheckIn()
+		team.Status = ""
 	}
 
-	data := Data{
+	data = Data{
 		Clue: game.Clue{},
 		Team: *team,
 	}
+	end := time.Date(2021, time.February, 24, 12, 0, 0, 0, time.Local)
+	fmt.Println(end)
+	data.TimeLeft = math.Floor(end.Sub(time.Now()).Minutes())
 
 	templates := template.Must(template.ParseFiles(
 		"../web/template/index.html",

@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
 )
@@ -15,10 +17,14 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {
-		Clue game.Clue
-		Team game.Team
+		Clue     game.Clue
+		Team     game.Team
+		TimeLeft float64
 	}
 	data := Data{}
+
+	end := time.Date(2021, time.February, 24, 12, 0, 0, 0, time.Local)
+	data.TimeLeft = math.Floor(end.Sub(time.Now()).Minutes())
 
 	if len(r.URL.String()) != 6 {
 		templates := template.Must(template.ParseFiles(
@@ -38,8 +44,8 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	var page string = "clue/404"
 
 	clue, err := env.Manager.GetClue(clueCode)
-	if err == nil {
-		page = "clue/index"
+	if err != nil {
+		page = "clue/404"
 	}
 	data.Clue = clue
 
@@ -53,9 +59,11 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 		} else {
 			team = &env.Manager.Teams[index]
 			if team.Solve(clueCode) != nil {
-				page = "clue/dungoofed"
+				page = "clues/index"
+				team.Status = "error"
 			} else {
-				page = "clue/yougotit"
+				page = "clues/index"
+				team.Status = "success"
 			}
 		}
 		team.CheckIn()
@@ -78,6 +86,11 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 			team.CheckIn()
 			data.Team = *team
 		}
+	}
+
+	_, err = env.Manager.GetClue(clueCode)
+	if err != nil {
+		page = "clue/404"
 	}
 
 	templates := template.Must(template.ParseFiles(

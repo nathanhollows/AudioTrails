@@ -1,12 +1,14 @@
 {{ define "body" }}
 <form class="form" method="POST" action="/start">
+  <hr class="my-5">
     <h1 class="h6 mb-3 font-weight-normal">Locals Presents</h1>
     <h2 class="h3 mb-3 font-weight-normal">The Amazing Trace</h1>
+  <hr class="my-5">
     <p class="mb-3">Enter your code to get started</p>
     <label for="code" class="sr-only">Team Code</label>
     <input type="text" id="code" name="code" class="form-control mb-4" required="" autofocus="" placeholder="code" maxlength="4">
     <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    <hr/>
+    <br/>
     <p>
       Need a QR scanner? <a href='https://play.google.com/store/apps/details?id=com.google.zxing.client.android&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 70%;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
     </p>

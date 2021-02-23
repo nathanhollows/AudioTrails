@@ -2,7 +2,6 @@ package game
 
 import (
 	"errors"
-	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -17,6 +16,8 @@ type Team struct {
 	Unlocked      []int
 	UnlockedCount int
 	Events        []string
+	Message       string
+	Status        string
 }
 
 // Manager holds each of the teams
@@ -31,7 +32,7 @@ type Clue struct {
 	Code      string
 	Title     string
 	Text      string
-	Challenge string
+	Challenge bool
 }
 
 // GetClue returns whether or not the clue code is valid.
@@ -60,7 +61,6 @@ func (m *Manager) CheckIn(teamCode string) {
 	teamCode = strings.ToUpper(teamCode)
 	for _, team := range m.Teams {
 		if team.Code == teamCode {
-			fmt.Println("Checked in")
 			team.LastSeen = time.Now()
 		}
 	}
@@ -83,10 +83,17 @@ func (team *Team) Solve(clueCode string) error {
 			team.Solved = append(team.Solved, pos)
 			team.UnlockedCount++
 			team.Unlocked[i] = team.UnlockedCount - 1
+			if team.Unlocked[i] >= len(team.Clues) {
+				team.Unlocked = remove(team.Unlocked, i)
+			}
 			return nil
 		}
 	}
 	return errors.New("this team has not unlocked this location")
+}
+
+func remove(slice []int, s int) []int {
+	return append(slice[:s], slice[s+1:]...)
 }
 
 // FastForward will check if the team can solve the game then update the game state.
@@ -153,29 +160,29 @@ func find(slice []int, val int) (int, bool) {
 func init() {
 	rand.Seed(time.Now().UnixNano())
 	// Clues written by the wonderful Tamika!
-	clues = append(clues, Clue{"QWOP4", "St Daves", "Named after a saint but if you have a class here you will know, saint-like is the least like what your grades will show", ""})
-	clues = append(clues, Clue{"DFG5J", "Student Health", "Pregnancy tests and STI checks please? Book an appointment here to put your mind at ease", ""})
-	clues = append(clues, Clue{"9LCZ4", "Campus Watch", "0800 479 5000. Save the contact.", ""})
-	clues = append(clues, Clue{"63FJC", "Mellor Labs", "A pretty new building with chemistry inside, find the molecules to know what it hides.", ""})
-	clues = append(clues, Clue{"9CV5A", "Radio One", "Their card gives you a bunch of sweet deals, tune in to 91fm to get in your feels", ""})
-	clues = append(clues, Clue{"WM6SQ", "Law Library", "A library for rules and cases of times passed, climb 6-9 flights of stairs if you can be assed.", ""})
-	clues = append(clues, Clue{"IOHRU", "Zoology Department", "Mammals, reptiles, amphibians you hear? Their kind is studied in this department I swear.", ""})
-	clues = append(clues, Clue{"GOG79", "Black Sale House", "Our Very own Sam Leaper belongs to a band, whose name is the same as this place I understand (note: check out his poster in locals HQ)", ""})
-	clues = append(clues, Clue{"NTODH", "Otago Business School", "Chads and Brads learn about stocks I wager, and something about hedges? (IDK im an english major)", ""})
-	clues = append(clues, Clue{"LDQJQ", "Touchstone by the Leith", "This place is likened to a moat, and reminds me of a movie quote: 'that is a nice boulder - Donkey'", ""})
-	clues = append(clues, Clue{"QT7KH", "Union Lawn", "A favourite place of our resident ducks, this lawn is where they give no fucks. Still stumped? Well worry no more, here you can usually find dumplings galore.", ""})
-	clues = append(clues, Clue{"3CZ3I", "Burns Lecture Theatres", "Named after our old pal Robbie in the octagon, here is where a love of words can be built on.", ""})
-	clues = append(clues, Clue{"B0Y2H", "Castle Lecture Theatres", "Though you may not find any knights here, this Castle is still home to things that should be feared…", ""})
-	clues = append(clues, Clue{"I0AHP", "Botany Department", "Rhymes aside, may I just ask, can these experts revive my houseplants?", ""})
-	clues = append(clues, Clue{"2YXNQ", "Central Library", "This library is large and perhaps the most popular, where basic bitches study, according to critic I gather.", ""})
-	clues = append(clues, Clue{"C8P8S", "Microbiology Building", "Study something small and living too? This building is the place for you", ""})
-	clues = append(clues, Clue{"E0MBX", "School of Physiotherapy", "Is it your neck, your back, or something else that cracks? Head to this school to get back on track.", ""})
-	clues = append(clues, Clue{"ZEEIB", "Locals HQ", "Third floor of union where you can go, for freshers who live in flats or at home.", ""})
-	clues = append(clues, Clue{"2SNU5", "Math / Stats Department", "I gave up on this subject long ago, but if you like numbers this place is your home.", ""})
-	clues = append(clues, Clue{"BS0MC", "Union Grill", "If a craving for burgers, fries, and iced coffee arrives, this grill on campus has what you need to survive.", ""})
-	clues = append(clues, Clue{"O0N66", "Science Library", "This library has diagrams and technical terms, so long to all the fiction from which we once learned. But as if that sting wasnt enough, the 7am-11pm hours will make you feel rough.", ""})
-	clues = append(clues, Clue{"FR4SQ", "OUSA Clubs and Socs", "Their dollar-deal lunches went up in price this year. Worth it? Ill let you judge here.", ""})
-	clues = append(clues, Clue{"H3903", "Critic Office", "Have an affinity for writing, drawing, or simply an opinion? Here, a love for journalism and magazines will make you fit in.", ""})
-	clues = append(clues, Clue{"4IYE5", "Owheo Building", "They put the it in IT and what else I dont really know, but the computer angels frequent here, to learn at Owheo.", ""})
-	clues = append(clues, Clue{"CFEK9", "Archway Lecture Theatres", "Consult your map for this one might be a little tricky, find the anagram of 'crawhAy' and you should be there in a jiffy.", ""})
+	clues = append(clues, Clue{"QWOP4", "St Daves", "Named after a saint but if you have a class here you will know, saint-like is the least like what your grades will show", false})
+	clues = append(clues, Clue{"DFG5J", "Student Health", "Pregnancy tests and STI checks please? Book an appointment here to put your mind at ease", false})
+	clues = append(clues, Clue{"9LCZ4", "Campus Watch", "0800 479 5000. Save the contact.", false})
+	clues = append(clues, Clue{"63FJC", "Mellor Labs", "A pretty new building with chemistry inside, find the molecules to know what it hides.", false})
+	clues = append(clues, Clue{"9CV5A", "Radio One", "Their card gives you a bunch of sweet deals, tune in to 91fm to get in your feels", false})
+	clues = append(clues, Clue{"WM6SQ", "Law Library", "A library for rules and cases of times passed, climb 6-9 flights of stairs if you can be assed.", false})
+	clues = append(clues, Clue{"IOHRU", "Zoology Department", "Mammals, reptiles, amphibians you hear? Their kind is studied in this department I swear.", false})
+	clues = append(clues, Clue{"GOG79", "Black Sale House", "Our Very own Sam Leaper belongs to a band, whose name is the same as this place I understand (note: check out his poster in locals HQ)", false})
+	clues = append(clues, Clue{"NTODH", "Otago Business School", "Chads and Brads learn about stocks I wager, and something about hedges? (IDK im an english major)", false})
+	clues = append(clues, Clue{"LDQJQ", "Touchstone by the Leith", "This place is likened to a moat, and reminds me of a movie quote: 'that is a nice boulder - Donkey'", true})
+	clues = append(clues, Clue{"QT7KH", "Union Lawn", "A favourite place of our resident ducks, this lawn is where they give no fucks. Still stumped? Well worry no more, here you can usually find dumplings galore.", true})
+	clues = append(clues, Clue{"3CZ3I", "Burns Lecture Theatres", "Named after our old pal Robbie in the octagon, here is where a love of words can be built on.", false})
+	clues = append(clues, Clue{"B0Y2H", "Castle Lecture Theatres", "Though you may not find any knights here, this Castle is still home to things that should be feared…", false})
+	clues = append(clues, Clue{"I0AHP", "Botany Department", "Rhymes aside, may I just ask, can these experts revive my houseplants?", false})
+	clues = append(clues, Clue{"2YXNQ", "Central Library", "This library is large and perhaps the most popular, where basic bitches study, according to critic I gather.", false})
+	clues = append(clues, Clue{"C8P8S", "Microbiology Building", "Study something small and living too? This building is the place for you", false})
+	clues = append(clues, Clue{"E0MBX", "School of Physiotherapy", "Is it your neck, your back, or something else that cracks? Head to this school to get back on track.", false})
+	clues = append(clues, Clue{"ZEEIB", "Locals HQ", "Third floor of union where you can go, for freshers who live in flats or at home.", true})
+	clues = append(clues, Clue{"2SNU5", "Math / Stats Department", "I gave up on this subject long ago, but if you like numbers this place is your home.", false})
+	clues = append(clues, Clue{"BS0MC", "Union Grill", "If a craving for burgers, fries, and iced coffee arrives, this grill on campus has what you need to survive.", true})
+	clues = append(clues, Clue{"O0N66", "Science Library", "This library has diagrams and technical terms, so long to all the fiction from which we once learned. But as if that sting wasnt enough, the 7am-11pm hours will make you feel rough.", false})
+	clues = append(clues, Clue{"FR4SQ", "OUSA Clubs and Socs", "Their dollar-deal lunches went up in price this year. Worth it? Ill let you judge here.", true})
+	clues = append(clues, Clue{"H3903", "Critic Office", "Have an affinity for writing, drawing, or simply an opinion? Here, a love for journalism and magazines will make you fit in.", false})
+	clues = append(clues, Clue{"4IYE5", "Owheo Building", "They put the it in IT and what else I dont really know, but the computer angels frequent here, to learn at Owheo.", false})
+	clues = append(clues, Clue{"CFEK9", "Archway Lecture Theatres", "Consult your map for this one might be a little tricky, find the anagram of 'crawhAy' and you should be there in a jiffy.", false})
 }

@@ -28,6 +28,10 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
 
+hr {
+  border-top: 2px solid rgb(255, 193, 7) !important;
+}
+
 .text-danger {
   color: #ff6c00 !important;
 }

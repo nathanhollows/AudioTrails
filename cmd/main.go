@@ -29,7 +29,7 @@ func init() {
 		Manager: game.Manager{},
 		Session: store,
 	}
-	env.Manager.CreateTeams(10)
+	env.Manager.CreateTeams(50)
 }
 
 func main() {
@@ -45,6 +45,7 @@ func routes() {
 	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
 	router.Handle("/admin/ff", handler.Handler{Env: &env, H: handler.FastForward})
 	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: handler.Hinder})
+	router.Handle("/admin/codes", handler.Handler{Env: &env, H: handler.Codes})
 	router.Handle("/clues", handler.Handler{Env: &env, H: handler.Clues})
 	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: handler.Clue})
 	router.NotFound(handler.NotFound)
