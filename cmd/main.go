@@ -29,6 +29,7 @@ func init() {
 		Manager: game.Manager{},
 		Session: store,
 	}
+	// TODO: Make this variable
 	env.Manager.CreateTeams(50)
 }
 
@@ -37,10 +38,9 @@ func main() {
 	fmt.Println(http.ListenAndServe(":8000", router))
 }
 
+// Set up the routes needed for the game.
 func routes() {
 	router.Handle("/", handler.Handler{Env: &env, H: handler.Index})
-	router.Handle("/wxvan", handler.Handler{Env: &env, H: handler.Index})
-	router.Handle("/WXVAN", handler.Handler{Env: &env, H: handler.Index})
 	router.Handle("/start", handler.Handler{Env: &env, H: handler.Start})
 	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
 	router.Handle("/admin/ff", handler.Handler{Env: &env, H: handler.FastForward})

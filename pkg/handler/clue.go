@@ -23,6 +23,7 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 	data := Data{}
 
+	// TODO: Make this variable.
 	end := time.Date(2021, time.February, 24, 12, 0, 0, 0, time.Local)
 	data.TimeLeft = math.Floor(end.Sub(time.Now()).Minutes())
 
@@ -49,6 +50,7 @@ func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
 	}
 	data.Clue = clue
 
+	// TODO: Create a seperate handler for POST.
 	if r.Method == "POST" {
 		r.ParseForm()
 		teamCode := r.Form.Get("code")

@@ -1,3 +1,4 @@
+// Package game handles the game logic.
 package game
 
 import (
@@ -91,7 +92,7 @@ func (team *Team) Solve(clueCode string) error {
 	}
 	return errors.New("this team has not unlocked this location")
 }
-
+// remove returns the []int with the item at index s removed.
 func remove(slice []int, s int) []int {
 	return append(slice[:s], slice[s+1:]...)
 }
@@ -118,6 +119,8 @@ func (team *Team) Hinder() {
 	}
 }
 
+// The symbols team codes are created from.
+// Confusing letters such as I and L, O and Q have one pair removed.
 var symbols = []rune("ABCDEFGHJKLMNPRSTUVWXYZ")
 
 func newCode() string {
@@ -148,6 +151,7 @@ func (m *Manager) CreateTeams(num int) {
 	}
 }
 
+// find returns the index of a value in a slice of ints.
 func find(slice []int, val int) (int, bool) {
 	for i, item := range slice {
 		if item == val {
@@ -160,6 +164,8 @@ func find(slice []int, val int) (int, bool) {
 func init() {
 	rand.Seed(time.Now().UnixNano())
 	// Clues written by the wonderful Tamika!
+	// TODO: Load these from a file on run.
+	// Clues must have the same ID and not change on reload. Posters must stay accurate.
 	clues = append(clues, Clue{"QWOP4", "St Daves", "Named after a saint but if you have a class here you will know, saint-like is the least like what your grades will show", false})
 	clues = append(clues, Clue{"DFG5J", "Student Health", "Pregnancy tests and STI checks please? Book an appointment here to put your mind at ease", false})
 	clues = append(clues, Clue{"9LCZ4", "Campus Watch", "0800 479 5000. Save the contact.", false})

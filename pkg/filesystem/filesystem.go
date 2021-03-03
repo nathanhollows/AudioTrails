@@ -1,3 +1,5 @@
+// Package filesystem handles open files and folder directories.
+// This implementation specifically disallows directory listings.
 package filesystem
 
 import (
