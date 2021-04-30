@@ -1,23 +1,11 @@
 # Amazing Trace
-## A QR code based scavenger hint written in Go
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
-
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-
-
+**A QR code based scavenger hint written in Go**
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
+The Amazing Trace was developed for the [Locals Collegiate Community](https://www.otago.ac.nz/locals/index.html) as an O-week event. The goal of the game was to introduce our first year students to 
 
 <!-- GETTING STARTED -->
 ## Getting Started
