@@ -13,16 +13,16 @@ The project was a huge hit with great turn out. I'd really like to run this agai
 
 Users are given a team code, which are randomly generated when the game is launched. The team code is written on a card and given out. The card outlines very briefly how to play.
 
-![1](https://user-images.githubusercontent.com/13064427/110064102-599c8980-7dd1-11eb-9f4f-e29f2d64e906.png){width="50%"}
-![2](https://user-images.githubusercontent.com/13064427/110064104-5a352000-7dd1-11eb-8404-98fc87c9b88d.png){width="50%"}
+<img src="https://user-images.githubusercontent.com/13064427/110064102-599c8980-7dd1-11eb-9f4f-e29f2d64e906.png" width="50%">
+<img src="https://user-images.githubusercontent.com/13064427/110064104-5a352000-7dd1-11eb-8404-98fc87c9b88d.png" width="50%">
 
 The homepage asks for the team code which is then remembered. The code is required for all future clues.
 
-![Screenshot from 2021-03-05 16-34-32](https://user-images.githubusercontent.com/13064427/110063888-dd09ab00-7dd0-11eb-9875-33344a40ed5d.png)
+<img src="https://user-images.githubusercontent.com/13064427/110063888-dd09ab00-7dd0-11eb-9875-33344a40ed5d.png" width="50%">
 
 These posters were hidden around the university. For people that didn't have a QR scanner, the corresponding URL was printed on every poster.
 
-![The Amazing Trace Poster](https://user-images.githubusercontent.com/13064427/110063919-ee52b780-7dd0-11eb-8f6b-047893e76048.png)
+<img src="https://user-images.githubusercontent.com/13064427/110063919-ee52b780-7dd0-11eb-8f6b-047893e76048.png" width="50%">
 
 The game used a timer to mark the end of the game. When players scanned a clue the amount of time left was at the top of the page. The game instructed all teams to return when time was up, and the admin panel showed all team scores, and who won.
 
