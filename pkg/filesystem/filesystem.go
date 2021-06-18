@@ -16,7 +16,7 @@ type FileSystem interface {
 
 // Myfs is the accessible directory
 type Myfs struct {
-	http.Dir
+	Dir http.Dir
 }
 
 // Open returns the file if available.
