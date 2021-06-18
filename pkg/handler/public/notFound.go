@@ -1,4 +1,4 @@
-package handler
+package public
 
 import (
 	"html/template"

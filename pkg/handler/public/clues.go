@@ -1,4 +1,4 @@
-package handler
+package public
 
 import (
 	"fmt"
@@ -9,10 +9,11 @@ import (
 	"time"
 
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
+	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
 // Clues shows a team all of the clues they have unlocked
-func Clues(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Clues(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {

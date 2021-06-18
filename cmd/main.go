@@ -13,6 +13,8 @@ import (
 	"github.com/nathanhollows/AmazingTrace/pkg/filesystem"
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
+	"github.com/nathanhollows/AmazingTrace/pkg/handler/admin"
+	"github.com/nathanhollows/AmazingTrace/pkg/handler/public"
 )
 
 var router *chi.Mux
@@ -40,17 +42,17 @@ func main() {
 
 // Set up the routes needed for the game.
 func routes() {
-	router.Handle("/", handler.Handler{Env: &env, H: handler.Index})
-	router.Handle("/start", handler.Handler{Env: &env, H: handler.Start})
-	router.Handle("/admin", handler.Handler{Env: &env, H: handler.Admin})
-	router.Handle("/admin/ff", handler.Handler{Env: &env, H: handler.FastForward})
-	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: handler.Hinder})
-	router.Handle("/admin/codes", handler.Handler{Env: &env, H: handler.Codes})
-	router.Handle("/clues", handler.Handler{Env: &env, H: handler.Clues})
-	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: handler.Clue})
-	router.NotFound(handler.NotFound)
+	router.Handle("/", handler.Handler{Env: &env, H: public.Index})
+	router.Handle("/start", handler.Handler{Env: &env, H: public.Start})
+	router.Handle("/admin", handler.Handler{Env: &env, H: admin.Admin})
+	router.Handle("/admin/ff", handler.Handler{Env: &env, H: admin.FastForward})
+	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: admin.Hinder})
+	router.Handle("/admin/codes", handler.Handler{Env: &env, H: admin.Codes})
+	router.Handle("/clues", handler.Handler{Env: &env, H: public.Clues})
+	router.Handle("/{/[A-z0-9]{5}}", handler.Handler{Env: &env, H: public.Clue})
+	router.NotFound(public.NotFound)
 
 	workDir, _ := os.Getwd()
-	filesDir := filesystem.Myfs{http.Dir(filepath.Join(workDir, "../web/static"))}
+	filesDir := filesystem.Myfs{Dir: http.Dir(filepath.Join(workDir, "../web/static"))}
 	filesystem.FileServer(router, "/public", filesDir)
 }

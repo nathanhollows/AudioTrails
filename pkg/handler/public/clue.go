@@ -1,4 +1,4 @@
-package handler
+package public
 
 import (
 	"fmt"
@@ -10,10 +10,11 @@ import (
 	"time"
 
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
+	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
 // Clue handles the scanned URL.
-func Clue(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Clue(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {

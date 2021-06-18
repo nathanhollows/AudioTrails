@@ -1,13 +1,15 @@
-package handler
+package public
 
 import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
 // Start begins the game for the team. Prints out their first clue
-func Start(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Start(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	type Data struct {

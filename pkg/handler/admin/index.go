@@ -1,13 +1,15 @@
-package handler
+package admin
 
 import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
 // Admin handles the teams and shows the current status
-func Admin(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Admin(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	templates := template.Must(template.ParseFiles(
 		"../web/template/index.html",
@@ -21,7 +23,7 @@ func Admin(env *Env, w http.ResponseWriter, r *http.Request) error {
 }
 
 // FastForward completes three clues for a team.
-func FastForward(env *Env, w http.ResponseWriter, r *http.Request) error {
+func FastForward(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	r.ParseForm()
@@ -35,7 +37,7 @@ func FastForward(env *Env, w http.ResponseWriter, r *http.Request) error {
 }
 
 // Hinder completes three clues for a team.
-func Hinder(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Hinder(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
 	r.ParseForm()
@@ -49,14 +51,14 @@ func Hinder(env *Env, w http.ResponseWriter, r *http.Request) error {
 }
 
 // CreateTeam completes three clues for a team.
-func CreateTeam(env *Env, w http.ResponseWriter, r *http.Request) error {
+func CreateTeam(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	env.Manager.CreateTeams(3)
 	http.Redirect(w, r, "/admin", 301)
 	return nil
 }
 
 // Codes list all available codes
-func Codes(env *Env, w http.ResponseWriter, r *http.Request) error {
+func Codes(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	templates := template.Must(template.ParseFiles(
 		"../web/template/index.html",
