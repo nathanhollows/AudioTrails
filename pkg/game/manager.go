@@ -92,6 +92,7 @@ func (team *Team) Solve(clueCode string) error {
 	}
 	return errors.New("this team has not unlocked this location")
 }
+
 // remove returns the []int with the item at index s removed.
 func remove(slice []int, s int) []int {
 	return append(slice[:s], slice[s+1:]...)
