@@ -15,6 +15,8 @@ import (
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler/admin"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler/public"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 var router *chi.Mux
@@ -28,9 +30,18 @@ func init() {
 
 	var store = sessions.NewCookieStore([]byte("trace"))
 
+	// TODO: Make this variable
+	env.Manager.CreateTeams(50)
+
+	db, err := gorm.Open(sqlite.Open("trace.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
 	env = handler.Env{
 		Manager: game.Manager{},
 		Session: store,
+		DB:      *db,
 		Data:    make(map[string]interface{}),
 	}
 }

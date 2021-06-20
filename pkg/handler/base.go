@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/nathanhollows/AmazingTrace/pkg/flash"
 	"github.com/nathanhollows/AmazingTrace/pkg/game"
+	"gorm.io/gorm"
 )
 
 // Error is a simple error interface.
@@ -36,6 +37,7 @@ type Admin struct {
 type Env struct {
 	Manager game.Manager
 	Session sessions.Store
+	DB      gorm.DB
 	Data    map[string]interface{}
 }
 
