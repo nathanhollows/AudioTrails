@@ -31,9 +31,10 @@ func Clue(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	if len(r.URL.String()) != 6 {
 		templates := template.Must(template.ParseFiles(
 			"../web/templates/index.html",
+			"../web/templates/flash.html",
 			"../web/views/errors/notfound.html"))
 
-		if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
+		if err := templates.ExecuteTemplate(w, "base", env.Data); err != nil {
 			http.Error(w, err.Error(), 0)
 			log.Print("Template executing error: ", err)
 		}

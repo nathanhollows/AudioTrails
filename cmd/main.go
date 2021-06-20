@@ -31,9 +31,8 @@ func init() {
 	env = handler.Env{
 		Manager: game.Manager{},
 		Session: store,
+		Data:    make(map[string]interface{}),
 	}
-	// TODO: Make this variable
-	env.Manager.CreateTeams(50)
 }
 
 func main() {

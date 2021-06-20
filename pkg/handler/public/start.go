@@ -18,9 +18,8 @@ func Start(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 	r.ParseForm()
 	teamCode := r.Form.Get("code")
-	data := Data{
-		Team: teamCode,
-	}
+
+	env.Data["team"] = teamCode
 
 	var page string
 	index, err := env.Manager.GetTeam(teamCode)
@@ -44,7 +43,7 @@ func Start(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		page,
 	))
 
-	if err := templates.ExecuteTemplate(w, "base", data); err != nil {
+	if err := templates.ExecuteTemplate(w, "base", env.Data); err != nil {
 		http.Error(w, err.Error(), 0)
 		log.Print("Template executing error: ", err)
 	}

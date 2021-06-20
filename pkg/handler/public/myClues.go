@@ -38,7 +38,7 @@ func Clues(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		team.Status = ""
 	}
 
-	data = Data{
+	env.Data["clue"] = Data{
 		Clue: game.Clue{},
 		Team: *team,
 	}
@@ -48,6 +48,7 @@ func Clues(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 	templates := template.Must(template.ParseFiles(
 		"../web/templates/index.html",
+		"../web/templates/flash.html",
 		page,
 	))
 
