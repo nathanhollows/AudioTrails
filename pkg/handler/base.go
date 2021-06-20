@@ -44,3 +44,17 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	}
 }
+
+func (h Admin) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	err := h.H(h.Env, w, r)
+	if err != nil {
+		switch e := err.(type) {
+		case Error:
+			http.Error(w, e.Error(), e.Status())
+		default:
+			http.Error(w, http.StatusText(http.StatusInternalServerError),
+				http.StatusInternalServerError)
+		}
+
+	}
+}
