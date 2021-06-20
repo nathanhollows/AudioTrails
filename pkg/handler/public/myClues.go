@@ -30,9 +30,9 @@ func Clues(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	team := &game.Team{}
 	index, err := env.Manager.GetTeam(teamCode)
 	if err != nil {
-		page = "../web/template/clues/error.html"
+		page = "../web/views/clues/error.html"
 	} else {
-		page = "../web/template/clues/index.html"
+		page = "../web/views/clues/index.html"
 		team = &env.Manager.Teams[index]
 		team.CheckIn()
 		team.Status = ""
@@ -47,7 +47,7 @@ func Clues(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data.TimeLeft = math.Floor(end.Sub(time.Now()).Minutes())
 
 	templates := template.Must(template.ParseFiles(
-		"../web/template/index.html",
+		"../web/templates/index.html",
 		page,
 	))
 

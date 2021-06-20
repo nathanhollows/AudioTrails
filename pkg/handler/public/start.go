@@ -25,7 +25,7 @@ func Start(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	var page string
 	index, err := env.Manager.GetTeam(teamCode)
 	if err != nil {
-		page = "../web/template/index/error.html"
+		page = "../web/views/index/error.html"
 	} else {
 		team := &env.Manager.Teams[index]
 		team.CheckIn()
@@ -36,11 +36,11 @@ func Start(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return nil
 		}
-		page = "../web/template/start/index.html"
+		page = "../web/views/start/index.html"
 	}
 
 	templates := template.Must(template.ParseFiles(
-		"../web/template/index.html",
+		"../web/templates/index.html",
 		page,
 	))
 

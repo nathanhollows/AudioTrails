@@ -13,8 +13,8 @@ import (
 func Index(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	templates := template.Must(template.ParseFiles(
-		"../web/template/index.html",
-		"../web/template/index/index.html"))
+		"../web/templates/index.html",
+		"../web/views/index/index.html"))
 
 	if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
 		http.Error(w, err.Error(), 0)

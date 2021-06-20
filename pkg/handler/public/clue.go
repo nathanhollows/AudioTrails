@@ -30,8 +30,8 @@ func Clue(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 	if len(r.URL.String()) != 6 {
 		templates := template.Must(template.ParseFiles(
-			"../web/template/index.html",
-			"../web/template/errors/notfound.html"))
+			"../web/templates/index.html",
+			"../web/views/errors/notfound.html"))
 
 		if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
 			http.Error(w, err.Error(), 0)
@@ -97,8 +97,8 @@ func Clue(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	}
 
 	templates := template.Must(template.ParseFiles(
-		"../web/template/index.html",
-		"../web/template/"+page+".html"))
+		"../web/templates/index.html",
+		"../web/views/"+page+".html"))
 
 	if err := templates.ExecuteTemplate(w, "base", data); err != nil {
 		http.Error(w, err.Error(), 0)
