@@ -50,10 +50,13 @@ func routes() {
 
 	router.Handle("/{[A-z0-9]{5}}", handler.Handler{Env: &env, H: public.Clue})
 
-	router.Handle("/admin", handler.Handler{Env: &env, H: admin.Admin})
-	router.Handle("/admin/ff", handler.Handler{Env: &env, H: admin.FastForward})
-	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: admin.Hinder})
-	router.Handle("/admin/codes", handler.Handler{Env: &env, H: admin.Codes})
+	router.Handle("/login", handler.Handler{Env: &env, H: public.Login})
+	router.Handle("/register", handler.Handler{Env: &env, H: public.Register})
+
+	router.Handle("/admin", handler.Admin{Env: &env, H: admin.Admin})
+	router.Handle("/admin/ff", handler.Admin{Env: &env, H: admin.FastForward})
+	router.Handle("/admin/hinder", handler.Admin{Env: &env, H: admin.Hinder})
+	router.Handle("/admin/codes", handler.Admin{Env: &env, H: admin.Codes})
 
 	router.Handle("/404", handler.Handler{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)
