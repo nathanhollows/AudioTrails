@@ -56,6 +56,7 @@ func routes() {
 	router.Handle("/admin/hinder", handler.Handler{Env: &env, H: admin.Hinder})
 	router.Handle("/admin/codes", handler.Handler{Env: &env, H: admin.Codes})
 
+	router.Handle("/404", handler.Handler{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)
 
 	workDir, _ := os.Getwd()
