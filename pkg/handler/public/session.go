@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/nathanhollows/AmazingTrace/pkg/flash"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
@@ -25,11 +26,18 @@ func Login(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 // Register handles user registrations
 func Register(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
+
+	switch r.Method {
+	case http.MethodPost:
+	}
+
+	env.Data["messages"] = flash.Get(w, r)
+
 	templates := template.Must(template.ParseFiles(
 		"../web/templates/index.html",
 		"../web/views/session/register.html"))
 
-	if err := templates.ExecuteTemplate(w, "base", nil); err != nil {
+	if err := templates.ExecuteTemplate(w, "base", env.Data); err != nil {
 		http.Error(w, err.Error(), 0)
 		log.Print("Template executing error: ", err)
 	}

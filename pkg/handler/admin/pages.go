@@ -8,8 +8,8 @@ import (
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
-// Analytics shows player stats
-func Analytics(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+// Pages allows admin to add content
+func Pages(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	templates := template.Must(template.ParseFiles(
 		"../web/templates/admin.html",

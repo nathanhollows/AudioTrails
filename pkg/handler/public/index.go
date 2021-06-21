@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nathanhollows/AmazingTrace/pkg/flash"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 )
 
@@ -14,7 +13,7 @@ import (
 func Index(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
-	flash.Set(w, r, flash.Message{Title: "Test", Message: "This is a test!", Style: "danger"})
+	// flash.Set(w, r, flash.Message{Title: "Test", Message: "This is a test!", Style: "danger"})
 
 	templates := template.Must(template.ParseFiles(
 		"../web/templates/index.html",

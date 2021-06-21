@@ -15,6 +15,7 @@ import (
 	"github.com/nathanhollows/AmazingTrace/pkg/handler"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler/admin"
 	"github.com/nathanhollows/AmazingTrace/pkg/handler/public"
+	"github.com/nathanhollows/AmazingTrace/pkg/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -47,6 +48,7 @@ func init() {
 }
 
 func main() {
+	env.DB.AutoMigrate(&models.Area{}, &models.Clue{}, &models.User{}, &models.Team{})
 	routes()
 	fmt.Println(http.ListenAndServe(":8000", router))
 }
@@ -68,6 +70,10 @@ func routes() {
 	router.Handle("/admin/ff", handler.Admin{Env: &env, H: admin.FastForward})
 	router.Handle("/admin/hinder", handler.Admin{Env: &env, H: admin.Hinder})
 	router.Handle("/admin/codes", handler.Admin{Env: &env, H: admin.Codes})
+	router.Handle("/admin/clues", handler.Admin{Env: &env, H: admin.Clues})
+	router.Handle("/admin/assets", handler.Admin{Env: &env, H: admin.Assets})
+	router.Handle("/admin/analytics", handler.Admin{Env: &env, H: admin.Analytics})
+	router.Handle("/admin/pages", handler.Admin{Env: &env, H: admin.Pages})
 
 	router.Handle("/404", handler.Handler{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)
