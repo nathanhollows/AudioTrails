@@ -48,7 +48,7 @@ func init() {
 }
 
 func main() {
-	env.DB.AutoMigrate(&models.Area{}, &models.Clue{}, &models.User{}, &models.Team{})
+	env.DB.AutoMigrate(&models.Area{}, &models.Clue{}, &models.User{}, &models.Team{}, &models.Page{})
 	routes()
 	fmt.Println(http.ListenAndServe(":8000", router))
 }
@@ -74,6 +74,9 @@ func routes() {
 	router.Handle("/admin/assets", handler.Admin{Env: &env, H: admin.Assets})
 	router.Handle("/admin/analytics", handler.Admin{Env: &env, H: admin.Analytics})
 	router.Handle("/admin/pages", handler.Admin{Env: &env, H: admin.Pages})
+	router.Handle("/admin/pages/import", handler.Admin{Env: &env, H: admin.ImportPages})
+	router.Handle("/admin/pages/delete", handler.Admin{Env: &env, H: admin.DeletePage})
+	router.Handle("/admin/pages/edit/{code}", handler.Admin{Env: &env, H: admin.EditPage})
 
 	router.Handle("/404", handler.Handler{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)
