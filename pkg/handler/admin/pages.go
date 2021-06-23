@@ -20,7 +20,7 @@ func Pages(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["title"] = "Codes | Admin"
 
 	pages := []models.Page{}
-	result := env.DB.Find(&pages)
+	result := env.DB.Order("created_at desc").Find(&pages)
 	if result.RowsAffected > 0 {
 		data["pages"] = pages
 	}
@@ -91,7 +91,7 @@ func DeletePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 	return nil
 }
 
-// EditPage removes the given page from the database
+// EditPage allows the user to view and edit the given page
 func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	code := chi.URLParam(r, "code")
 	page := models.Page{}
@@ -125,6 +125,40 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		"../web/templates/admin.html",
 		"../web/templates/flash.html",
 		"../web/views/admin/pages/edit.html"))
+
+	if err := templates.ExecuteTemplate(w, "base", data); err != nil {
+		http.Error(w, err.Error(), 0)
+		log.Print("Template executing error: ", err)
+	}
+	return nil
+}
+
+// CreatePage removes the given page from the database
+func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		page := models.Page{}
+		page.Title = r.FormValue("title")
+		page.Text = r.FormValue("content")
+		result := env.DB.Model(&models.Page{}).Create(&page)
+		if result.RowsAffected == 0 {
+			flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
+			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			return nil
+		}
+		flash.Set(w, r, flash.Message{Message: "Created page!", Style: "success"})
+		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, 302)
+		return nil
+	}
+
+	data := make(map[string]interface{})
+	data["title"] = "Create a Page | Admin"
+	data["messages"] = flash.Get(w, r)
+
+	templates := template.Must(template.ParseFiles(
+		"../web/templates/admin.html",
+		"../web/templates/flash.html",
+		"../web/views/admin/pages/create.html"))
 
 	if err := templates.ExecuteTemplate(w, "base", data); err != nil {
 		http.Error(w, err.Error(), 0)

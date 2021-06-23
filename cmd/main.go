@@ -48,7 +48,14 @@ func init() {
 }
 
 func main() {
-	env.DB.AutoMigrate(&models.Area{}, &models.Clue{}, &models.User{}, &models.Team{}, &models.Page{})
+	env.DB.AutoMigrate(
+		&models.Area{},
+		&models.Clue{},
+		&models.User{},
+		&models.Team{},
+		&models.Page{},
+		&models.Library{},
+	)
 	routes()
 	fmt.Println(http.ListenAndServe(":8000", router))
 }
@@ -61,7 +68,7 @@ func routes() {
 	router.Handle("/library", handler.Handler{Env: &env, H: public.Library})
 	router.Handle("/clues", handler.Handler{Env: &env, H: public.Clues})
 
-	router.Handle("/{[A-z0-9]{5}}", handler.Handler{Env: &env, H: public.Clue})
+	router.Handle("/{code:[A-z0-9]{5}}", handler.Handler{Env: &env, H: public.Page})
 
 	router.Handle("/login", handler.Handler{Env: &env, H: public.Login})
 	router.Handle("/register", handler.Handler{Env: &env, H: public.Register})
@@ -77,6 +84,7 @@ func routes() {
 	router.Handle("/admin/pages/import", handler.Admin{Env: &env, H: admin.ImportPages})
 	router.Handle("/admin/pages/delete", handler.Admin{Env: &env, H: admin.DeletePage})
 	router.Handle("/admin/pages/edit/{code}", handler.Admin{Env: &env, H: admin.EditPage})
+	router.Handle("/admin/pages/create", handler.Admin{Env: &env, H: admin.CreatePage})
 
 	router.Handle("/404", handler.Handler{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)

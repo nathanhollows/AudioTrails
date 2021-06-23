@@ -20,17 +20,19 @@
                         <th scope="col">Code</th>
                         <th scope="col">Title</th>
                         <th scope="col">Author</th>
-                        <th>Text</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{ range .pages}}
                     <tr>
-                        <th scope="row">{{ .Code }}</th>
+                        <th scope="row">
+                            <a href="/{{.Code}}">
+                                {{ .Code }}
+                            </a>
+                        </th>
                         <td>{{ .Title }}</td>
                         <td>{{ .Author }}</td>
-                        <td>{{ .Text }}</td>
                         <td>
                             <a href="/admin/pages/edit/{{.Code}}" class="btn btn-sm btn-primary">Edit</a>
                             <form method="POST" action="/admin/pages/delete" class="d-inline">
@@ -42,6 +44,7 @@
                 </tbody>
             </table>
                {{ end }}
+               <a href="/admin/pages/create" class="btn btn-primary float-end">Create</a>
             </div>
         </div>
     </div>

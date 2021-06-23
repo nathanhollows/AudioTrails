@@ -1,0 +1,34 @@
+{{ define "body" }}
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <hr class="mb-5">
+            <h1 class="h3 mb-3 font-weight-normal">Edit Page</h1>
+            <hr class="my-5">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ template "flash" . }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Page Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value={{.page.Title}}>
+                  </div>
+                  <div class="mb-3">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="10">{{.page.Text}}</textarea>
+                  </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
+        </div>
+        <div class="col-4">
+           
+        </div>
+    </div>
+</div>
+{{ end }}
