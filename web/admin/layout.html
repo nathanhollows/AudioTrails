@@ -1,0 +1,35 @@
+{{ define "base" }}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>{{.title}}</title>
+</head>
+
+<body>
+    <nav class="container">
+        <ul>
+            <li>QR Trails</li>
+        </ul>
+        <ul>
+            <li><a href="/admin/pages" class="secondary">Pages</a></li>
+            <li><a href="/admin/media" class="secondary">Media</a></li>
+            <li><a href="/admin/analytics" class="secondary">Analytics</a></li>
+            <li><a href="/logout" class="secondary">Logout</a></li>
+        </ul>
+    </nav>
+    {{ template "body" .}}
+</body>
+
+</html>
+{{ end }}

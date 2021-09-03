@@ -1,3 +1,47 @@
+/**
+body {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+    color: #1a1a1a;
+}
+*/
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/** Light Theme */
+:root:not([data-theme="dark"]), [data-theme="light"] {
+    --color: #1a1a1a;
+    --primary: #2DABD1;
+
+}
+
+/** Dark Theme */
+:root:not([data-theme="light"]), [data-theme="dark"] {
+    --color: #fff;
+    --primary: #2DABD1;
+
+}
+
+video {
+    max-width: 100%;
+    width: 100%;
+}
+
+#disclaimer {
+    background-color: #F3F3F3;
+    padding: 10px 0;
+    margin-top: auto;
+}
+
 h1,
 h2,
 h3,
@@ -7,28 +51,18 @@ h6 {
     text-transform: uppercase;
 }
 
-.form-signin .form-control:focus {
-    z-index: 2;
+a[role="button"].delete, button.delete, input[type="button"].delete, input[type="reset"].delete, input[type="submit"].delete {
+    --background-color: var(--del-color);
+    --border-color: var(--del-color);
+    --color: var(--secondary-inverse);
+    cursor: pointer;
 }
 
-input#code {
-    background: transparent;
-    border: 0.2em solid #212121;
-    color: #212121;
-    border-radius: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.7em;
-    text-align: center;
+article.warning {
+    background: var(--code-tag-color);
+    color: var(--color);
 }
 
-#submit {
-    border-radius: 0;
-    color: white;
-    background-color: #212121;
-    border-color: #212121;
-}
-
-#submit:hover,
-#submit:focus {
-    background-color: #0e0e0e;
+article[role="alert"] {
+    padding: 2rem;
 }

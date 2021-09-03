@@ -1,0 +1,12 @@
+{{ define "body" }}
+<main class="container">
+    <hgroup>
+        <h1>{{.page.Title}}</h1>
+        <h2>By {{ if .page.Author }}{{.page.Author}}{{ else }}Guest Author{{ end }}</h2>
+    </hgroup>
+    {{ template "flash" . }}
+    <section>
+        {{.md}}
+    </section>
+</main>
+{{ end }}
