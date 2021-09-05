@@ -2,16 +2,16 @@
 <main class="container">
     {{ template "flash" . }}
 
-    <form method="POST">
+    <form method="POST" id="form">
         <div role="document">
             <section>
                 <hgroup>
                     <h1>Editing Page</h1>
                     <h2>{{.page.Title}}</h2>
                 </hgroup>
-                <div class="mb-3">
-                    <label for="title" class="form-label">Page Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value={{.page.Title}}>
+                <div>
+                    <label for="title">Page Title</label>
+                    <input type="text" id="title" name="title" value="{{.page.Title}}" autocomplete="off">
                 </div>
                 <div>
                     <label for="content">Content</label>
@@ -28,22 +28,16 @@
             </section>
         </div>
         <aside>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <h1></h1>
+            <p id="autosave">
+                <em data-tooltip="This page will autosave">Last edited {{ .page.UpdatedAt.Format "Jan 02, 2006" }}</em>
+            </p>
 
-
-
-            <strong>Code:</strong> <br>
+            <strong>Code:</strong>
+            <br>
             <a href="/{{.page.Code}}" target="blank">
                 {{.page.Code}}
             </a>
-            <hr>
-
-            <strong>Created:</strong> <br>
-            {{ .page.CreatedAt.Format "Jan 02, 2006" }}
-            <hr>
-
-            <strong>Updated:</strong> <br>
-            {{ .page.UpdatedAt.Format "Jan 02, 2006" }}
             <hr>
 
             <!-- Switch -->
@@ -86,12 +80,12 @@
 <style>
     @media (min-width:992px) {
 
-    main > form {
-        --block-spacing-horizontal: calc(var(--spacing) * 1.75);
-        grid-column-gap: calc(var(--block-spacing-horizontal) * 2);
-        display: grid;
-        grid-template-columns: auto 300px;
-    }
+        main > form {
+            --block-spacing-horizontal: calc(var(--spacing) * 1.75);
+            grid-column-gap: calc(var(--block-spacing-horizontal) * 2);
+            display: grid;
+            grid-template-columns: auto 300px;
+        }
     }
 
     label[for=content] {
@@ -145,6 +139,58 @@
             preview.style.display = "none";
             preview.innerHTML = null
         }
+    }
+
+    //setup before functions
+    let typingTimer;                //timer identifier
+    let doneTypingInterval = 2000;  //time in ms (5 seconds)
+
+    //on keyup, start the countdown
+    form.addEventListener('keyup', event => {
+        if (event.target !== checkBox) {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        }
+    });
+
+    //user is "finished typing," do something
+    function doneTyping () {
+        //do something
+        console.log("Done typing")
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", "", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        let formData = new FormData(form)
+        let reqBody = {};
+        for (let pair of formData.entries()) {
+            reqBody[pair[0]] = pair[1];
+        }
+        xhr.send(urlencodeFormData(formData));
+        autosave.children[0].innerText = "Saving..."
+        autosave.setAttribute("aria-busy", true)
+
+        xhr.onreadystatechange = async (e) => {
+            await new Promise(r => setTimeout(r, 500));
+            if (xhr.status == 200) {
+                autosave.children[0].innerText = "Last saved: " + new Date().toLocaleTimeString()
+                autosave.setAttribute("aria-busy", false)
+            } else {
+                autosave.children[0].innerText = "Something went wrong. Please check your connection."
+                autosave.setAttribute("aria-busy", false)
+            }
+        }
+
+    }
+
+    function urlencodeFormData(fd){
+        var s = '';
+        function encode(s){ return encodeURIComponent(s).replace(/%20/g,'+'); }
+        for(var pair of fd.entries()){
+            if(typeof pair[1]=='string'){
+                s += (s?'&':'') + encode(pair[0])+'='+encode(pair[1]);
+            }
+        }
+        return s;
     }
 
 </script>

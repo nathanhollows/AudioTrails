@@ -66,7 +66,7 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		return handler.StatusError{Code: 404, Err: errors.New("page cannot be found")}
 	}
 
-	if r.Method == http.MethodPost {
+	if r.Method == http.MethodPost || r.Method == http.MethodPatch {
 		r.ParseForm()
 		if val, ok := r.PostForm["title"]; ok {
 			page.Title = val[0]
@@ -98,12 +98,17 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		}
 		result = env.DB.Save(&page)
 		if result.RowsAffected == 0 {
-			flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
-			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			if r.Method == http.MethodPost {
+				flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
+				http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			}
+			http.Error(w, "could not save page", http.StatusBadGateway)
 			return nil
 		}
-		flash.Set(w, r, flash.Message{Message: "Saved!", Style: "success"})
-		http.Redirect(w, r, r.Header.Get("Referer"), 302)
+		if r.Method == http.MethodPost {
+			flash.Set(w, r, flash.Message{Message: "Saved!", Style: "success"})
+			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+		}
 		return nil
 	}
 
