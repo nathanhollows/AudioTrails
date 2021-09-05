@@ -11,7 +11,6 @@ import (
 func Dashboard(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
-	flash.Set(w, r, flash.Message{Message: "You need to be logged in to play.", Style: "warning"})
 
 	data["messages"] = flash.Get(w, r)
 	data["title"] = "Admin"
