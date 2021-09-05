@@ -17,30 +17,6 @@ body {
     min-height: 100%;
 }
 
-/** Light Theme */
-:root:not([data-theme="dark"]), [data-theme="light"] {
-    --color: #1a1a1a;
-    --primary: #2DABD1;
-
-}
-
-/** Dark Theme */
-:root:not([data-theme="light"]), [data-theme="dark"] {
-    --color: #fff;
-    --primary: #2DABD1;
-
-}
-
-video {
-    max-width: 100%;
-    width: 100%;
-}
-
-#disclaimer {
-    background-color: #F3F3F3;
-    padding: 10px 0;
-    margin-top: auto;
-}
 
 h1,
 h2,
@@ -65,4 +41,21 @@ article.warning {
 
 article[role="alert"] {
     padding: 2rem;
+}
+
+video {
+    max-width: 100%;
+    width: 100%;
+}
+
+#disclaimer {
+    background-color: #F3F3F3;
+    padding: 10px 0;
+    margin-top: auto;
+}
+
+@media (min-width:1200px) {
+    html:not(.admin) .container {
+            max-width:75ch
+    }
 }
