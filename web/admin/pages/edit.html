@@ -33,8 +33,7 @@
                 <em data-tooltip="This page will autosave">Last edited {{ .page.UpdatedAt.Format "Jan 02, 2006" }}</em>
             </p>
 
-            <strong>Code:</strong>
-            <br>
+            Code:
             <a href="/{{.page.Code}}" target="blank">
                 {{.page.Code}}
             </a>
@@ -43,15 +42,11 @@
             <!-- Switch -->
             <fieldset>
                 <label for="publish">
-                    <input type="checkbox" id="publish" name="publish" role="switch" {{ if .page.Published }}checked{{end}}>
+                    <input type="checkbox" id="publish" name="publish" {{ if .page.Published }}checked{{end}}>
                     Published
                 </label>
             </fieldset>
 
-            <label for="author">
-                Author
-                <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
-            </label>
             <hr>
 
             <fieldset>
@@ -64,6 +59,8 @@
                 {{ end }}
             </fieldset>
 
+            <hr>
+
             <fieldset>
                 <legend>Trail (optional)</legend>
                 {{ range .trails }}
@@ -73,6 +70,13 @@
                 </label>
                 {{ end }}
             </fieldset>
+
+            <hr>
+
+            <label for="author">
+                Author
+                <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
+            </label>
         </aside>
     </form>
 </main>
@@ -141,22 +145,25 @@
         }
     }
 
-    //setup before functions
     let typingTimer;                //timer identifier
     let doneTypingInterval = 2000;  //time in ms (5 seconds)
 
-    //on keyup, start the countdown
-    form.addEventListener('keyup', event => {
-        if (event.target !== checkBox) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    inputs = document.forms["form"].getElementsByTagName("input")
+    for(var i = 0; i < inputs.length; i++) {
+        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox') && inputs[i].name.toLowerCase() != 'switch') {
+            form.addEventListener('click', event => {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
         }
+    }
+
+    form.addEventListener('keyup', event => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
     });
 
-    //user is "finished typing," do something
     function doneTyping () {
-        //do something
-        console.log("Done typing")
         var xhr = new XMLHttpRequest();
         xhr.open("PATCH", "", true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

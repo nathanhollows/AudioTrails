@@ -59,3 +59,10 @@ video {
             max-width:75ch
     }
 }
+
+nav .brand {
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: black;
+    color: white;
+}
