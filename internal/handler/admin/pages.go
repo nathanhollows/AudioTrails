@@ -1,7 +1,9 @@
 package admin
 
 import (
+	"encoding/json"
 	"errors"
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -147,4 +149,31 @@ func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 
 	return render(w, data, "pages/create.html")
 
+}
+
+// PreviewMD accepts MD and returns HTML
+func PreviewMD(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	w.Header().Set("Content-Type", "text/html")
+
+	if r.Method == http.MethodPost {
+
+		type markdown struct {
+			Md string `json:"md"`
+		}
+		var response markdown
+		decoder := json.NewDecoder(r.Body)
+		decoder.DisallowUnknownFields()
+		err := decoder.Decode(&response)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return nil
+		}
+
+		t := template.Must(template.New("md").Parse("{{.}}"))
+		t.Execute(w, parseMD(response.Md))
+
+		return nil
+	}
+	return errors.New("This is not a POST request")
 }

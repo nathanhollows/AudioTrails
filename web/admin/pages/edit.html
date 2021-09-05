@@ -13,9 +13,17 @@
                     <label for="title" class="form-label">Page Title</label>
                     <input type="text" class="form-control" id="title" name="title" value={{.page.Title}}>
                 </div>
-                <div class="mb-3">
-                    <label for="content" class="form-label">Content</label>
-                    <textarea class="form-control" id="content" name="content" rows="10">{{.page.Text}}</textarea>
+                <div>
+                    <label for="content">Content</label>
+                    <fieldset id="md-switch">
+                        <label for="switch">
+                            <input type="checkbox" id="switch" name="switch" role="switch" onclick="previewMD()">
+                            Preview
+                        </label>
+                    </fieldset>
+                    <textarea id="content" name="content" rows="15">{{.page.Text}}</textarea>
+                    <article id="preview-content" aria-busy="true">
+                    </article>
                 </div>
             </section>
         </div>
@@ -76,11 +84,68 @@
 </main>
 
 <style>
+    @media (min-width:992px) {
+
     main > form {
         --block-spacing-horizontal: calc(var(--spacing) * 1.75);
         grid-column-gap: calc(var(--block-spacing-horizontal) * 2);
         display: grid;
         grid-template-columns: auto 300px;
     }
+    }
+
+    label[for=content] {
+        display: inline-block;
+    }
+    #content {
+        font-family: monospace;
+        resize: vertical;
+    }
+    #md-switch {
+        float: inline-end;
+    }
+    #preview-content {
+        margin-top: 0;
+        width: 100%;
+        display: none;
+    }
+    #preview-content[aria-busy=true] {
+        text-align: center;
+    }
 </style>
+
+<script>
+    document.getElementById("switch").checked = false;
+    var checkBox = document.getElementById("switch");
+    var textarea = document.getElementById("content");
+    var preview = document.getElementById("preview-content");
+    var form = document.getElementById("form");
+    var autosave = document.getElementById("autosave");
+
+    function previewMD() {
+
+        if (checkBox.checked == true){
+            textarea.style.display = "none";
+            preview.style.display = "block";
+            preview.setAttribute("aria-busy", true)
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/admin/pages/preview", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                md: textarea.value
+            }));
+
+            xhr.onreadystatechange = (e) => {
+                preview.innerHTML = xhr.response
+                preview.setAttribute("aria-busy", false)
+            }
+        } else {
+            textarea.style.display = "block";
+            preview.style.display = "none";
+            preview.innerHTML = null
+        }
+    }
+
+</script>
 {{ end }}

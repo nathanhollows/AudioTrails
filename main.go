@@ -81,6 +81,7 @@ func routes() {
 	router.Handle("/admin/pages/delete", handler.HandleAdmin{Env: &env, H: admin.DeletePage})
 	router.Handle("/admin/pages/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditPage})
 	router.Handle("/admin/pages/create", handler.HandleAdmin{Env: &env, H: admin.CreatePage})
+	router.Handle("/admin/pages/preview", handler.HandleAdmin{Env: &env, H: admin.PreviewMD})
 
 	router.Handle("/404", handler.HandlePublic{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)

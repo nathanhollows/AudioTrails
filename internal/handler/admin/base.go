@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"gitlab.com/golang-commonmark/markdown"
 )
 
 var funcs = template.FuncMap{
@@ -27,6 +29,15 @@ var funcs = template.FuncMap{
 	"add": func(a, b int) int {
 		return a + b
 	},
+}
+
+func parseMD(page string) template.HTML {
+	md := markdown.New(
+		markdown.XHTMLOutput(true),
+		markdown.HTML(true),
+		markdown.Breaks(true))
+
+	return template.HTML(md.RenderToString([]byte(page)))
 }
 
 func parse(patterns ...string) *template.Template {
