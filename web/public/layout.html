@@ -17,18 +17,27 @@
 </head>
 
 <body>
-    <nav class="container">
-        <ul>
-            <li><strong>QR Trails</strong></li>
-            <li><a href="/admin" class="secondary">Admin</a></li>
-            <li><a href="/library" class="secondary">My Library</a></li>
-        </ul>
-        <ul>
-            <li><a href="/login" class="secondary">Sign in / Register</a></li>
-        </ul>
-    </nav>
+    <div id="header">
+        <nav class="container">
+            <ul>
+                <li><strong>QR Trails</strong></li>
+                <li><a href="/admin" class="secondary">Admin</a></li>
+                <li><a href="/library" class="secondary">My Library</a></li>
+                <li><a href="/login" class="secondary">Save my progress</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div style="border-bottom: 1px solid black;">
+        <div style="" class="container found">
+            <hgroup>
+                <h1>Found 1/6</h1>
+                <h2>People of the World Gallery</h2>
+            </hgroup>
+
+        </div>
+    </div>
     {{ template "body" .}}
-    <footer id="disclaimer">
+    <footer id="footer">
         <nav class="container">
             <ul>
                 <li><a href="/about">About</a></li>

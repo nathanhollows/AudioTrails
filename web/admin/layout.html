@@ -17,18 +17,18 @@
 </head>
 
 <body>
-    <nav class="container">
-        <ul>
-            <li class="brand"><strong>QR Trails</strong></li>
-            <li><a href="/admin/" class="secondary">Dashboard</a></li>
-            <li><a href="/admin/pages" class="secondary">Pages</a></li>
-            <li><a href="#" class="secondary">Media</a></li>
-            <li><a href="#" class="secondary">Analytics</a></li>
-        </ul>
-        <ul>
-            <li><a href="/logout" class="secondary">Logout</a></li>
-        </ul>
-    </nav>
+    <div id="header">
+        <nav class="container">
+            <ul>
+                <li class="brand"><strong>ADMIN</strong></li>
+                <li><a href="/admin/" class="secondary">Dashboard</a></li>
+                <li><a href="/admin/pages" class="secondary">Pages</a></li>
+                <li><a href="#" class="secondary">Media</a></li>
+                <li><a href="#" class="secondary">Analytics</a></li>
+                <li><a href="/logout" class="secondary">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
     {{ template "body" .}}
 </body>
 

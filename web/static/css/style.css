@@ -7,6 +7,10 @@ body {
 }
 */
 
+:root {
+    --font-family: 'Open Sans', sans-serif
+}
+
 html {
     height: 100%;
 }
@@ -15,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    font-family: var(--font-family);
 }
 
 
@@ -25,6 +30,7 @@ h4,
 h5,
 h6 {
     text-transform: uppercase;
+    font-family: var(--font-family);
 }
 
 a[role="button"].delete, button.delete, input[type="button"].delete, input[type="reset"].delete, input[type="submit"].delete {
@@ -48,7 +54,37 @@ video {
     width: 100%;
 }
 
-#disclaimer {
+/** Header */
+.admin #header {
+    background-color: var(--mark-background-color);
+}
+
+#header {
+    border-bottom: 1px solid black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#header nav ul {
+    width: 100%;
+    justify-content: space-between;
+}
+
+nav a, nav li {
+    color: black;
+}
+
+nav a:hover {
+    color: var(--primary);
+}
+
+.found {
+    padding-top: var(--typography-spacing-vertical);
+}
+
+/** Footer */
+
+#footer {
     background-color: #F3F3F3;
     padding: 10px 0;
     margin-top: auto;
@@ -56,7 +92,7 @@ video {
 
 @media (min-width:1200px) {
     html:not(.admin) .container {
-            max-width:75ch
+        max-width:75ch
     }
 }
 
