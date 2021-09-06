@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th scope="col">Code</th>
+                <th scope="col">Public</th>
                 <th scope="col">Title</th>
                 <th scope="col">Gallery</th>
                 <th scope="col">Trail</th>
@@ -24,6 +25,7 @@
                         {{ .Code }}
                     </a>
                 </th>
+                <td style="text-align: center;">{{if .Published }}✔{{end}}</td>
                 <td>{{ .Title }}</td>
                 <td>{{ .Gallery.Gallery }}</td>
                 <td>{{ .Trail.Trail }}</td>
