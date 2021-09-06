@@ -7,5 +7,15 @@
     {{ template "flash" . }}
 
     <p>Scan the QR Codes to learn more about hidden science behind these objects.</p>
+
+    <p>Current story plans:</p>
+
+    <ul>
+        {{ range .pages }}
+        <li>
+            <a href="/{{.Code}}">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    </ul>
 </main>
 {{ end }}

@@ -5,6 +5,7 @@ import (
 
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
+	"github.com/nathanhollows/Argon/internal/models"
 )
 
 // Index is the homepage of the game.
@@ -14,5 +15,8 @@ func Index(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
 
+	pages := []models.Page{}
+	env.DB.Where("published = 1").Find(&pages)
+	data["pages"] = pages
 	return render(w, data, "index/index.html")
 }
