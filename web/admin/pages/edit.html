@@ -77,6 +77,10 @@
                 Author
                 <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
             </label>
+
+            <hr>
+
+            <a href="/admin/help">Editor help</a> (opens in new tab)
         </aside>
     </form>
 </main>
@@ -150,10 +154,12 @@
 
     inputs = document.forms["form"].getElementsByTagName("input")
     for(var i = 0; i < inputs.length; i++) {
-        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox') && inputs[i].name.toLowerCase() != 'switch') {
+        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox')) {
             form.addEventListener('click', event => {
-                clearTimeout(typingTimer);
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                if (event.target.name != "switch" && typeof event.target.type != "undefined") {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                }
             });
         }
     }
