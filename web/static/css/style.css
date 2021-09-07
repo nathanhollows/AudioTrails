@@ -102,3 +102,11 @@ nav .brand {
     background-color: black;
     color: white;
 }
+
+/** Admin */
+#actions hgroup, #actions h1 {
+    display: inline-block;
+}
+#actions a {
+    float: right;
+}
