@@ -20,7 +20,7 @@ type Page struct {
 }
 
 // BeforeCreate will generate a new code for the page
-func (c *Page) BeforeCreate(tx *gorm.DB) (err error) {
-	c.Code = helpers.NewCode(5)
+func (p *Page) BeforeCreate(tx *gorm.DB) (err error) {
+	p.Code = helpers.NewCode(5)
 	return nil
 }
