@@ -28,6 +28,9 @@ func getCookieStore() *sessions.CookieStore {
 func Set(w http.ResponseWriter, r *http.Request, message Message) {
 	store := getCookieStore()
 	session, _ := store.Get(r, "om")
+	session.Options.HttpOnly = true
+	session.Options.Secure = true
+	session.Options.SameSite = http.SameSiteStrictMode
 	session.AddFlash(message)
 	session.Save(r, w)
 }

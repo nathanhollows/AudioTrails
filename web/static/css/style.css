@@ -41,12 +41,19 @@ a[role="button"].delete, button.delete, input[type="button"].delete, input[type=
 }
 
 article.warning {
-    background: var(--code-tag-color);
+    background: var(--mark-background-color);
     color: var(--color);
 }
 
 article[role="alert"] {
     padding: 2rem;
+    border-radius: unset;
+    box-shadow: unset;
+    outline: 1px solid var(--contrast);
+}
+
+main > article[role="alert"]:first-child {
+    margin-top: 0;
 }
 
 video {
@@ -60,7 +67,7 @@ video {
 }
 
 #header {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--contrast);
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -70,12 +77,24 @@ video {
     justify-content: space-between;
 }
 
-nav a, nav li {
-    color: black;
+nav li:not(.brand) a, nav li:not(.brand) {
+    color: var(--contrast);
 }
 
-nav a:hover {
+nav li.brand a:hover, nav li a:hover {
     color: var(--primary);
+}
+
+
+nav li.brand {
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: var(--contrast);
+    color: var(--contrast-inverse);
+}
+
+nav li.brand a {
+    color: var(--contrast-inverse);
 }
 
 .found {
@@ -94,13 +113,6 @@ nav a:hover {
     html:not(.admin) .container {
         max-width:75ch
     }
-}
-
-nav .brand {
-    padding-left: 1em;
-    padding-right: 1em;
-    background-color: black;
-    color: white;
 }
 
 /** Admin */

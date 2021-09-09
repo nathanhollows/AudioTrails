@@ -1,10 +1,10 @@
 {{ define "flash" }}
   {{ if index . "messages" }}
         {{ range index . "messages" }}
-        <div class="alert alert-{{if .Style}}{{.Style}}{{else}}primary{{end}}" role="alert">
+        <article class="{{.Style}}" role="alert">
           {{ if .Title }}<strong>{{.Title}}</strong><br>{{end}}
           {{ .Message }}
-        </div>
+        </article>
         {{ end }}
   {{ end }}
 {{ end }}

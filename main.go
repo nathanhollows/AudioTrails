@@ -30,8 +30,7 @@ func init() {
 
 	var store sessions.Store
 	if key, ok := os.LookupEnv("ARGON_SESSION_KEY"); ok {
-		store := sessions.NewCookieStore([]byte(key))
-		store.Options.SameSite = http.SameSiteStrictMode
+		store = sessions.NewCookieStore([]byte(key))
 	} else {
 		panic("env var ARGON_SESSION_KEY must be set")
 	}
@@ -69,6 +68,7 @@ func routes() {
 	router.Handle("/library", handler.HandlePublic{Env: &env, H: public.Library})
 
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})
+	router.Handle("/s/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Scan})
 
 	router.Handle("/login", handler.HandlePublic{Env: &env, H: public.Login})
 	router.Handle("/logout", handler.HandlePublic{Env: &env, H: public.Logout})
