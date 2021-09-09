@@ -1,10 +1,18 @@
 {{ define "body" }}
+<div style="border-bottom: 1px solid black;">
+    <div class="container found">
+        <hgroup>
+            <h1>Found 0/{{ .count }}</h1>
+            <h2>{{ .page.Gallery.Gallery }}</h2>
+        </hgroup>
+    </div>
+</div>
 <main class="container">
+    {{ template "flash" . }}
     <hgroup>
         <h1>{{.page.Title}}</h1>
         <h2>By {{ if .page.Author }}{{.page.Author}}{{ else }}Guest Author{{ end }}</h2>
     </hgroup>
-    {{ template "flash" . }}
     <section>
         {{.md}}
     </section>
