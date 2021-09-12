@@ -56,6 +56,10 @@ main > article[role="alert"]:first-child {
     margin-top: 0;
 }
 
+article > :last-child:not(blockquote) {
+    margin-bottom: 0;
+}
+
 video {
     max-width: 100%;
     width: 100%;
