@@ -60,6 +60,10 @@ article > :last-child:not(blockquote) {
     margin-bottom: 0;
 }
 
+li ul, li ol {
+    margin-top: calc(var(--typography-spacing-vertical) / 4);
+}
+
 video {
     max-width: 100%;
     width: 100%;
