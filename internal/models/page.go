@@ -13,6 +13,7 @@ type Page struct {
 	Text      string
 	Author    string
 	Published bool    `sql:"DEFAULT:false"`
+	System    bool    `sql:"DEFAULT:false"`
 	TrailID   int     `sql:"DEFAULT:NULL"`
 	Trail     Trail   `gorm:"references:ID"`
 	GalleryID int     `sql:"DEFAULT:NULL"`

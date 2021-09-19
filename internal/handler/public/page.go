@@ -39,7 +39,7 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["page"] = page
 
 	data["messages"] = flash.Get(w, r)
-	return render(w, data, "page/index.html")
+	return render(w, data, "page/discovered.html")
 }
 
 // Scan handles the scanned URL.

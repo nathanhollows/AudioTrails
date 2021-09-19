@@ -63,8 +63,12 @@ func main() {
 func routes() {
 	router.Handle("/", handler.HandlePublic{Env: &env, H: public.Index})
 
-	router.Handle("/about", handler.HandlePublic{Env: &env, H: public.About})
-	router.Handle("/privacy", handler.HandlePublic{Env: &env, H: public.Privacy})
+	var pages = []models.Page{}
+	env.DB.Model(models.Page{}).Where("system").Find(&pages)
+	for _, page := range pages {
+		router.Handle(fmt.Sprintf("/%v", page.Code), handler.HandlePublic{Env: &env, H: public.RegularPage})
+	}
+
 	router.Handle("/library", handler.HandlePublic{Env: &env, H: public.Library})
 
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})
