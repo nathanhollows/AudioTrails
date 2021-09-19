@@ -25,7 +25,7 @@ func Pages(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["title"] = "Pages"
 
 	pages := []models.Page{}
-	result := env.DB.Order("created_at desc").Preload(clause.Associations).Find(&pages)
+	result := env.DB.Order("trail_id asc, gallery_id desc").Preload(clause.Associations).Find(&pages)
 	if result.RowsAffected > 0 {
 		data["pages"] = pages
 	}

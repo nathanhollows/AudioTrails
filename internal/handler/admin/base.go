@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -29,6 +28,9 @@ var funcs = template.FuncMap{
 	"add": func(a, b int) int {
 		return a + b
 	},
+	"unescape": func(s string) template.HTML {
+		return template.HTML(s)
+	},
 }
 
 func parseMD(page string) template.HTML {
@@ -50,10 +52,8 @@ func parse(patterns ...string) *template.Template {
 
 func render(w http.ResponseWriter, data map[string]interface{}, patterns ...string) error {
 	w.Header().Set("Content-Type", "text/html")
-	if data["title"] != nil {
-		data["title"] = fmt.Sprintf("%v | Admin", data["title"])
-	} else {
-		data["title"] = "Admin"
+	if data["siteTitle"] == nil {
+		data["siteTitle"] = "Admin"
 	}
 	err := parse(patterns...).ExecuteTemplate(w, "base", data)
 	if err != nil {

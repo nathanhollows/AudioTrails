@@ -1,7 +1,6 @@
 package public
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -50,10 +49,8 @@ func parse(patterns ...string) *template.Template {
 
 func render(w http.ResponseWriter, data map[string]interface{}, patterns ...string) error {
 	w.Header().Set("Content-Type", "text/html")
-	if data["title"] != nil {
-		data["title"] = fmt.Sprint(data["title"]) + " | QR Trail"
-	} else {
-		data["title"] = "QR Trail"
+	if data["siteTitle"] == nil {
+		data["siteTitle"] = "QR Trail"
 	}
 	err := parse(patterns...).ExecuteTemplate(w, "base", data)
 	if err != nil {
