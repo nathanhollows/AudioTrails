@@ -32,7 +32,8 @@
                 <td>{{ .Gallery.Gallery }}</td>
                 <td>{{ .Trail.Trail }}</td>
                 <td>
-                    <a href="/{{.Code}}" target="blank">View</a>
+                    <a href="/{{.Code}}" target="blank">View</a> |
+                    <a href="/admin/pages/qr/{{.Code}}.svg" target="blank">QR Code</a>
                 </td>
             </tr>
             {{ end }}

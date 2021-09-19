@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/aaronarduino/goqrsvg"
+	svg "github.com/ajstarks/svgo"
+	"github.com/boombuler/barcode/qr"
 	"github.com/go-chi/chi"
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
@@ -208,4 +211,21 @@ func PreviewMD(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		return nil
 	}
 	return errors.New("This is not a POST request")
+}
+
+// QR returns an SVG qr code
+func QR(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	w.Header().Set("Content-Type", "image/svg+xml")
+	code := chi.URLParam(r, "code")
+
+	s := svg.New(w)
+	qrCode, _ := qr.Encode("https://localhost:8050/s/"+code, qr.M, qr.Auto)
+
+	qs := goqrsvg.NewQrSVG(qrCode, 15)
+	qs.StartQrSVG(s)
+	qs.WriteQrSVG(s)
+
+	s.End()
+
+	return nil
 }

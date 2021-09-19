@@ -3,9 +3,13 @@
     <h1>Dashboard</h1>
     {{ template "flash" . }}
     <p>
-        <a href="https://github.com/nathanhollows/Argon/issues/">Issue tracker</a> and source code on github. Planned features:
+        <a href="https://github.com/nathanhollows/Argon/issues/">Issue tracker</a> and source code on github. Work required:
     </p>
     <ul>
+        <li>
+            Lock down the admin panel
+            <a href="https://github.com/nathanhollows/Argon/issues/9">#9</a>
+        </li>
         <li>
             Highlight the current page in the nav bars
             <a href="https://github.com/nathanhollows/Argon/issues/7">#7</a>
@@ -14,12 +18,17 @@
             Make the <a href="/library">library page</a> live. Show lives counts and links to found pages
             <a href="https://github.com/nathanhollows/Argon/issues/1">#1</a>
         </li>
+        <li>
+            Show analytics in analytics in admin (not dashboard overview)
+            <a href="https://github.com/nathanhollows/Argon/issues/10">#10</a>
+        </li>
         <li>Programmatically generate URIs (store top level URL)
             <a href="https://github.com/nathanhollows/Argon/issues/2">#2</a>
         </li>
-        <li>Generate QR codes
+        <li><del>
+            Generate QR codes
             <a href="https://github.com/nathanhollows/Argon/issues/3">#3</a>
-        </li>
+        </del></li>
         <li>Track code scans (*/s/CODE?)
             <a href="https://github.com/nathanhollows/Argon/issues/4">#4</a>
         </li>
@@ -27,18 +36,18 @@
         <li>Dashboard data
             <a href="https://github.com/nathanhollows/Argon/issues/5">#5</a>
         </li>
-        <li><s>
+        <li><del>
             Delete pages
             <a href="https://github.com/nathanhollows/Argon/issues/6">#6</a>
-        </s></li>
-        <li><s>Make the <a href="/privacy">privacy page</a> editable</s></li>
-        <li><s>Make Pages -> Published flag useful</s></li>
-        <li><s>
+        </del></li>
+        <li><del>Make the <a href="/privacy">privacy page</a> editable</del></li>
+        <li><del>Make Pages -> Published flag useful</del></li>
+        <li><del>
             Make the <a href="/about">about page</a> editable
-        </s></li>
-        <li><s>
+        </del></li>
+        <li><del>
             Autosave pages
-        </s></li>
+        </del></li>
     </ul>
 </main>
 {{ end }}
