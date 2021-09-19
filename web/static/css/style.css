@@ -8,7 +8,11 @@ body {
 */
 
 :root {
-    --font-family: 'Open Sans', sans-serif
+    --font-family: 'Open Sans', sans-serif;
+    --color-info: #68cbde;
+    --color-success: #e6f494;
+    --color-danger: #f69c9b;
+    --color-warning: #fecd7e;
 }
 
 html {
@@ -40,16 +44,28 @@ a[role="button"].delete, button.delete, input[type="button"].delete, input[type=
     cursor: pointer;
 }
 
-article.warning {
-    background: var(--mark-background-color);
-    color: var(--color);
-}
-
 article[role="alert"] {
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     border-radius: unset;
     box-shadow: unset;
     outline: 1px solid var(--contrast);
+    color: var(--contrast);
+}
+
+article[role="alert"].info {
+    background: var(--color-info);
+}
+
+article[role="alert"].warning {
+    background: var(--color-warning);
+}
+
+article[role="alert"].danger {
+    background: var(--color-danger);
+}
+
+article[role="alert"].success {
+    background: var(--color-success);
 }
 
 main > article[role="alert"]:first-child {

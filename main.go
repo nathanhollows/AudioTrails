@@ -79,6 +79,7 @@ func routes() {
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
 	router.Handle("/admin/pages", handler.HandleAdmin{Env: &env, H: admin.Pages})
 	router.Handle("/admin/pages/delete", handler.HandleAdmin{Env: &env, H: admin.DeletePage})
+	router.Handle("/admin/pages/restore", handler.HandleAdmin{Env: &env, H: admin.Restore})
 	router.Handle("/admin/pages/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditPage})
 	router.Handle("/admin/pages/create", handler.HandleAdmin{Env: &env, H: admin.CreatePage})
 	router.Handle("/admin/pages/preview", handler.HandleAdmin{Env: &env, H: admin.PreviewMD})

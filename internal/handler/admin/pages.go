@@ -39,9 +39,9 @@ func DeletePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 		r.ParseForm()
 		code := r.PostFormValue("page")
 		result := env.DB.Where("Code = ?", code).Delete(&models.Page{})
-		if result.RowsAffected > 0 {
+		if result.RowsAffected != 0 {
 			flash.Set(w, r, flash.Message{Message: "Deleted page", Style: "success"})
-			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			http.Redirect(w, r, "/admin/pages", 302)
 		} else {
 			flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
 			http.Redirect(w, r, r.Header.Get("Referer"), 302)
@@ -49,6 +49,21 @@ func DeletePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 	} else {
 		flash.Set(w, r, flash.Message{Message: "Invalid request", Style: "warning"})
 		http.Redirect(w, r, r.Header.Get("Referer"), 302)
+	}
+	return nil
+}
+
+// Restore will undo soft delete on the last deleted page
+func Restore(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	var page = models.Page{}
+	env.DB.Unscoped().Where("deleted_at IS NOT NULL").Order("deleted_at DESC").Limit(1).Find(&page)
+	result := env.DB.Model(&page).Updates(map[string]interface{}{"deleted_at": nil})
+	if result.RowsAffected == 0 {
+		flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
+		http.Redirect(w, r, r.Header.Get("Referer"), 302)
+	} else {
+		flash.Set(w, r, flash.Message{Message: "Page restored", Style: "success"})
+		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, 302)
 	}
 	return nil
 }
@@ -68,6 +83,18 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 	if r.Method == http.MethodPost || r.Method == http.MethodPatch {
 		r.ParseForm()
+		if _, ok := r.PostForm["delete"]; ok {
+			result = env.DB.Delete(&page)
+			if result.RowsAffected == 0 {
+				flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "danger"})
+				http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			} else {
+				flash.Set(w, r, flash.Message{Message: "Page deleted. <a href=\"/admin/pages/restore\">Undo</a>", Style: "success"})
+				http.Redirect(w, r, "/admin/pages", 302)
+			}
+			return nil
+		}
+
 		if val, ok := r.PostForm["title"]; ok {
 			page.Title = val[0]
 		}

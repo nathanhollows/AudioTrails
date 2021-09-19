@@ -3,16 +3,34 @@
     <h1>Dashboard</h1>
     {{ template "flash" . }}
     <p>
-        Feature development:
+        <a href="https://github.com/nathanhollows/Argon/issues/">Issue tracker</a> and source code on github. Planned features:
     </p>
     <ul>
-        <li>Make the <a href="/library">library page</a> live. Show lives counts and links to found pages</li>
-        <li>Programmatically generate URIs (store top level URL)</li>
-        <li>Generate QR codes</li>
-        <li>Track code scans (*/s/CODE?)</li>
+        <li>
+            Highlight the current page in the nav bars
+            <a href="https://github.com/nathanhollows/Argon/issues/7">#7</a>
+        </li>
+        <li>
+            Make the <a href="/library">library page</a> live. Show lives counts and links to found pages
+            <a href="https://github.com/nathanhollows/Argon/issues/1">#1</a>
+        </li>
+        <li>Programmatically generate URIs (store top level URL)
+            <a href="https://github.com/nathanhollows/Argon/issues/2">#2</a>
+        </li>
+        <li>Generate QR codes
+            <a href="https://github.com/nathanhollows/Argon/issues/3">#3</a>
+        </li>
+        <li>Track code scans (*/s/CODE?)
+            <a href="https://github.com/nathanhollows/Argon/issues/4">#4</a>
+        </li>
         <li>Upload media</li>
-        <li>Dashboard data</li>
-        <li>Delete pages</li>
+        <li>Dashboard data
+            <a href="https://github.com/nathanhollows/Argon/issues/5">#5</a>
+        </li>
+        <li><s>
+            Delete pages
+            <a href="https://github.com/nathanhollows/Argon/issues/6">#6</a>
+        </s></li>
         <li><s>Make the <a href="/privacy">privacy page</a> editable</s></li>
         <li><s>Make Pages -> Published flag useful</s></li>
         <li><s>
@@ -21,13 +39,6 @@
         <li><s>
             Autosave pages
         </s></li>
-    </ul>
-    <p>
-        Planned dashboard data:
-    </p>
-    <ul>
-        <li>Scans today / this week / this month</li>
-        <li>Completion rate</li>
     </ul>
 </main>
 {{ end }}

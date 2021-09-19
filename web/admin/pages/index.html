@@ -3,9 +3,8 @@
     <section id="actions">
         <h1>Pages</h1>
         <a href="/admin/pages/create" role="button">Create</a>
-        {{ template "flash" . }}
     </section>
-
+    {{ template "flash" . }}
     {{ if not .pages }}
     <a href="/admin/pages/import" role="button">Import</a>
     {{ else }}
