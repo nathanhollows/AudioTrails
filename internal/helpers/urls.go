@@ -10,13 +10,7 @@ func URL(patterns ...string) string {
 	u := &url.URL{}
 	if site, ok := os.LookupEnv("ARGON_SITEURL"); ok {
 		u, _ = url.Parse(site)
-		if u.Path == "/" {
-			u.Path = ""
-		}
 	} else {
-		// Default URL
-		u.Scheme = "http"
-		u.Host = "localhost:8050"
 		u.Path = "/"
 	}
 	if len(patterns) > 0 {
