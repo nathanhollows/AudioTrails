@@ -223,7 +223,7 @@ func QR(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	code := chi.URLParam(r, "code")
 
 	s := svg.New(w)
-	qrCode, _ := qr.Encode("https://localhost:8050/s/"+code, qr.M, qr.Auto)
+	qrCode, _ := qr.Encode(helpers.URL("s/"+code), qr.M, qr.Auto)
 
 	qs := goqrsvg.NewQrSVG(qrCode, 15)
 	qs.StartQrSVG(s)
