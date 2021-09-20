@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
-    <link rel="manifest" href="/public/site.webmanifest">
+    <link rel="stylesheet" href="{{ url "public/css/style.css" }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url "public/apple-touch-icon.png" }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url "public/favicon-32x32.png" }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url "public/favicon-16x16.png" }}">
+    <link rel="manifest" href="{{ url "public/site.webmanifest" }}">
     <title>{{ if .title }}{{ .title }} | {{ end }}{{ .siteTitle }}</title>
 </head>
 
@@ -23,11 +23,11 @@
                 {{ $section := "" }}
                 {{ if .section }}{{ $section = .section }}{{ end }}
                 <li class="brand"><strong>Admin</strong></li>
-                <li><a href="/admin/" class="secondary{{ if eq $section "dashboard"}} active{{ end }}">Dashboard</a></li>
-                <li><a href="/admin/pages" class="secondary{{ if eq $section "pages"}} active{{ end }}">Pages</a></li>
+                <li><a href="{{ url "admin/" }}" class="secondary{{ if eq $section "dashboard"}} active{{ end }}">Dashboard</a></li>
+                <li><a href="{{ url "admin/pages" }}" class="secondary{{ if eq $section "pages"}} active{{ end }}">Pages</a></li>
                 <li><a href="#" class="secondary{{ if eq $section "media"}} active{{ end }}">Media</a></li>
                 <li><a href="#" class="secondary{{ if eq $section "analytics"}} active{{ end }}">Analytics</a></li>
-                <li><a href="/logout" class="secondary">Logout</a></li>
+                <li><a href="{{ url "logout" }}" class="secondary">Logout</a></li>
             </ul>
         </nav>
     </div>

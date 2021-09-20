@@ -2,12 +2,9 @@
 <main class="container">
     <section id="actions">
         <h1>Pages</h1>
-        <a href="/admin/pages/create" role="button">Create</a>
+        <a href="{{ url "admin/pages/create" }}" role="button">Create</a>
     </section>
     {{ template "flash" . }}
-    {{ if not .pages }}
-    <a href="/admin/pages/import" role="button">Import</a>
-    {{ else }}
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +20,7 @@
             {{ range .pages}}
             <tr>
                 <th scope="row">
-                    <a href="/admin/pages/edit/{{.Code}}">
+                    <a href="{{ url (print "admin/pages/edit/" .Code) }}">
                         {{ .Code }}
                     </a>
                 </th>
@@ -32,13 +29,12 @@
                 <td>{{ .Gallery.Gallery }}</td>
                 <td>{{ .Trail.Trail }}</td>
                 <td>
-                    <a href="/{{.Code}}" target="blank">View</a> |
-                    <a href="/admin/pages/qr/{{.Code}}.svg" target="blank">QR Code</a>
+                    <a href="{{ url .Code }}" target="_blank">View</a> |
+                    <a href="{{ url (print "/admin/pages/qr/" .Code ".svg") }}" target="_blank">QR Code</a>
                 </td>
             </tr>
             {{ end }}
         </tbody>
     </table>
-    {{ end }}
 </main>
 {{ end }}

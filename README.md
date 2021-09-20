@@ -3,6 +3,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+## Installation
+
+`ARGON_SESSION_KEY` and `ARGON_SITEURL` must be set as environment variables.
+
 <!-- LICENSE -->
 ## License
 

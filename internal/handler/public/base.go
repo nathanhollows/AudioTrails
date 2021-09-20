@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/nathanhollows/Argon/internal/helpers"
 	"gitlab.com/golang-commonmark/markdown"
 )
 
@@ -27,6 +28,9 @@ var funcs = template.FuncMap{
 	},
 	"add": func(a, b int) int {
 		return a + b
+	},
+	"url": func(s ...string) string {
+		return helpers.URL(s...)
 	},
 }
 

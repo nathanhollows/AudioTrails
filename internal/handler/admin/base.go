@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/nathanhollows/Argon/internal/helpers"
 	"gitlab.com/golang-commonmark/markdown"
 )
 
@@ -30,6 +31,9 @@ var funcs = template.FuncMap{
 	},
 	"unescape": func(s string) template.HTML {
 		return template.HTML(s)
+	},
+	"url": func(s ...string) string {
+		return helpers.URL(s...)
 	},
 }
 

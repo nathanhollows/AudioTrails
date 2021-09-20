@@ -13,7 +13,7 @@
     <ul>
         {{ range .pages }}
         <li>
-            <a href="/{{.Code}}">{{ .Title }}</a>
+            <a href="{{ url .Code}}">{{ .Title }}</a>
         </li>
         {{ end }}
     </ul>

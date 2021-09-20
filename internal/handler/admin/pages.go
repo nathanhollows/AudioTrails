@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
+	"github.com/nathanhollows/Argon/internal/helpers"
 	"github.com/nathanhollows/Argon/internal/models"
 	"gorm.io/gorm/clause"
 )
@@ -45,7 +46,7 @@ func DeletePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 		result := env.DB.Where("Code = ?", code).Delete(&models.Page{})
 		if result.RowsAffected != 0 {
 			flash.Set(w, r, flash.Message{Message: "Deleted page", Style: "success"})
-			http.Redirect(w, r, "/admin/pages", http.StatusFound)
+			http.Redirect(w, r, helpers.URL("admin/pages"), http.StatusFound)
 		} else {
 			flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
@@ -67,7 +68,7 @@ func Restore(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 	} else {
 		flash.Set(w, r, flash.Message{Message: "Page restored", Style: "success"})
-		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, http.StatusFound)
+		http.Redirect(w, r, helpers.URL("admin/pages/edit/"+page.Code), http.StatusFound)
 	}
 	return nil
 }
@@ -93,8 +94,8 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 				flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "danger"})
 				http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			} else {
-				flash.Set(w, r, flash.Message{Message: "Page deleted. <a href=\"/admin/pages/restore\">Undo</a>", Style: "success"})
-				http.Redirect(w, r, "/admin/pages", http.StatusFound)
+				flash.Set(w, r, flash.Message{Message: "Page deleted. <a href=\"" + helpers.URL("admin/pages/restore") + "\">Undo</a>", Style: "success"})
+				http.Redirect(w, r, helpers.URL("admin/pages"), http.StatusFound)
 			}
 			return nil
 		}
@@ -181,7 +182,7 @@ func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 			return nil
 		}
 		flash.Set(w, r, flash.Message{Message: "Created page!", Style: "success"})
-		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, http.StatusFound)
+		http.Redirect(w, r, helpers.URL("admin/pages/edit/"+page.Code), http.StatusFound)
 		return nil
 	}
 

@@ -34,13 +34,13 @@
             </p>
 
             Code:
-            <a href="/{{.page.Code}}" target="blank">
+            <a href="{{ url .page.Code }}" target="_blank">
                 {{.page.Code}}
             </a>
 
             <hr>
             QR Code:
-            <a href="/admin/pages/qr/{{.page.Code}}.svg" target="blank">
+            <a href="{{ url (print "admin/pages/qr/" .page.Code ".svg") }}" target="_blank">
                 View
             </a>
             <hr>
@@ -86,7 +86,7 @@
 
             <hr>
 
-            <a href="/admin/help">Editor help</a> (opens in new tab)
+            <a href="{{ url "markdown" }}" target="_blank">Editor help</a> (opens in new tab)
 
             <hr>
 
@@ -142,7 +142,7 @@
             preview.setAttribute("aria-busy", true)
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/admin/pages/preview", true);
+            xhr.open("POST", '{{ url "admin/pages/preview" }}', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 md: textarea.value

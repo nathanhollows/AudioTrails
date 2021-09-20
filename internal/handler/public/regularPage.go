@@ -6,6 +6,7 @@ import (
 
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
+	"github.com/nathanhollows/Argon/internal/helpers"
 	"github.com/nathanhollows/Argon/internal/models"
 )
 
@@ -20,7 +21,7 @@ func RegularPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error
 				r.URL.String(), "/"), "/"))
 	result := env.DB.Where("code = ?", code).Find(&page)
 	if result.RowsAffected == 0 {
-		http.Redirect(w, r, "/404", 404)
+		http.Redirect(w, r, helpers.URL("404"), 404)
 		return nil
 	}
 	data["md"] = parseMD(page.Text)
