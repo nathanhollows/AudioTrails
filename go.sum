@@ -1,5 +1,11 @@
+github.com/aaronarduino/goqrsvg v0.0.0-20170617203649-603647895681 h1:eZrVcUgy0P6+B6Vu7SKPh3UZQS5nEuyjhbkFyfz7I2I=
+github.com/aaronarduino/goqrsvg v0.0.0-20170617203649-603647895681/go.mod h1:dytw+5qs+pdi61fO/S4OmXR7AuEq/HvNCuG03KxQHT4=
+github.com/ajstarks/svgo v0.0.0-20210406150507-75cfd577ce75 h1:tuK1xIp+jrEEF0l3xXab78w89ilYr0Am170KdSml2xc=
+github.com/ajstarks/svgo v0.0.0-20210406150507-75cfd577ce75/go.mod h1:K08gAheRH3/J6wwsYMMT4xOr94bZjxIelGM0+d/wbFw=
 github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c h1:FcFM+gBQ9Os0GEs3OOk9bmq3sHj8VkiRYHIpiLFfZSI=
 github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c/go.mod h1:0t1M8SLguRDiNomJJpdjSW2cifFnPTIX0HNL9MyMC78=
+github.com/boombuler/barcode v1.0.1 h1:NDBbPmhS+EqABEs5Kg3n/5ZNjy73Pz7SIV+KCeqyXcs=
+github.com/boombuler/barcode v1.0.1/go.mod h1:paBWMcWSl3LHKBqUq+rly7CNSldXjb2rDl3JlRe0mD8=
 github.com/go-chi/chi v1.5.1 h1:kfTK3Cxd/dkMu/rKs5ZceWYp+t5CtiE7vmaTv3LjC6w=
 github.com/go-chi/chi v1.5.1/go.mod h1:REp24E+25iKvxgeTfHmdUoL5x15kBiDBlnIl5bCwe2k=
 github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7 h1:oKYOfNR7Hp6XpZ4JqolL5u642Js5Z0n7psPVl+S5heo=

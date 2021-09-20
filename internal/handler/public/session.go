@@ -12,6 +12,7 @@ func Login(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
+	data["section"] = "session"
 	return render(w, data, "session/login.html")
 }
 

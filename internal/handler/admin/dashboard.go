@@ -14,6 +14,7 @@ func Dashboard(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 	data["messages"] = flash.Get(w, r)
 	data["title"] = "Admin"
+	data["section"] = "dashboard"
 
 	return render(w, data, "dashboard/index.html")
 }

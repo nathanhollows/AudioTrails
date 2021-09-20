@@ -20,10 +20,12 @@
     <div id="header">
         <nav class="container">
             <ul>
-                <li><a href="/">QR Trails</a></li>
+                {{ $section := "" }}
+                {{ if .section }}{{ $section = .section }}{{ end }}
+                <li><a href="/" class="{{ if eq $section "index"}}active{{ end }}">QR Trails</a></li>
                 <li><a href="/admin" class="secondary">Admin</a></li>
-                <li><a href="/library" class="secondary">My Library</a></li>
-                <li><a href="/login" class="secondary">Save my progress</a></li>
+                <li><a href="/library" class="secondary{{ if eq $section "library"}} active{{ end }}">My Library</a></li>
+                <li><a href="/login" class="secondary{{ if eq $section "session"}} active{{ end }}">Save my progress</a></li>
             </ul>
         </nav>
     </div>

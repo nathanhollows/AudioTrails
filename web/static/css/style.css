@@ -109,6 +109,10 @@ nav li.brand a:hover, nav li a:hover {
     color: var(--primary);
 }
 
+nav li:not(.brand) a.active {
+    color: var(--primary);
+}
+
 
 nav li.brand {
     padding-left: 1em;

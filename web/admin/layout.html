@@ -20,11 +20,13 @@
     <div id="header">
         <nav class="container">
             <ul>
-                <li class="brand"><strong>ADMIN</strong></li>
-                <li><a href="/admin/" class="secondary">Dashboard</a></li>
-                <li><a href="/admin/pages" class="secondary">Pages</a></li>
-                <li><a href="#" class="secondary">Media</a></li>
-                <li><a href="#" class="secondary">Analytics</a></li>
+                {{ $section := "" }}
+                {{ if .section }}{{ $section = .section }}{{ end }}
+                <li class="brand"><strong>Admin</strong></li>
+                <li><a href="/admin/" class="secondary{{ if eq $section "dashboard"}} active{{ end }}">Dashboard</a></li>
+                <li><a href="/admin/pages" class="secondary{{ if eq $section "pages"}} active{{ end }}">Pages</a></li>
+                <li><a href="#" class="secondary{{ if eq $section "media"}} active{{ end }}">Media</a></li>
+                <li><a href="#" class="secondary{{ if eq $section "analytics"}} active{{ end }}">Analytics</a></li>
                 <li><a href="/logout" class="secondary">Logout</a></li>
             </ul>
         </nav>

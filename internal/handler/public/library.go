@@ -13,6 +13,7 @@ func Library(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
+	data["section"] = "library"
 
 	pages := []models.Page{}
 	env.DB.Where("published = true").Find(&pages)

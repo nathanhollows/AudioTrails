@@ -26,6 +26,7 @@ func Pages(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
 	data["title"] = "Pages"
+	data["section"] = "pages"
 
 	pages := []models.Page{}
 	result := env.DB.Order("trail_id asc, gallery_id desc").Preload(clause.Associations).Find(&pages)
@@ -44,14 +45,14 @@ func DeletePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 		result := env.DB.Where("Code = ?", code).Delete(&models.Page{})
 		if result.RowsAffected != 0 {
 			flash.Set(w, r, flash.Message{Message: "Deleted page", Style: "success"})
-			http.Redirect(w, r, "/admin/pages", 302)
+			http.Redirect(w, r, "/admin/pages", http.StatusFound)
 		} else {
 			flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
-			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 		}
 	} else {
 		flash.Set(w, r, flash.Message{Message: "Invalid request", Style: "warning"})
-		http.Redirect(w, r, r.Header.Get("Referer"), 302)
+		http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 	}
 	return nil
 }
@@ -63,10 +64,10 @@ func Restore(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	result := env.DB.Model(&page).Updates(map[string]interface{}{"deleted_at": nil})
 	if result.RowsAffected == 0 {
 		flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
-		http.Redirect(w, r, r.Header.Get("Referer"), 302)
+		http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 	} else {
 		flash.Set(w, r, flash.Message{Message: "Page restored", Style: "success"})
-		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, 302)
+		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, http.StatusFound)
 	}
 	return nil
 }
@@ -81,7 +82,7 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	result := env.DB.Where("code = ?", code).Preload(clause.Associations).Find(&page)
 
 	if result.RowsAffected == 0 {
-		return handler.StatusError{Code: 404, Err: errors.New("page cannot be found")}
+		return handler.StatusError{Code: http.StatusNotFound, Err: errors.New("page cannot be found")}
 	}
 
 	if r.Method == http.MethodPost || r.Method == http.MethodPatch {
@@ -90,10 +91,10 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 			result = env.DB.Delete(&page)
 			if result.RowsAffected == 0 {
 				flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "danger"})
-				http.Redirect(w, r, r.Header.Get("Referer"), 302)
+				http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			} else {
 				flash.Set(w, r, flash.Message{Message: "Page deleted. <a href=\"/admin/pages/restore\">Undo</a>", Style: "success"})
-				http.Redirect(w, r, "/admin/pages", 302)
+				http.Redirect(w, r, "/admin/pages", http.StatusFound)
 			}
 			return nil
 		}
@@ -130,14 +131,14 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		if result.RowsAffected == 0 {
 			if r.Method == http.MethodPost {
 				flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
-				http.Redirect(w, r, r.Header.Get("Referer"), 302)
+				http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			}
 			http.Error(w, "could not save page", http.StatusBadGateway)
 			return nil
 		}
 		if r.Method == http.MethodPost {
 			flash.Set(w, r, flash.Message{Message: "Saved!", Style: "success"})
-			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 		}
 		return nil
 	}
@@ -151,7 +152,8 @@ func EditPage(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["galleries"] = galleries
 
 	data["page"] = page
-	data["title"] = "Editing " + page.Title + " | Admin"
+	data["title"] = "Editing " + page.Title
+	data["section"] = "pages"
 
 	data["messages"] = flash.Get(w, r)
 
@@ -164,7 +166,8 @@ func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
-	data["title"] = "Create a Page | Admin"
+	data["title"] = "Create a Page"
+	data["section"] = "pages"
 
 	if r.Method == http.MethodPost {
 		r.ParseForm()
@@ -174,11 +177,11 @@ func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 		result := env.DB.Model(&models.Page{}).Create(&page)
 		if result.RowsAffected == 0 {
 			flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
-			http.Redirect(w, r, r.Header.Get("Referer"), 302)
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			return nil
 		}
 		flash.Set(w, r, flash.Message{Message: "Created page!", Style: "success"})
-		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, 302)
+		http.Redirect(w, r, "/admin/pages/edit/"+page.Code, http.StatusFound)
 		return nil
 	}
 
@@ -210,7 +213,7 @@ func PreviewMD(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 		return nil
 	}
-	return errors.New("This is not a POST request")
+	return handler.StatusError{Code: http.StatusBadRequest, Err: errors.New("must be POST")}
 }
 
 // QR returns an SVG qr code

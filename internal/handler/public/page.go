@@ -16,13 +16,14 @@ import (
 func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
+	data["section"] = "library"
 
 	code := chi.URLParam(r, "code")
 	page := models.Page{}
 	env.DB.Where("Code = ?", code).Preload(clause.Associations).Find(&page)
 	if page.Code == "" {
 		flash.Set(w, r, flash.Message{Message: "That's not a valid code"})
-		http.Redirect(w, r, "/404", 302)
+		http.Redirect(w, r, "/404", http.StatusFound)
 		return nil
 	}
 
@@ -52,7 +53,7 @@ func Scan(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	env.DB.Where("Code = ?", code).Find(&page)
 	if page.Code == "" {
 		flash.Set(w, r, flash.Message{Message: "That's not a valid code"})
-		http.Redirect(w, r, "/404", 302)
+		http.Redirect(w, r, "/404", http.StatusFound)
 		return nil
 	}
 

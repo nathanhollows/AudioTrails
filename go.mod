@@ -1,9 +1,12 @@
 module github.com/nathanhollows/Argon
 
-go 1.15
+go 1.17
 
 require (
+	github.com/aaronarduino/goqrsvg v0.0.0-20170617203649-603647895681 // indirect
+	github.com/ajstarks/svgo v0.0.0-20210406150507-75cfd577ce75 // indirect
 	github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c // indirect
+	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/go-chi/chi v1.5.1
 	github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7
 	github.com/gorilla/sessions v1.2.1
