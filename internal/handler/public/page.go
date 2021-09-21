@@ -3,6 +3,7 @@ package public
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/nathanhollows/Argon/internal/flash"
@@ -48,7 +49,7 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 func Scan(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 
-	code := chi.URLParam(r, "code")
+	code := strings.ToUpper(chi.URLParam(r, "code"))
 	page := models.Page{}
 	env.DB.Where("Code = ?", code).Find(&page)
 	if page.Code == "" {
@@ -56,6 +57,10 @@ func Scan(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		http.Redirect(w, r, "/404", http.StatusFound)
 		return nil
 	}
+
+	scan := models.ScanEvent{}
+	scan.Page = page
+	env.DB.Model(&models.ScanEvent{}).Create(&scan)
 
 	http.Redirect(w, r, fmt.Sprintf("/%s", page.Code), http.StatusTemporaryRedirect)
 	return nil

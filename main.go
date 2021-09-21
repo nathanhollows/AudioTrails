@@ -49,6 +49,7 @@ func init() {
 
 func main() {
 	env.DB.AutoMigrate(
+		&models.ScanEvent{},
 		&models.User{},
 		&models.Page{},
 		&models.Trail{},
