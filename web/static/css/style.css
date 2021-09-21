@@ -26,7 +26,6 @@ body {
     font-family: var(--font-family);
 }
 
-
 h1,
 h2,
 h3,
@@ -78,6 +77,12 @@ article > :last-child:not(blockquote) {
 
 li ul, li ol {
     margin-top: calc(var(--typography-spacing-vertical) / 4);
+}
+
+tfoot th {
+    border-top: var(--border-width) solid var(--table-border-color);
+    --border-width: 3px;
+    border-bottom: unset;
 }
 
 video {
