@@ -46,8 +46,9 @@ func parseMD(page string) template.HTML {
 
 	regMark := regexp.MustCompile("==(.*)==")
 	page = regMark.ReplaceAllString(page, "<mark>$1</mark>")
-	regArticle := regexp.MustCompile("(?s):::(.*):::")
-	page = regArticle.ReplaceAllString(page, "<article>$1</article>")
+	regArticle := regexp.MustCompile(":::([^:::]*):::")
+	page = regArticle.ReplaceAllString(page, `<article>
+$1</article>`)
 
 	return template.HTML(md.RenderToString([]byte(page)))
 }
