@@ -175,12 +175,22 @@ func CreatePage(env *handler.Env, w http.ResponseWriter, r *http.Request) error 
 		page := models.Page{}
 		page.Title = r.FormValue("title")
 		page.Text = r.FormValue("content")
+		for {
+			page.Code = helpers.NewCode(5)
+			check := models.Page{}
+			env.DB.Model(models.Page{}).Where("code = ?", page.Code).Find(&check)
+			if check.Code != page.Code {
+				break
+			}
+		}
+
 		result := env.DB.Model(&models.Page{}).Create(&page)
-		if result.RowsAffected == 0 {
+		if result.Error != nil {
 			flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			return nil
 		}
+
 		flash.Set(w, r, flash.Message{Message: "Created page!", Style: "success"})
 		http.Redirect(w, r, helpers.URL("admin/pages/edit/"+page.Code), http.StatusFound)
 		return nil

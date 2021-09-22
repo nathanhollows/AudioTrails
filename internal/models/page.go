@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/nathanhollows/Argon/internal/helpers"
 	"gorm.io/gorm"
 )
 
@@ -18,10 +17,4 @@ type Page struct {
 	Trail     Trail   `gorm:"references:ID"`
 	GalleryID int     `sql:"DEFAULT:NULL"`
 	Gallery   Gallery `gorm:"references:ID"`
-}
-
-// BeforeCreate will generate a new code for the page
-func (p *Page) BeforeCreate(tx *gorm.DB) (err error) {
-	p.Code = helpers.NewCode(5)
-	return nil
 }
