@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/nathanhollows/Argon/internal/helpers"
@@ -40,9 +41,13 @@ func parseMD(page string) template.HTML {
 		markdown.HTML(true),
 		markdown.Breaks(true))
 
+	regMark := regexp.MustCompile("==(.*)==")
+	page = regMark.ReplaceAllString(page, "<mark>$1</mark>")
+	regArticle := regexp.MustCompile("(?s):::(.*):::")
+	page = regArticle.ReplaceAllString(page, "<article>$1</article>")
+
 	return template.HTML(md.RenderToString([]byte(page)))
 }
-
 func parse(patterns ...string) *template.Template {
 	patterns = append(patterns, "layout.html", "flash.html")
 	for i := 0; i < len(patterns); i++ {
