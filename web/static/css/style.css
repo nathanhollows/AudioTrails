@@ -155,3 +155,72 @@ nav li.brand a {
 #actions a {
     float: right;
 }
+
+/** Homepage tiles */
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    gap: 2em 2em;
+}
+
+.tile {
+    background: #ECEFF1;
+    aspect-ratio: 1/1;
+    --aspect-ratio: 1/1;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1em;
+    border-radius: 6px;
+}
+
+.tile.found {
+    color: black;
+}
+
+.tile.found h3 {
+    transition: 0.1s;
+    font-size: 1.25rem;
+}
+
+.tile.found:hover h3 {
+    transform: scale(1.05);
+}
+
+.tile h3 {
+    margin-bottom: unset;
+}
+
+.tiles a {
+    text-decoration: unset;
+}
+
+.tile.found:nth-of-type(7n+1) {
+    background-color: #FF8A65;
+}
+.tile.found:nth-of-type(7n+2) {
+    background-color: #4FC3F7;
+}
+.tile.found:nth-of-type(7n+3) {
+    background-color: #FFD54F;
+}
+.tile.found:nth-of-type(7n+4) {
+    background-color: #9575CD;
+}
+.tile.found:nth-of-type(7n+5) {
+    background-color: #DCE775;
+}
+.tile.found:nth-of-type(7n+6) {
+    background-color: #F06292;
+}
+.tile.found:nth-of-type(7n+7) {
+    background-color: #A1887F;
+}
+
+.tile img {
+    width: 40%;
+    align-self: center;
+}

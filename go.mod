@@ -9,6 +9,7 @@ require (
 	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/go-chi/chi v1.5.1
 	github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/sessions v1.2.1
 	github.com/mattn/go-sqlite3 v1.14.7 // indirect
 	gitlab.com/golang-commonmark/linkify v0.0.0-20200225224916-64bca66f6ad3 // indirect

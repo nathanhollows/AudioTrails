@@ -6,15 +6,36 @@
     </hgroup>
     {{ template "flash" . }}
 
-    <p>Scan the QR Codes to learn more about hidden science behind these objects.</p>
+    <p>Find and scan the QR Codes to learn more about hidden science behind these objects.</p>
 
-    <p>Current story plans:</p>
+    <div class="tiles">
+        {{ range .pages }}
+        {{ if .Seen}}
+        <a href="{{ url .Code}}" class="tile found">
+            <h3>{{ .Title }}</h3>
+        </a>
+        {{ else }}
+        <a class="tile">
+            <img src="{{ url "public/img/squiggle.png" }}">
+        </a>
+        {{ end }}
+        {{ end }}
+    </div>
 
+    <br>
+
+    <p>
+        <mark>Prototyping panels. See <a href="https://github.com/nathanhollows/Argon/issues/12">Issue #12</a> for a mockup</mark>
+    </p>
+
+    <p>Click to "find":</p>
     <ul>
         {{ range .pages }}
+        {{ if not .Seen }}
         <li>
-            <a href="{{ url .Code}}">{{ .Title }}</a>
+            <a href="{{ url (print "s/" .Code) }}">{{ .Title }}</a>
         </li>
+        {{ end }}
         {{ end }}
     </ul>
 </main>

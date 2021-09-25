@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 // ScanEvent tracks the scan events
 type ScanEvent struct {
 	gorm.Model
-	UserID string `sql:"DEFAULT:NULL"`
-	PageID int
-	Page   Page `gorm:"foreignKey:PageID"`
+	UserID   string `sql:"DEFAULT:NULL"`
+	PageCode string
+	Page     Page `gorm:"foreignKey:PageCode;references:Code"`
 }
