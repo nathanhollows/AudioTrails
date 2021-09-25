@@ -19,5 +19,5 @@ func Error404(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data := make(map[string]interface{})
 	data["title"] = "Error 404"
 	data["messages"] = flash.Get(w, r)
-	return render(w, data, "errors/404notFound.html")
+	return render(w, data, "errors/notFound.html")
 }
