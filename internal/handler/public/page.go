@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-chi/chi"
+	"github.com/google/uuid"
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
 	"github.com/nathanhollows/Argon/internal/models"
@@ -58,8 +59,20 @@ func Scan(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		return nil
 	}
 
+	session, err := env.Session.Get(r, "uid")
+	if err != nil || session.Values["id"] == nil {
+		session, err = env.Session.New(r, "uid")
+		session.Options.HttpOnly = true
+		session.Options.SameSite = http.SameSiteStrictMode
+		session.Options.Secure = true
+		id := uuid.New()
+		session.Values["id"] = id.String()
+		session.Save(r, w)
+	}
+
 	scan := models.ScanEvent{}
 	scan.Page = page
+	scan.UserID = fmt.Sprint(session.Values["id"])
 	env.DB.Model(&models.ScanEvent{}).Create(&scan)
 
 	http.Redirect(w, r, fmt.Sprintf("/%s", page.Code), http.StatusTemporaryRedirect)

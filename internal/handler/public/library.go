@@ -1,8 +1,10 @@
 package public
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
 	"github.com/nathanhollows/Argon/internal/models"
@@ -26,6 +28,18 @@ func Library(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	var galleries []map[string]interface{}
 	env.DB.Table("galleries").Joins("left join pages on pages.gallery_id = galleries.id").Where("published = ?", true).Select("gallery, count(*) as total").Group("gallery_id").Find(&galleries)
 	data["galleries"] = galleries
+
+	session, err := env.Session.Get(r, "uid")
+	if err != nil || session.Values["id"] == nil {
+		fmt.Println(err)
+		session, err = env.Session.New(r, "uid")
+		session.Options.HttpOnly = true
+		session.Options.SameSite = http.SameSiteStrictMode
+		session.Options.Secure = true
+		id := uuid.New()
+		session.Values["id"] = id.String()
+		session.Save(r, w)
+	}
 
 	var trails []map[string]interface{}
 	env.DB.Table("trails").
