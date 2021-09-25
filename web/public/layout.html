@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="{{ url "public/css/style.css"}}">
+    <link rel="stylesheet" href="{{ url "public/css/style.css" "2"}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url "public/apple-touch-icon.png" }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url "public/favicon-32x32.png" }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url "public/favicon-16x16.png" }}">
@@ -23,7 +23,6 @@
                 {{ $section := "" }}
                 {{ if .section }}{{ $section = .section }}{{ end }}
                 <li><a href="{{ url }}" class="{{ if eq $section "index"}}active{{ end }}">QR Trails</a></li>
-                <li><a href="{{ url "admin" }}" class="secondary">Admin</a></li>
                 <li><a href="{{ url "library" }}" class="secondary{{ if eq $section "library"}} active{{ end }}">My Library</a></li>
             </ul>
         </nav>
@@ -34,9 +33,10 @@
             <ul>
                 <li><a href="{{ url "about" }}">About</a></li>
                 <li><a href="{{ url "privacy" }}">Privacy Policy</a></li>
+                <li><a href="{{ url "login" }}">Admin</a></li>
             </ul>
             <ul>
-                <li><strong>© 2021 – all rights reserved. </strong></li>
+                <li><strong>©{{ currentYear }} – all rights reserved. </strong></li>
             </ul>
         </nav>
     </footer>

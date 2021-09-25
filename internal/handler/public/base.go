@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/nathanhollows/Argon/internal/helpers"
 	"gitlab.com/golang-commonmark/markdown"
@@ -32,6 +33,9 @@ var funcs = template.FuncMap{
 	},
 	"url": func(s ...string) string {
 		return helpers.URL(s...)
+	},
+	"currentYear": func() int {
+		return time.Now().UTC().Year()
 	},
 }
 

@@ -177,6 +177,13 @@ nav li.brand a {
     border-radius: 6px;
 }
 
+@media (max-width:447px) {
+    .tile {
+        aspect-ratio: 3/2;
+        --aspect-ratio: 3/2;
+    }
+}
+
 .tile.found {
     color: black;
 }
@@ -192,6 +199,7 @@ nav li.brand a {
 
 .tile h3 {
     margin-bottom: unset;
+    color: black;
 }
 
 .tiles a {
