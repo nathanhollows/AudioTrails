@@ -41,14 +41,8 @@ func Library(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Save(r, w)
 	}
 
-	var trails []map[string]interface{}
-	env.DB.Table("trails").
-		Joins("left join pages on pages.trail_id = trails.id").
-		Joins("left join galleries on galleries.id = pages.gallery_id").
-		Where("published = ?", true).
-		Select("gallery, trail, count(*) as total").
-		Group("trail_id, gallery").
-		Find(&trails)
+	var trails []models.ResultsTrailCounts
+	env.DB.Raw(models.QueryTrailCountByUser, session.Values["id"]).Scan(&trails)
 	data["trails"] = trails
 
 	return render(w, data, "library/index.html")

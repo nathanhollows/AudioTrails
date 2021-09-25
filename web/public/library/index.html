@@ -2,7 +2,11 @@
 <div style="border-bottom: 1px solid black;">
     <div class="container found">
         <hgroup>
-            <h1>Found 0/{{ len .pages }}</h1>
+            {{ $count := 0}}
+            {{ range .trails }}
+            {{ $count = (add $count .Found) }}
+            {{ end }}
+            <h1>Found {{ $count }}/{{ len .pages }}</h1>
             <h2>Otago Museum</h2>
         </hgroup>
     </div>
@@ -15,9 +19,9 @@
         <h2>{{ $gallery.gallery }}</h2>
 
             {{ range $.trails }}
-                {{ if eq .gallery $gallery.gallery}}
+                {{ if eq .Gallery $gallery.gallery}}
                 <p>
-                    You have unlocked <b>0 / {{ .total }} pages</b> from the {{ .trail }} trail.
+                    You have unlocked <b>{{ .Found }} / {{ .Unfound }} pages</b> from the {{ .Trail }} trail.
                 </p>
                 {{ end }}
             {{ end }}

@@ -29,8 +29,12 @@ func Index(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Save(r, w)
 	}
 
-	var pages []models.FoundPage
-	env.DB.Raw(models.FindPagesByUserQuery, session.Values["id"]).Scan(&pages)
+	var trails []models.ResultsTrailCounts
+	env.DB.Raw(models.QueryTrailCountByUser, session.Values["id"]).Scan(&trails)
+	data["trails"] = trails
+
+	var pages []models.ResultFoundPages
+	env.DB.Raw(models.QueryFindPagesByUser, session.Values["id"]).Scan(&pages)
 	data["pages"] = pages
 	return render(w, data, "index/index.html")
 }

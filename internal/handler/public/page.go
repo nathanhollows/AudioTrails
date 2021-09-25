@@ -37,6 +37,21 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	env.DB.Model(models.Page{}).Where("published = true AND gallery_id = ?", page.GalleryID).Count(&count)
 	data["count"] = count
 
+	session, err := env.Session.Get(r, "uid")
+	if err != nil || session.Values["id"] == nil {
+		fmt.Println(err)
+		session, err = env.Session.New(r, "uid")
+		session.Options.HttpOnly = true
+		session.Options.SameSite = http.SameSiteStrictMode
+		session.Options.Secure = true
+		id := uuid.New()
+		session.Values["id"] = id.String()
+		session.Save(r, w)
+	}
+	var trails []models.ResultsTrailCounts
+	env.DB.Raw(models.QueryTrailCountByUser, session.Values["id"]).Scan(&trails)
+	data["trails"] = trails
+
 	data["title"] = page.Title
 	data["md"] = parseMD(page.Text)
 	data["page"] = page

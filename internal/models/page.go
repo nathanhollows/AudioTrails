@@ -19,8 +19,8 @@ type Page struct {
 	Gallery   Gallery `gorm:"references:ID"`
 }
 
-// FoundPage holds the values of a custom query
-type FoundPage struct {
+// ResultFoundPages holds the values of a custom query
+type ResultFoundPages struct {
 	Code    string
 	Title   string
 	Gallery string
@@ -28,8 +28,8 @@ type FoundPage struct {
 	Seen    bool
 }
 
-// FindPagesByUserQuery returns []FoundPage for a given user
-var FindPagesByUserQuery = `SELECT pages.code, pages.title, gallery, trails.trail, scan.seen
+// QueryFindPagesByUser returns []FoundPage for a given user
+var QueryFindPagesByUser = `SELECT pages.code, pages.title, gallery, trails.trail, scan.seen
 FROM galleries
 JOIN pages ON pages.gallery_id = galleries.id
 JOIN trails ON trails.id = pages.trail_id
@@ -41,4 +41,27 @@ LEFT JOIN
 WHERE pages.deleted_at IS NULL
 AND pages.published IS TRUE
 GROUP BY pages.code
+ORDER BY trail, gallery;`
+
+// ResultsTrailCounts holds the values of a custom query
+type ResultsTrailCounts struct {
+	Gallery string
+	Trail   string
+	Found   int
+	Unfound int
+}
+
+// QueryTrailCountByUser is a query that returns the number of trails found / unfound
+var QueryTrailCountByUser = `SELECT gallery, trails.trail, count(scan.seen) as found, count(trails.trail) as unfound
+FROM galleries
+JOIN pages ON pages.gallery_id = galleries.id
+JOIN trails ON trails.id = pages.trail_id
+LEFT JOIN
+	(SELECT page_code, true AS seen
+		FROM scan_events
+		WHERE user_id = ?)
+	AS scan ON scan.page_code = pages.code
+WHERE pages.deleted_at IS NULL
+AND pages.published IS TRUE
+GROUP BY gallery, trail
 ORDER BY trail, gallery;`

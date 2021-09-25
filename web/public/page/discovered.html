@@ -2,7 +2,11 @@
 <div style="border-bottom: 1px solid black;">
     <div class="container found">
         <hgroup>
-            <h1>Found 0/{{ .count }}</h1>
+            {{ $count := 0}}
+            {{ range .trails }}
+            {{ $count = (add $count .Found) }}
+            {{ end }}
+            <h1>Found {{ $count }}/{{ .count }}</h1>
             <h2>{{ .page.Gallery.Gallery }}</h2>
         </hgroup>
     </div>
