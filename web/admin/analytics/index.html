@@ -3,14 +3,31 @@
     <h1>Analytics</h1>
     {{ template "flash" . }}
 
-    <h2>
-        Log of scan events:
-    </h2>
-    <ul>
-        {{ range .dump }}
-        <li>{{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }} <a href="{{ url .Page.Code }}">{{.Page.Title}}</a></li>
-        {{ end }}
-    </ul>
+    <div class="grid">
+        <div>
+            <h2>Possible Analytics:</h2>
+            <ul>
+                <li>Scans today</li>
+                <li>Scans this week</li>
+                <li>Scans this month</li>
+                <li>New scanners</li>
+                <li>Completion rate</li>
+                <li>Time between scans</li>
+                <li>Time to completion</li>
+                <li>First scanned</li>
+            </ul>
+        </div>
+        <div>
+            <h2>
+                Log of scan events:
+            </h2>
+            <ul>
+                {{ range .dump }}
+                <li>{{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }} <a href="{{ url .Page.Code }}">{{.Page.Title}}</a></li>
+                {{ end }}
+            </ul>
+        </div>
+    </div>
 
 </main>
 {{ end }}
