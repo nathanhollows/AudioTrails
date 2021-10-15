@@ -51,6 +51,7 @@ func main() {
 	env.DB.AutoMigrate(
 		&models.Page{},
 		&models.User{},
+		&models.Geosite{},
 		&models.Link{},
 		&models.ScanEvent{},
 		&models.Library{},
@@ -64,12 +65,12 @@ func routes() {
 	router.Handle("/", handler.HandlePublic{Env: &env, H: public.Index})
 
 	var pages = []models.Page{}
-	env.DB.Model(models.Page{}).Where("system").Find(&pages)
+	env.DB.Model(models.Page{}).Find(&pages)
 	for _, page := range pages {
 		router.Handle(fmt.Sprintf("/%v", page.Code), handler.HandlePublic{Env: &env, H: public.RegularPage})
 	}
 
-	router.Handle("/library", handler.HandlePublic{Env: &env, H: public.Library})
+	router.Handle("/trail", handler.HandlePublic{Env: &env, H: public.Trail})
 
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})
 	router.Handle("/s/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.ScanGeosite})
@@ -83,6 +84,12 @@ func routes() {
 	router.Handle("/admin", handler.HandleAdmin{Env: &env, H: admin.Dashboard})
 	router.Handle("/admin/media", handler.HandleAdmin{Env: &env, H: admin.Media})
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
+	router.Handle("/admin/geosites", handler.HandleAdmin{Env: &env, H: admin.Geosites})
+	router.Handle("/admin/geosites/delete", handler.HandleAdmin{Env: &env, H: admin.DeleteGeosite})
+	router.Handle("/admin/geosites/restore", handler.HandleAdmin{Env: &env, H: admin.Restore})
+	router.Handle("/admin/geosites/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditGeosite})
+	router.Handle("/admin/geosites/create", handler.HandleAdmin{Env: &env, H: admin.CreateGeosite})
+	router.Handle("/admin/geosites/preview", handler.HandleAdmin{Env: &env, H: admin.PreviewMD})
 	router.Handle("/admin/links", handler.HandleAdmin{Env: &env, H: admin.Links})
 	router.Handle("/admin/links/delete", handler.HandleAdmin{Env: &env, H: admin.DeleteLink})
 	router.Handle("/admin/links/restore", handler.HandleAdmin{Env: &env, H: admin.RestoreLink})

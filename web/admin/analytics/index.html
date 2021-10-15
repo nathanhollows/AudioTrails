@@ -1,33 +1,59 @@
 {{ define "body" }}
 <main class="container">
-    <h1>Analytics</h1>
+    <section>
+    <hgroup>
+        <h1>Analytics</h1>
+        <h2>To be developed</h2>
+    </hgroup>
     {{ template "flash" . }}
+    </section>
 
     <div class="grid">
-        <div>
-            <h2>Possible Analytics:</h2>
-            <ul>
-                <li>Scans today</li>
-                <li>Scans this week</li>
-                <li>Scans this month</li>
-                <li>New scanners</li>
-                <li>Completion rate</li>
-                <li>Time between scans</li>
-                <li>Time to completion</li>
-                <li>First scanned</li>
-            </ul>
-        </div>
-        <div>
+        <section>
             <h2>
-                Log of scan events:
+                Geosite Scans:
             </h2>
             <ul>
                 {{ range .dump }}
-                <li>{{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }} <a href="{{ url .Page.Code }}">{{.Page.Title}}</a></li>
+                {{ if .Geosite.Code }}
+                <li>
+                    {{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }}
+                    <a href="{{ url .Geosite.Code }}">{{.Geosite.Title}}</a>
+                </li>
+                {{ end }}
                 {{ end }}
             </ul>
-        </div>
+        </section>
+        <section>
+            <h2>
+                Link Scans:
+            </h2>
+            <ul>
+                {{ range .dump }}
+                {{ if .Link.Code }}
+                <li>
+                    {{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }}:
+                    <em>{{.Link.Title}}</em>
+                </li>
+                {{ end }}
+                {{ end }}
+            </ul>
+        </section>
     </div>
+    <hr>
+    <section>
+        <h2>Possible Analytics:</h2>
+        <ul>
+            <li>Scans today</li>
+            <li>Scans this week</li>
+            <li>Scans this month</li>
+            <li>New scanners</li>
+            <li>Completion rate</li>
+            <li>Time between scans</li>
+            <li>Time to completion</li>
+            <li>First scanned</li>
+        </ul>
+    </section>
 
 </main>
 {{ end }}

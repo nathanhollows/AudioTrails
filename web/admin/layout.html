@@ -23,6 +23,7 @@
                 {{ $section := "" }}
                 {{ if .section }}{{ $section = .section }}{{ end }}
                 <li class="brand"><strong><a href="{{ url "" }}">QR Trails</a></strong></li>
+                <li><a href="{{ url "admin/geosites" }}" class="secondary{{ if eq $section "geosites"}} active{{ end }}">Geosites</a></li>
                 <li><a href="{{ url "admin/links" }}" class="secondary{{ if eq $section "links"}} active{{ end }}">Links</a></li>
                 <li><a href="#" class="secondary{{ if eq $section "media"}} active{{ end }}">Media</a></li>
                 <li><a href="{{ url "admin/analytics" }}" class="secondary{{ if eq $section "analytics"}} active{{ end }}">Analytics</a></li>

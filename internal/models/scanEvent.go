@@ -6,8 +6,8 @@ import "gorm.io/gorm"
 type ScanEvent struct {
 	gorm.Model
 	UserID      string `sql:"DEFAULT:NULL"`
-	UserID   string `sql:"DEFAULT:NULL"`
-	PageCode string
-	Page     Page `gorm:"foreignKey:PageCode;references:Code"`
+	GeositeCode string
+	Geosite     Geosite `gorm:"foreignKey:GeositeCode;references:Code"`
+	LinkCode    string
 	Link        Link `gorm:"foreignKey:LinkCode;references:Code"`
 }

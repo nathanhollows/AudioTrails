@@ -1,0 +1,47 @@
+{{ define "body" }}
+<main class="container">
+    <section id="actions">
+        <hgroup>
+            <h1>Geosites</h1>
+            <h2>Audio Stories</h2>
+        </hgroup>
+        <a href="{{ url "admin/geosites/create" }}" role="button">Add Geosite</a>
+    </section>
+    {{ template "flash" . }}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Public</th>
+                <th scope="col">Location</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .pages}}
+            <tr>
+                <th scope="row">
+                    <a href="{{ url (print "admin/geosites/edit/" .Code) }}">
+                        {{ .Code }}
+                    </a>
+                </th>
+                <td style="text-align: center;">{{if .Published }}✔{{end}}</td>
+                <td>{{ .Title }}</td>
+                <td>
+                    <a href="{{ url .Code }}" target="_blank">View</a> |
+                    <a href="{{ url (print "admin/qr/" .Code ".svg") }}" target="_blank">QR Code</a>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Public</th>
+                <th scope="col">Title</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</main>
+{{ end }}

@@ -1,0 +1,220 @@
+{{ define "body" }}
+<main class="container">
+    {{ template "flash" . }}
+
+    <form method="POST" id="form">
+        <div role="document">
+            <section>
+                <hgroup>
+                    <h1>{{.page.Title}}</h1>
+                    <h2>Editing Geosite</h2>
+                </hgroup>
+                <div>
+                    <label for="title">Geosite Title</label>
+                    <input type="text" id="title" name="title" value="{{.page.Title}}" autocomplete="off">
+                </div>
+                <div>
+                    <label for="content">Content</label>
+                    <fieldset id="md-switch">
+                        <label for="switch">
+                            <input type="checkbox" id="switch" name="switch" role="switch" onclick="previewMD()">
+                            Preview
+                        </label>
+                    </fieldset>
+                    <textarea id="content" name="content" rows="15">{{.page.Text}}</textarea>
+                    <article id="preview-content" aria-busy="true">
+                    </article>
+                </div>
+            </section>
+        </div>
+        <aside>
+            <h1></h1>
+            <p id="autosave">
+                <em data-tooltip="This page will autosave">Last edited {{ .page.UpdatedAt.Format "Jan 02, 2006" }}</em>
+            </p>
+
+            Code:
+            <a href="{{ url .page.Code }}" target="_blank">
+                {{.page.Code}}
+            </a>
+
+            <hr>
+            QR Code:
+            <a href="{{ url (print "qr/" .page.Code ".svg") }}" target="_blank">
+                View
+            </a>
+            <hr>
+
+            <!-- Switch -->
+            <fieldset>
+                <label for="publish">
+                    <input type="checkbox" id="publish" name="publish" {{ if .page.Published }}checked{{end}}>
+                    Published
+                </label>
+            </fieldset>
+
+            <hr>
+
+            <fieldset>
+                <legend>Gallery</legend>
+                {{ range .galleries }}
+                <label for="gallery{{.ID}}">
+                    <input type="radio" id="gallery{{.ID}}" name="gallery" value="{{ .ID }}" {{ if eq .ID $.page.GalleryID}}checked{{ end }}>
+                    {{ .Gallery }}
+                </label>
+                {{ end }}
+            </fieldset>
+
+            <hr>
+
+            <fieldset>
+                <legend>Trail (optional)</legend>
+                {{ range .trails }}
+                <label for="trail{{.ID}}">
+                    <input type="radio" id="trail{{.ID}}" name="trail" value="{{ .ID }}" {{ if eq .ID $.page.TrailID}}checked{{ end }}>
+                    {{ .Trail }}
+                </label>
+                {{ end }}
+            </fieldset>
+
+            <hr>
+
+            <label for="author">
+                Author
+                <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
+            </label>
+
+            <hr>
+
+            <a href="{{ url "markdown" }}" target="_blank">Editor help</a> (opens in new tab)
+
+            <hr>
+
+            <button id="delete" class="delete" name="delete" value="true">Delete Page</button>
+        </aside>
+    </form>
+</main>
+
+<style>
+    @media (min-width:992px) {
+
+        main > form {
+            --block-spacing-horizontal: calc(var(--spacing) * 1.75);
+            grid-column-gap: calc(var(--block-spacing-horizontal) * 2);
+            display: grid;
+            grid-template-columns: auto 300px;
+        }
+    }
+
+    label[for=content] {
+        display: inline-block;
+    }
+    #content {
+        font-family: monospace;
+        resize: vertical;
+    }
+    #md-switch {
+        float: inline-end;
+    }
+    #preview-content {
+        margin-top: 0;
+        width: 100%;
+        display: none;
+    }
+    #preview-content[aria-busy=true] {
+        text-align: center;
+    }
+</style>
+
+<script>
+    document.getElementById("switch").checked = false;
+    var checkBox = document.getElementById("switch");
+    var textarea = document.getElementById("content");
+    var preview = document.getElementById("preview-content");
+    var form = document.getElementById("form");
+    var autosave = document.getElementById("autosave");
+
+    function previewMD() {
+
+        if (checkBox.checked == true){
+            textarea.style.display = "none";
+            preview.style.display = "block";
+            preview.setAttribute("aria-busy", true)
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '{{ url "admin/pages/preview" }}', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                md: textarea.value
+            }));
+
+            xhr.onreadystatechange = (e) => {
+                preview.innerHTML = xhr.response
+                preview.setAttribute("aria-busy", false)
+            }
+        } else {
+            textarea.style.display = "block";
+            preview.style.display = "none";
+            preview.innerHTML = null
+        }
+    }
+
+    let typingTimer;                //timer identifier
+    let doneTypingInterval = 2000;  //time in ms (5 seconds)
+
+    inputs = document.forms["form"].getElementsByTagName("input")
+    for(var i = 0; i < inputs.length; i++) {
+        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox')) {
+            form.addEventListener('click', event => {
+                if (event.target.name != "switch" && typeof event.target.type != "undefined") {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                }
+            });
+        }
+    }
+
+    form.addEventListener('keyup', event => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    function doneTyping () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", "", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        let formData = new FormData(form)
+        let reqBody = {};
+        for (let pair of formData.entries()) {
+            reqBody[pair[0]] = pair[1];
+        }
+        xhr.send(urlencodeFormData(formData));
+        autosave.children[0].innerText = "Saving..."
+        autosave.setAttribute("aria-busy", true)
+
+        xhr.onreadystatechange = async (e) => {
+            await new Promise(r => setTimeout(r, 500));
+            if (xhr.status == 200) {
+                autosave.children[0].innerText = "Last saved: " + new Date().toLocaleTimeString()
+                autosave.setAttribute("aria-busy", false)
+            } else {
+                autosave.children[0].innerText = "Something went wrong. Please check your connection."
+                autosave.setAttribute("aria-busy", false)
+            }
+        }
+
+    }
+
+    function urlencodeFormData(fd){
+        var s = '';
+        function encode(s){ return encodeURIComponent(s).replace(/%20/g,'+'); }
+        for(var pair of fd.entries()){
+            if(typeof pair[1]=='string'){
+                s += (s?'&':'') + encode(pair[0])+'='+encode(pair[1]);
+            }
+        }
+        return s;
+    }
+
+</script>
+{{ end }}
