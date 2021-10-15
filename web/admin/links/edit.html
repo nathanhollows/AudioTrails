@@ -1,0 +1,154 @@
+{{ define "body" }}
+<main class="container">
+    {{ template "flash" . }}
+
+    <form method="POST" id="form">
+        <div role="document">
+            <section>
+                <hgroup>
+                    <h1>{{.page.Title}}</h1>
+                    <h2>Editing Link</h2>
+                </hgroup>
+                <div>
+                    <label for="title">Title</label>
+                    <input type="text" id="link" name="title" value="{{.page.Title}}" autocomplete="off">
+                </div>
+                <div>
+                    <label for="link">Redirect to</label>
+                    <input id="link" name="link" value="{{.page.URL}}">
+                </div>
+            </section>
+        </div>
+        <aside>
+            <h1></h1>
+            <p id="autosave">
+                <em data-tooltip="This page will autosave">Last edited {{ .page.UpdatedAt.Format "Jan 02, 2006" }}</em>
+            </p>
+
+
+
+            <img src="{{ url (print "qr/l/" .page.Code ".svg") }}">
+
+            Save as:
+            <a href="{{ url (print "qr/l/" .page.Code ".svg") }}" download="download">
+                SVG
+            </a>
+            <a href="{{ url (print "qr/l/" .page.Code ".png") }}" download="download">
+                PNG
+            </a>
+
+            <hr>
+
+            <b>Code:</b> {{.page.Code}}
+
+            <hr>
+
+            <b>Scans:</b> {{ .page.Hits }}
+
+            <hr>
+
+            {{ if eq .page.Hits 0}}
+            <button id="delete" class="delete" name="delete" value="true">Delete this link</button>
+            {{ else }}
+            <div data-tooltip="Links with hits can't be deleted">
+                <button class="delete" disabled>Delete this link</button>
+            </div>
+            {{ end }}
+        </aside>
+    </form>
+</main>
+
+<style>
+    @media (min-width:992px) {
+
+        main > form {
+            --block-spacing-horizontal: calc(var(--spacing) * 1.75);
+            grid-column-gap: calc(var(--block-spacing-horizontal) * 2);
+            display: grid;
+            grid-template-columns: auto 300px;
+        }
+    }
+
+    label[for=content] {
+        display: inline-block;
+    }
+    #content {
+        font-family: monospace;
+        resize: vertical;
+    }
+    #md-switch {
+        float: inline-end;
+    }
+    #preview-content {
+        margin-top: 0;
+        width: 100%;
+        display: none;
+    }
+    #preview-content[aria-busy=true] {
+        text-align: center;
+    }
+</style>
+
+<script>
+    var form = document.getElementById("form");
+    var autosave = document.getElementById("autosave");
+
+    let typingTimer;                //timer identifier
+    let doneTypingInterval = 2000;  //time in ms (5 seconds)
+
+    inputs = document.forms["form"].getElementsByTagName("input")
+    for(var i = 0; i < inputs.length; i++) {
+        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox')) {
+            form.addEventListener('click', event => {
+                if (event.target.name != "switch" && typeof event.target.type != "undefined") {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                }
+            });
+        }
+    }
+
+    form.addEventListener('keyup', event => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    function doneTyping () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", "", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        let formData = new FormData(form)
+        let reqBody = {};
+        for (let pair of formData.entries()) {
+            reqBody[pair[0]] = pair[1];
+        }
+        xhr.send(urlencodeFormData(formData));
+        autosave.children[0].innerText = "Saving..."
+        autosave.setAttribute("aria-busy", true)
+
+        xhr.onreadystatechange = async (e) => {
+            await new Promise(r => setTimeout(r, 500));
+            if (xhr.status == 200) {
+                autosave.children[0].innerText = "Last saved: " + new Date().toLocaleTimeString()
+                autosave.setAttribute("aria-busy", false)
+            } else {
+                autosave.children[0].innerText = "Something went wrong. Please check your connection."
+                autosave.setAttribute("aria-busy", false)
+            }
+        }
+
+    }
+
+    function urlencodeFormData(fd){
+        var s = '';
+        function encode(s){ return encodeURIComponent(s).replace(/%20/g,'+'); }
+        for(var pair of fd.entries()){
+            if(typeof pair[1]=='string'){
+                s += (s?'&':'') + encode(pair[0])+'='+encode(pair[1]);
+            }
+        }
+        return s;
+    }
+
+</script>
+{{ end }}

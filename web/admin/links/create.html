@@ -1,0 +1,26 @@
+{{ define "body" }}
+<main class="container">
+    <section>
+        <hgroup>
+            <h1>Create a link</h1>
+            <h2>For tracking scans in printed media</h2>
+        </hgroup>
+    </section>
+
+    <section>
+        {{ template "flash" . }}
+    </section>
+
+    <section>
+        <form method="POST">
+            <label for="title">Page Title</label>
+            <input type="text" id="title" name="title" placeholder="Printed Brochure" autocomplete="off" autofocus="autofocus">
+
+            <label for="link" class="form-label">Link</label>
+            <input id="link" name="link" placeholder="https://www.whitestonegeopark.nz/"></textarea>
+
+            <button type="submit">Create</button>
+        </form>
+    </section>
+</main>
+{{ end }}

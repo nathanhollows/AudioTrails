@@ -49,11 +49,10 @@ func init() {
 
 func main() {
 	env.DB.AutoMigrate(
-		&models.ScanEvent{},
-		&models.User{},
 		&models.Page{},
-		&models.Trail{},
-		&models.Gallery{},
+		&models.User{},
+		&models.Link{},
+		&models.ScanEvent{},
 		&models.Library{},
 	)
 	routes()
@@ -73,7 +72,9 @@ func routes() {
 	router.Handle("/library", handler.HandlePublic{Env: &env, H: public.Library})
 
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})
-	router.Handle("/s/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Scan})
+	router.Handle("/s/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.ScanGeosite})
+	router.Handle("/l/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.ScanLink})
+	router.Handle("/qr/{location:[A-z]{1}}/{code:[A-z]{5}}.{format:[A-z]{3}}", handler.HandlePublic{Env: &env, H: public.QR})
 
 	router.Handle("/login", handler.HandlePublic{Env: &env, H: public.Login})
 	router.Handle("/logout", handler.HandlePublic{Env: &env, H: public.Logout})
@@ -82,13 +83,12 @@ func routes() {
 	router.Handle("/admin", handler.HandleAdmin{Env: &env, H: admin.Dashboard})
 	router.Handle("/admin/media", handler.HandleAdmin{Env: &env, H: admin.Media})
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
-	router.Handle("/admin/pages", handler.HandleAdmin{Env: &env, H: admin.Pages})
-	router.Handle("/admin/pages/delete", handler.HandleAdmin{Env: &env, H: admin.DeletePage})
-	router.Handle("/admin/pages/restore", handler.HandleAdmin{Env: &env, H: admin.Restore})
-	router.Handle("/admin/pages/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditPage})
-	router.Handle("/admin/pages/create", handler.HandleAdmin{Env: &env, H: admin.CreatePage})
-	router.Handle("/admin/pages/preview", handler.HandleAdmin{Env: &env, H: admin.PreviewMD})
-	router.Handle("/admin/pages/qr/{code}.svg", handler.HandleAdmin{Env: &env, H: admin.QR})
+	router.Handle("/admin/links", handler.HandleAdmin{Env: &env, H: admin.Links})
+	router.Handle("/admin/links/delete", handler.HandleAdmin{Env: &env, H: admin.DeleteLink})
+	router.Handle("/admin/links/restore", handler.HandleAdmin{Env: &env, H: admin.RestoreLink})
+	router.Handle("/admin/links/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditLink})
+	router.Handle("/admin/links/create", handler.HandleAdmin{Env: &env, H: admin.CreateLink})
+	router.Handle("/admin/links/preview", handler.HandleAdmin{Env: &env, H: admin.PreviewMD})
 
 	router.Handle("/404", handler.HandlePublic{Env: &env, H: public.Error404})
 	router.NotFound(public.NotFound)
