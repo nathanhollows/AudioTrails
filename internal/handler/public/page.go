@@ -47,9 +47,6 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Values["id"] = id.String()
 		session.Save(r, w)
 	}
-	var trails []models.ResultsTrailCounts
-	env.DB.Raw(models.QueryTrailCountByUser, session.Values["id"]).Scan(&trails)
-	data["trails"] = trails
 
 	data["title"] = page.Title
 	data["md"] = parseMD(page.Text)
