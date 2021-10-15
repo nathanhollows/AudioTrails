@@ -22,8 +22,8 @@
             <ul>
                 {{ $section := "" }}
                 {{ if .section }}{{ $section = .section }}{{ end }}
-                <li><a href="{{ url }}" class="{{ if eq $section "index"}}active{{ end }}">QR Trails</a></li>
-                <li><a href="{{ url "library" }}" class="secondary{{ if eq $section "library"}} active{{ end }}">My Library</a></li>
+                <li><a href="{{ url }}"><img src="{{ url "public/img/logo.png" }}"></a></li>
+                <li><a href="{{ url "trail" }}" class="secondary{{ if eq $section "library"}} active{{ end }}">The Trail</a></li>
             </ul>
         </nav>
     </div>

@@ -7,6 +7,7 @@ import (
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
 	"github.com/nathanhollows/Argon/internal/models"
+	"gorm.io/gorm/clause"
 )
 
 // Index is the homepage of the game.
@@ -29,12 +30,13 @@ func Index(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Save(r, w)
 	}
 
-	var trails []models.ResultsTrailCounts
-	env.DB.Raw(models.QueryTrailCountByUser, session.Values["id"]).Scan(&trails)
-	data["trails"] = trails
+	var found []models.ScanEvent
+	env.DB.Model(&models.ScanEvent{}).Where("user_id = ?", session.Values["id"]).Preload(clause.Associations).Distinct("geosite_code").Scan(&found)
+	data["found"] = found
 
-	var pages []models.ResultFoundPages
-	env.DB.Raw(models.QueryFindPagesByUser, session.Values["id"]).Scan(&pages)
-	data["pages"] = pages
+	var geosites []models.Geosite
+	env.DB.Model(&models.Geosite{}).Scan(&geosites)
+	data["geosites"] = geosites
+
 	return render(w, data, "index/index.html")
 }

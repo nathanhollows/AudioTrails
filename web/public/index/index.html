@@ -1,56 +1,20 @@
 {{ define "body" }}
-<div style="border-bottom: 1px solid black;">
-    <div class="container found">
-        <hgroup>
-            {{ $count := 0}}
-            {{ range .trails }}
-            {{ $count = (add $count .Found) }}
-            {{ end }}
-            <h1>Found {{ $count }}/{{ len .pages }}</h1>
-            <h2>Otago Museum</h2>
-        </hgroup>
-    </div>
+<div class="container found">
+        <h1>Found {{ len .found }}/{{ len .geosites }}</h1>
 </div>
 <main class="container">
     <hgroup>
-        <h1>QR Trails</h1>
-        <h2>A peek behind the scenes</h2>
+        <h1>You're on the trail</h1>
+        <h2>Discover the geosites like never before</h2>
     </hgroup>
     {{ template "flash" . }}
 
-    <p>Find and scan the QR Codes to learn more about hidden science behind these objects.</p>
-
-    <div class="tiles">
-        {{ range .pages }}
-        {{ if .Seen}}
-        <a href="{{ url .Code}}" class="tile found">
-            <h3>{{ .Title }}</h3>
-        </a>
-        {{ else }}
-        <a class="tile">
-            <img src="{{ url "public/img/squiggle.png" }}">
-        </a>
+        {{ range .geosites }}
+        {{ .Title }}
         {{ end }}
-        {{ end }}
-    </div>
 
-    <br>
-
-    <p>
-        <mark>Prototyping panels. See <a href="https://github.com/nathanhollows/Argon/issues/12">Issue #12</a> for a mockup</mark>
-    </p>
-
-    {{ if not (eq $count (len .pages))}}
-    <p>Click to "find":</p>
-    <ul>
-        {{ range .pages }}
-        {{ if not .Seen }}
-        <li>
-            <a href="{{ url (print "s/" .Code) }}">{{ .Title }}</a>
-        </li>
+        {{ range .found }}
+        {{ .Geosite.Title }}
         {{ end }}
-        {{ end }}
-    </ul>
-    {{ end }}
 </main>
 {{ end }}
