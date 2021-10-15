@@ -1,0 +1,29 @@
+{{ define "body" }}
+<div class="container found">
+    <hgroup>
+        {{ $count := 0}}
+        {{ range .trails }}
+        {{ $count = (add $count .Found) }}
+        {{ end }}
+        <h1>Discovered {{ $count }}/{{ len .pages }}</h1>
+        <h2>On the trail</h2>
+    </hgroup>
+</div>
+<main class="container">
+    <div>
+        {{ template "flash" . }}
+
+        {{ range $gallery := .galleries }}
+        <h2>{{ $gallery.gallery }}</h2>
+
+        {{ range $.trails }}
+        {{ if eq .Gallery $gallery.gallery}}
+        <p>
+            You have unlocked <b>{{ .Found }} / {{ .Unfound }} pages</b> from the {{ .Trail }} trail.
+        </p>
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    </div>
+</main>
+{{ end }}
