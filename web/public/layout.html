@@ -6,12 +6,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="{{ url "public/css/style.css" "3"}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url "public/apple-touch-icon.png" }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url "public/favicon-32x32.png" }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url "public/favicon-16x16.png" }}">
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Raleway:wght@900&display=swap" rel="stylesheet">
     <link rel="manifest" href="{{ url "public/site.webmanifest" }}">
     <title>{{ if .title }}{{ .title }} | {{ end }}{{ .siteTitle }}</title>
 </head>
@@ -29,6 +31,16 @@
     </div>
     {{ template "body" .}}
     <footer id="footer">
+        <nav class="container offsite">
+            <ul>
+                <li><a href="{{ url "about" }}">
+                    <h2>Our App</h2>
+                </a></li>
+                <li><a href="{{ url "about" }}">
+                    <h2>Our Website</h2>
+                </a></li>
+            </ul>
+        </nav>
         <nav class="container">
             <ul>
                 <li><a href="{{ url "about" }}">About</a></li>

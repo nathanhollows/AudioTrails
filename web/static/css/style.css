@@ -1,18 +1,20 @@
-/**
-body {
-    font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: lighter;
-    color: #1a1a1a;
-}
-*/
-
 :root {
-    --font-family: 'Open Sans', sans-serif;
-    --color-info: #68cbde;
-    --color-success: #e6f494;
-    --color-danger: #f69c9b;
-    --color-warning: #fecd7e;
+    --font-family: 'Arimo', sans-serif;
+    --header-font-family: 'Raleway', sans-serif;
+    --color-body: #323232;
+
+    /* Taken from the logo */
+    --color-yellow: #d1924c;
+    --color-blue: #32a8cc;
+    --color-red: #881024;
+    --color-grey: #d1d1cd;
+
+    --color-footer-bg: #454545;
+    --color-footer-text: #ffffff;
+
+    --color-button: var(--color-red);
+
+    --primary: var(--color-yellow) !important;
 }
 
 html {
@@ -24,6 +26,7 @@ body {
     flex-direction: column;
     min-height: 100%;
     font-family: var(--font-family);
+    color: var(--color-body);
 }
 
 h1,
@@ -33,7 +36,8 @@ h4,
 h5,
 h6 {
     text-transform: uppercase;
-    font-family: var(--font-family);
+    font-family: var(--header-font-family);
+    letter-spacing: 0.1em;
 }
 
 a[role="button"].delete, button.delete, input[type="button"].delete, input[type="reset"].delete, input[type="submit"].delete {
@@ -92,13 +96,22 @@ video {
 
 /** Header */
 .admin #header {
-    background-color: var(--mark-background-color);
+    background-color: white;
+    border-bottom: 1px solid var(--contrast);
+}
+
+.secondary.active {
+    --color: var(--color-yellow);
 }
 
 #header {
-    border-bottom: 1px solid var(--contrast);
     text-transform: uppercase;
     font-weight: bold;
+}
+
+#header li {
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.1em;
 }
 
 #header nav ul {
@@ -106,27 +119,16 @@ video {
     justify-content: space-between;
 }
 
-nav li:not(.brand) a, nav li:not(.brand) {
-    color: var(--contrast);
+#header img {
+    height: auto;
+    width: auto;
+    max-height: 3.3em;
 }
 
-nav li.brand a:hover, nav li a:hover {
-    color: var(--primary);
-}
-
-nav li:not(.brand) a.active {
-    color: var(--primary);
-}
-
-
-nav li.brand {
+nav li.brand, nav li.brand a {
     padding-left: 1em;
     padding-right: 1em;
     background-color: var(--contrast);
-    color: var(--contrast-inverse);
-}
-
-nav li.brand a {
     color: var(--contrast-inverse);
 }
 
@@ -137,10 +139,24 @@ nav li.brand a {
 /** Footer */
 
 #footer {
-    background-color: #F3F3F3;
+    background-color: var(--color-footer-bg);
     padding: 10px 0;
     margin-top: auto;
 }
+
+ #footer * {
+    color: var(--color-footer-text);
+ }
+
+ #footer .offsite ul {
+     width: 100%;
+     justify-content: space-between;
+ }
+
+ #footer ul h2 {
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+ }
 
 @media (min-width:1200px) {
     html:not(.admin) .container {
@@ -154,81 +170,4 @@ nav li.brand a {
 }
 #actions a {
     float: right;
-}
-
-/** Homepage tiles */
-
-.tiles {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
-    gap: 2em 2em;
-}
-
-.tile {
-    background: #ECEFF1;
-    aspect-ratio: 1/1;
-    --aspect-ratio: 1/1;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 1em;
-    border-radius: 6px;
-}
-
-@media (max-width:447px) {
-    .tile {
-        aspect-ratio: 3/2;
-        --aspect-ratio: 3/2;
-    }
-}
-
-.tile.found {
-    color: black;
-}
-
-.tile.found h3 {
-    transition: 0.1s;
-    font-size: 1.25rem;
-}
-
-.tile.found:hover h3 {
-    transform: scale(1.05);
-}
-
-.tile h3 {
-    margin-bottom: unset;
-    color: black;
-}
-
-.tiles a {
-    text-decoration: unset;
-}
-
-.tile.found:nth-of-type(7n+1) {
-    background-color: #FF8A65;
-}
-.tile.found:nth-of-type(7n+2) {
-    background-color: #4FC3F7;
-}
-.tile.found:nth-of-type(7n+3) {
-    background-color: #FFD54F;
-}
-.tile.found:nth-of-type(7n+4) {
-    background-color: #9575CD;
-}
-.tile.found:nth-of-type(7n+5) {
-    background-color: #DCE775;
-}
-.tile.found:nth-of-type(7n+6) {
-    background-color: #F06292;
-}
-.tile.found:nth-of-type(7n+7) {
-    background-color: #A1887F;
-}
-
-.tile img {
-    width: 40%;
-    align-self: center;
 }
