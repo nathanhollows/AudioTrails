@@ -16,6 +16,8 @@
 
     --primary: var(--color-yellow) !important;
     --primary-hover: #824d13 !important;
+    --primary-focus: rgba(209, 146, 76, 0.125) !important;
+    --border-radius: 0 !important;
 }
 
 html {
@@ -52,8 +54,9 @@ article[role="alert"] {
     padding: 1.5rem 2rem;
     border-radius: unset;
     box-shadow: unset;
-    outline: 1px solid var(--contrast);
-    color: var(--contrast);
+    outline: 1px solid var(--primary);
+    color: var(--primary-hover);
+    background: var(--primary-focus);
 }
 
 article[role="alert"].info {
@@ -108,6 +111,7 @@ video {
 #header {
     text-transform: uppercase;
     font-weight: bold;
+    background: white;
 }
 
 #header li {
