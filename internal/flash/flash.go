@@ -20,7 +20,7 @@ type Message struct {
 }
 
 func getCookieStore() *sessions.CookieStore {
-	key := []byte(os.Getenv("ARGON_SESSION_KEY"))
+	key := []byte(os.Getenv("GEOTRACE_SESSION_KEY"))
 	return sessions.NewCookieStore(key)
 }
 

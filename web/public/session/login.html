@@ -1,17 +1,36 @@
 {{ define "body" }}
-    <main class="container">
-      <article class="grid">
-        <div>
-          <hgroup>
-            <h1>Sign In</h1>
-            <h2>Admin Panel</h2>
-          </hgroup>
-          <form>
-            <input type="text" name="text" placeholder="Username" aria-label="Username" required>
-            <input type="password" name="password" placeholder="Password" aria-label="Password" required>
-            <button type="submit" class="contrast">Submit</button>
-          </form>
-        </div>
-      </article>
-    </main><!-- ./ Main -->
+<main class="container">
+  {{ template "flash" . }}
+  <article class="grid">
+    <div>
+      <hgroup>
+        <h1>Sign In</h1>
+        <h2>Admin Panel</h2>
+      </hgroup>
+      <form method="POST">
+        <input type="text" name="username" placeholder="Username" aria-label="Username" autocomplete="off" required>
+        <input type="password" name="password" placeholder="Password" aria-label="Password" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div></div>
+  </article>
+</main><!-- ./ Main -->
+
+<style>
+  :root {
+    --grid-spacing-horizontal: 0;
+  }
+  article {
+    padding: 0;
+  }
+  .grid > div:nth-of-type(1) {
+    margin: var(--block-spacing-vertical) var(--block-spacing-horizontal)
+  }
+  .grid > div:nth-of-type(2) {
+    background-image: url('https://static.wixstatic.com/media/332577_287f673a935e4f23ba899b3281e8aa06~mv2.jpg/v1/fill/w_1265,h_967,al_c,q_85,usm_0.66_1.00_0.01/332577_287f673a935e4f23ba899b3281e8aa06~mv2.webp');
+    background-size: cover;
+    background-position: bottom center;
+  }
+</style>
 {{ end }}
