@@ -15,6 +15,7 @@
     --color-button: var(--color-red);
 
     --primary: var(--color-yellow) !important;
+    --primary-hover: #824d13 !important;
 }
 
 html {
