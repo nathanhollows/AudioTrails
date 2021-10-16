@@ -8,7 +8,7 @@ import (
 // URL constructs a URL specific to the application
 func URL(patterns ...string) string {
 	u := &url.URL{}
-	if site, ok := os.LookupEnv("ARGON_SITEURL"); ok {
+	if site, ok := os.LookupEnv("GEOTRACE_SITEURL"); ok {
 		u, _ = url.Parse(site)
 	} else {
 		u.Path = "/"

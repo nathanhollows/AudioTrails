@@ -29,10 +29,10 @@ func init() {
 	router.Use(middleware.Compress(5))
 
 	var store sessions.Store
-	if key, ok := os.LookupEnv("ARGON_SESSION_KEY"); ok {
+	if key, ok := os.LookupEnv("GEOTRACE_SESSION_KEY"); ok {
 		store = sessions.NewCookieStore([]byte(key))
 	} else {
-		panic("env var ARGON_SESSION_KEY must be set")
+		panic("env var GEOTRACE_SESSION_KEY must be set")
 	}
 
 	db, err := gorm.Open(sqlite.Open("trace.db"), &gorm.Config{})
@@ -57,7 +57,11 @@ func main() {
 		&models.Library{},
 	)
 	routes()
-	fmt.Println(http.ListenAndServe(":8050", router))
+	if key, ok := os.LookupEnv("GEOTRACE_PORT"); ok {
+		fmt.Println(http.ListenAndServe(":"+key, router))
+	} else {
+		fmt.Println(http.ListenAndServe(":8050", router))
+	}
 }
 
 // Set up the routes needed for the game.

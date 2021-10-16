@@ -1,11 +1,11 @@
-# Argon
+# Audio Trails
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 ## Installation
 
-`ARGON_SESSION_KEY` and `ARGON_SITEURL` must be set as environment variables.
+`GEOTRACE_SESSION_KEY`, `GEOTRACE_SITEURL`, and `GEOTRACE_PORT`  must be set as environment variables.
 
 <!-- LICENSE -->
 ## License
