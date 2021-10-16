@@ -14,6 +14,7 @@ import (
 // QR returns an SVG qr code
 func QR(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Cache-Control", "max-age=36000;")
 	code := chi.URLParam(r, "code")
 	location := chi.URLParam(r, "location")
 
@@ -24,7 +25,7 @@ func QR(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 func svgQR(link string, w http.ResponseWriter) {
 	s := svg.New(w)
-	qrCode, _ := qr.Encode(link, qr.M, qr.Auto)
+	qrCode, _ := qr.Encode(link, qr.Q, qr.Auto)
 
 	qs := goqrsvg.NewQrSVG(qrCode, 20)
 	qs.StartQrSVG(s)
