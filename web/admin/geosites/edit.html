@@ -24,6 +24,9 @@
                     <textarea id="content" name="content" rows="15">{{.page.Text}}</textarea>
                     <article id="preview-content" aria-busy="true">
                     </article>
+                    <small>
+                        <a href="{{ url "markdown" }}" target="_blank">Editor help</a> (opens in new tab)
+                    </small>
                 </div>
             </section>
         </div>
@@ -32,18 +35,6 @@
             <p id="autosave">
                 <em data-tooltip="This page will autosave">Last edited {{ .page.UpdatedAt.Format "Jan 02, 2006" }}</em>
             </p>
-
-            Code:
-            <a href="{{ url .page.Code }}" target="_blank">
-                {{.page.Code}}
-            </a>
-
-            <hr>
-            QR Code:
-            <a href="{{ url (print "qr/" .page.Code ".svg") }}" target="_blank">
-                View
-            </a>
-            <hr>
 
             <!-- Switch -->
             <fieldset>
@@ -55,27 +46,21 @@
 
             <hr>
 
-            <fieldset>
-                <legend>Gallery</legend>
-                {{ range .galleries }}
-                <label for="gallery{{.ID}}">
-                    <input type="radio" id="gallery{{.ID}}" name="gallery" value="{{ .ID }}" {{ if eq .ID $.page.GalleryID}}checked{{ end }}>
-                    {{ .Gallery }}
-                </label>
-                {{ end }}
-            </fieldset>
+            <img src="{{ url (print "qr/s/" .page.Code ".svg") }}">
 
+            <b>Save as:</b>
+            <a href="{{ url (print "qr/s/" .page.Code ".svg") }}" download="download">
+                SVG
+            </a>
+            <a href="{{ url (print "qr/s/" .page.Code ".png") }}" download="download">
+                PNG
+            </a>
             <hr>
 
-            <fieldset>
-                <legend>Trail (optional)</legend>
-                {{ range .trails }}
-                <label for="trail{{.ID}}">
-                    <input type="radio" id="trail{{.ID}}" name="trail" value="{{ .ID }}" {{ if eq .ID $.page.TrailID}}checked{{ end }}>
-                    {{ .Trail }}
-                </label>
-                {{ end }}
-            </fieldset>
+            <b>Code:</b>
+            <a href="{{ url .page.Code }}" target="_blank">
+                {{.page.Code}}
+            </a>
 
             <hr>
 
@@ -83,10 +68,6 @@
                 Author
                 <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
             </label>
-
-            <hr>
-
-            <a href="{{ url "markdown" }}" target="_blank">Editor help</a> (opens in new tab)
 
             <hr>
 
@@ -142,7 +123,7 @@
             preview.setAttribute("aria-busy", true)
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", '{{ url "admin/pages/preview" }}', true);
+            xhr.open("POST", '{{ url "admin/geosites/preview" }}', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 md: textarea.value
