@@ -21,7 +21,7 @@
                             Preview
                         </label>
                     </fieldset>
-                    <textarea id="content" name="content" rows="15">{{.page.Text}}</textarea>
+                    <textarea id="content" name="content" rows="10">{{.page.Text}}</textarea>
                     <article id="preview-content" aria-busy="true">
                     </article>
                     <small>
@@ -49,12 +49,8 @@
             <img src="{{ url (print "qr/s/" .page.Code ".svg") }}">
 
             <b>Save as:</b>
-            <a href="{{ url (print "qr/s/" .page.Code ".svg") }}" download="download">
-                SVG
-            </a>
-            <a href="{{ url (print "qr/s/" .page.Code ".png") }}" download="download">
-                PNG
-            </a>
+            <a href="{{ url (print "qr/s/" .page.Code " - " .page.Title ".svg") }}" download>SVG</a>
+            <a href="{{ url (print "qr/s/" .page.Code " - " .page.Title  ".png") }}" download>PNG</a>
             <hr>
 
             <b>Code:</b>
@@ -64,14 +60,7 @@
 
             <hr>
 
-            <label for="author">
-                Author
-                <input type="text" id="author" name="author" placeholder="Guest" value="{{ .page.Author }}">
-            </label>
-
-            <hr>
-
-            <button id="delete" class="delete" name="delete" value="true">Delete Page</button>
+            <button id="delete" class="delete" name="delete" value="true">Delete Geosite</button>
         </aside>
     </form>
 </main>

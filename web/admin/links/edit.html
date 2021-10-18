@@ -30,10 +30,10 @@
             <img src="{{ url (print "qr/l/" .page.Code ".svg") }}">
 
             <b>Save as:</b>
-            <a href="{{ url (print "qr/l/" .page.Code ".svg") }}" download="download">
+            <a href="{{ url (print "qr/l/" .page.Code " - " .page.Title ".svg") }}" download="download">
                 SVG
             </a>
-            <a href="{{ url (print "qr/l/" .page.Code ".png") }}" download="download">
+            <a href="{{ url (print "qr/l/" .page.Code " - " .page.Title ".png") }}" download="download">
                 PNG
             </a>
 
