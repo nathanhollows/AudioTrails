@@ -42,7 +42,7 @@ func DeleteGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) err
 		result := env.DB.Where("Code = ?", code).Delete(&models.Geosite{})
 		if result.RowsAffected != 0 {
 			flash.Set(w, r, flash.Message{Message: "Deleted page", Style: "success"})
-			http.Redirect(w, r, helpers.URL("admin/pages"), http.StatusFound)
+			http.Redirect(w, r, helpers.URL("admin/geosites"), http.StatusFound)
 		} else {
 			flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
@@ -91,7 +91,7 @@ func EditGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) error
 				http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			} else {
 				flash.Set(w, r, flash.Message{Message: "Page deleted. <a href=\"" + helpers.URL("admin/geosites/restore") + "\">Undo</a>", Style: "success"})
-				http.Redirect(w, r, helpers.URL("admin/pages"), http.StatusFound)
+				http.Redirect(w, r, helpers.URL("admin/geosites"), http.StatusFound)
 			}
 			return nil
 		}

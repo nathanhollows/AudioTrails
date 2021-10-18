@@ -72,7 +72,9 @@ article[role="alert"].danger {
 }
 
 article[role="alert"].success {
-    background: var(--color-success);
+    outline: 1px solid var(--primary);
+    color: var(--primary-hover);
+    background-color: var(--primary-focus);
 }
 
 main > article[role="alert"]:first-child {
@@ -175,4 +177,29 @@ nav li.brand, nav li.brand a {
 }
 #actions a {
     float: right;
+}
+
+/* Audio Player */
+
+.player {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: 0.5em;
+    padding: var(--block-spacing-vertical) 0;
+}
+.player div:first-of-type {
+    display: grid;
+    align-items: center;
+}
+.player svg {
+    width: 3em;
+    height: auto;
+    margin: auto;
+    color: var(--primary);
+}
+.player.paused .bi-pause-circle-fill {
+    display: none;
+}
+.player:not(.paused) .bi-play-circle-fill {
+    display: none;
 }

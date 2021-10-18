@@ -114,7 +114,7 @@ func EditLink(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 				flash.Set(w, r, flash.Message{Message: "Could not save", Style: "danger"})
 				http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 			}
-			http.Error(w, "could not save page", http.StatusBadGateway)
+			http.Error(w, "could not save link", http.StatusBadGateway)
 			return nil
 		}
 		if r.Method == http.MethodPost {
