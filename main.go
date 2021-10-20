@@ -85,7 +85,7 @@ func routes() {
 	router.Handle("/login", handler.HandlePublic{Env: &env, H: public.Login})
 	router.Handle("/logout", handler.HandlePublic{Env: &env, H: public.Logout})
 
-	router.Handle("/admin", handler.HandleAdmin{Env: &env, H: admin.Dashboard})
+	router.Handle("/admin", handler.HandleAdmin{Env: &env, H: admin.Geosites})
 	router.Handle("/admin/media", handler.HandleAdmin{Env: &env, H: admin.Media})
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
 	router.Handle("/admin/geosites", handler.HandleAdmin{Env: &env, H: admin.Geosites})
