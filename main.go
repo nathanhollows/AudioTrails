@@ -49,6 +49,7 @@ func init() {
 
 func main() {
 	env.DB.AutoMigrate(
+		&models.Media{},
 		&models.Page{},
 		&models.User{},
 		&models.Admin{},
@@ -87,6 +88,7 @@ func routes() {
 
 	router.Handle("/admin", handler.HandleAdmin{Env: &env, H: admin.Geosites})
 	router.Handle("/admin/media", handler.HandleAdmin{Env: &env, H: admin.Media})
+	router.Handle("/admin/upload", handler.HandleAdmin{Env: &env, H: admin.Upload})
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
 	router.Handle("/admin/geosites", handler.HandleAdmin{Env: &env, H: admin.Geosites})
 	router.Handle("/admin/geosites/delete", handler.HandleAdmin{Env: &env, H: admin.DeleteGeosite})

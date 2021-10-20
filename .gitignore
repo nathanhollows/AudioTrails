@@ -15,4 +15,9 @@
 # vendor/
 trace.db
 main
-web/static/uploads/*
+
+# Ignore all uploaded media, but we still need the folders
+web/static/uploads/audio/*
+web/static/uploads/image/*
+!web/static/uploads/audio/.content
+!web/static/uploads/image/.content

@@ -13,4 +13,8 @@ type Geosite struct {
 	Author    string
 	Published bool `sql:"DEFAULT:false"`
 	System    bool `sql:"DEFAULT:false"`
+	CoverID   int
+	Cover     Media `gorm:"foreignKey:CoverID"`
+	AudioID   int
+	Audio     Media `gorm:"foreignKey:AudioID"`
 }
