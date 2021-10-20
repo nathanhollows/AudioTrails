@@ -36,15 +36,25 @@ func Geosites(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 
 // DeleteGeosite removes the given geosite from the database
 func DeleteGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	undoMessage := fmt.Sprint("Deleted geosite. Was that a mistake? <a href='", helpers.URL("admin/geosites/restore"), "'>Click here to restore</a>")
 	if r.Method == http.MethodPost {
 		r.ParseForm()
 		code := r.PostFormValue("page")
 		result := env.DB.Where("Code = ?", code).Delete(&models.Geosite{})
 		if result.RowsAffected != 0 {
-			flash.Set(w, r, flash.Message{Message: "Deleted page", Style: "success"})
+			flash.Set(w, r, flash.Message{Message: undoMessage, Style: "success"})
 			http.Redirect(w, r, helpers.URL("admin/geosites"), http.StatusFound)
 		} else {
-			flash.Set(w, r, flash.Message{Message: "Could not delete page", Style: "warning"})
+			flash.Set(w, r, flash.Message{Message: "Could not delete geosite", Style: "warning"})
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
+		}
+	} else if chi.URLParam(r, "code") != "" {
+		result := env.DB.Where("Code = ?", chi.URLParam(r, "code")).Delete(&models.Geosite{})
+		if result.RowsAffected != 0 {
+			flash.Set(w, r, flash.Message{Message: undoMessage, Style: "success"})
+			http.Redirect(w, r, helpers.URL("admin/geosites"), http.StatusFound)
+		} else {
+			flash.Set(w, r, flash.Message{Message: "Could not delete geosite", Style: "warning"})
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusFound)
 		}
 	} else {

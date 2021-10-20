@@ -92,6 +92,7 @@ func routes() {
 	router.Handle("/admin/analytics", handler.HandleAdmin{Env: &env, H: admin.Analytics})
 	router.Handle("/admin/geosites", handler.HandleAdmin{Env: &env, H: admin.Geosites})
 	router.Handle("/admin/geosites/delete", handler.HandleAdmin{Env: &env, H: admin.DeleteGeosite})
+	router.Handle("/admin/geosites/delete/{code:[A-z]{5}}", handler.HandleAdmin{Env: &env, H: admin.DeleteGeosite})
 	router.Handle("/admin/geosites/restore", handler.HandleAdmin{Env: &env, H: admin.Restore})
 	router.Handle("/admin/geosites/edit/{code}", handler.HandleAdmin{Env: &env, H: admin.EditGeosite})
 	router.Handle("/admin/geosites/create", handler.HandleAdmin{Env: &env, H: admin.CreateGeosite})
