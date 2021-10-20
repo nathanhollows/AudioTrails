@@ -11,38 +11,62 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Published</th>
-                <th scope="col">Location</th>
-                <th scope="col">Actions</th>
+                <th data-tooltip="Is published" style="text-align: center;">
+                    <img src="{{ url "public/img/eye.svg" }}">
+                </th>
+                <th data-tooltip="Has audio" style="text-align: center;">
+                    <img src="{{ url "public/img/music-note-beamed.svg" }}">
+                </th>
+                <th data-tooltip="Has cover image" style="text-align: center;">
+                    <img src="{{ url "public/img/image.svg" }}">
+                </th>
+                <th>Geosite</th>
+                <th>Preview</th>
+                <th>Get QR Code</th>
             </tr>
         </thead>
         <tbody>
             {{ range .pages}}
             <tr>
+                <td style="text-align: center;">{{if .Published }}✔{{end}}</td>
+                <td style="text-align: center;">{{if .Audio.File }}✔{{end}}</td>
+                <td style="text-align: center;">{{if .Cover.File }}✔{{end}}</td>
                 <th scope="row">
                     <a href="{{ url (print "admin/geosites/edit/" .Code) }}">
-                        {{ .Code }}
+                        {{ .Title }}
                     </a>
                 </th>
-                <td>{{if .Published }}✔{{end}}</td>
-                <td>{{ .Title }}</td>
                 <td>
-                    <a href="{{ url .Code }}" target="_blank">View</a> |
-                    <a href="{{ url (print "qr/s/" .Code ".svg") }}" download>Get SVG</a> |
-                    <a href="{{ url (print "qr/s/" .Code ".png") }}" download>Get PNG</a>
+                    <a href="{{ url .Code }}" target="_blank">View</a>
+                </td>
+                <td>
+                    <a href="{{ url (print "qr/s/" .Code " - " .Title ".svg") }}" download>SVG</a> |
+                    <a href="{{ url (print "qr/s/" .Code " - " .Title ".png") }}" download>PNG</a>
                 </td>
             </tr>
             {{ end }}
         </tbody>
         <tfoot>
             <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Published</th>
-                <th scope="col">Title</th>
-                <th scope="col">Actions</th>
+                <th data-tooltip="Is published" style="text-align: center;">
+                    <img src="{{ url "public/img/eye.svg" }}">
+                </th>
+                <th data-tooltip="Has audio" style="text-align: center;">
+                    <img src="{{ url "public/img/music-note-beamed.svg" }}">
+                </th>
+                <th data-tooltip="Has cover image" style="text-align: center;">
+                    <img src="{{ url "public/img/image.svg" }}">
+                </th>
+                <th>Geosite</th>
+                <th>Preview</th>
+                <th>Get QR Code</th>
             </tr>
         </tfoot>
     </table>
 </main>
+<style>
+    table img {
+        width: 1em;
+    }
+</style>
 {{ end }}

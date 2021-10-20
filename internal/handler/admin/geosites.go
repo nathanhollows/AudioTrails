@@ -3,6 +3,7 @@ package admin
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -26,7 +27,7 @@ func Geosites(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["section"] = "geosites"
 
 	pages := []models.Geosite{}
-	result := env.DB.Preload(clause.Associations).Find(&pages)
+	result := env.DB.Preload(clause.Associations).Order("published DESC, title ASC").Find(&pages)
 	if result.RowsAffected > 0 {
 		data["pages"] = pages
 	}
@@ -175,7 +176,7 @@ func CreateGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) err
 			return nil
 		}
 
-		flash.Set(w, r, flash.Message{Message: "Created page!", Style: "success"})
+		flash.Set(w, r, flash.Message{Message: "Created geosite!", Style: "success"})
 		http.Redirect(w, r, helpers.URL("admin/geosites/edit/"+page.Code), http.StatusFound)
 		return nil
 	}

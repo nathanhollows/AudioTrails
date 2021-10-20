@@ -1,7 +1,6 @@
 {{ define "body" }}
 <main class="container">
     {{ template "flash" . }}
-
     <form method="POST" id="form">
         <div role="document">
             <section>
@@ -13,6 +12,27 @@
                     <label for="title">Geosite Title</label>
                     <input type="text" id="title" name="title" value="{{.page.Title}}" autocomplete="off">
                 </div>
+
+                <div id="audio-drop" class="file-area">
+                    <label for="audio">Audio</label>
+                    <input type="file" name="audio" id="audio" required="required" accept="audio/*"/>
+                    <div class="file-dummy">
+                        <div class="success" aria-busy="true">Uploading audio...</div>
+                        <div class="default">Drop audio file here</div>
+                        <div class="player paused" {{ if not .page.Audio.File }}style="display: none;"{{ end }}>
+                            <div id="playpause" onclick="playPause()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+                                </svg>
+                            </div>
+                            <div id="waveform"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <label for="content">Content</label>
                     <fieldset id="md-switch">
@@ -60,7 +80,25 @@
 
             <hr>
 
-            <button id="delete" class="delete" name="delete" value="true">Delete Geosite</button>
+            <label for="image">Cover Image</label>
+
+            <div class="file-area">
+                <input type="file" name="image" id="image" required="required" accept="image/*"/>
+                <div class="file-dummy">
+                    {{ if .page.Cover.File }}
+                    <img src="{{ .page.Cover.URL }}" id="cover-img">
+                    {{ else }}
+                    <img id="cover-img" src="">
+                    {{ end }}
+                    <div class="success" aria-busy="true">Uploading cover image...</div>
+                    <div class="default">Drop cover image here</div>
+                </div>
+            </div>
+
+            <hr>
+            <br>
+
+            <a href="{{ url (print "admin/geosites/delete/" .page.Code) }}" id="delete" class="contrast" role="button">Delete Geosite</a>
         </aside>
     </form>
 </main>
@@ -94,18 +132,90 @@
     #preview-content[aria-busy=true] {
         text-align: center;
     }
+
+    .file-area {
+        width: 100%;
+        position: relative;
+    }
+    .file-area input[type=file] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    input#audio, input#image {
+        height: 100%;
+        z-index: 9;
+    }
+    img[src=""] {
+        display: none;
+    }
+    img#cover-img {
+        margin-bottom: var(--spacing);
+    }
+    .file-area .file-dummy .player {
+        padding: 0;
+    }
+    .file-area .file-dummy {
+        width: 100%;
+        padding: var(--spacing);
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        text-align: center;
+        transition: background 0.3s ease-in-out;
+        margin-bottom: var(--spacing);
+        background: var(--background-color);
+        border-color: var(--form-element-border-color);
+    }
+    .file-area .file-dummy .success {
+        display: none;
+    }
+    #image:hover ~ .file-dummy, #audio:hover ~ .file-dummy {
+        background: #e5eaee;
+    }
+    .file-area input[type=file]:focus + .file-dummy {
+        background: var(--background-color);
+        border-color: var(--form-element-border-color);
+    }
+    .file-area input[type="file"]:valid + .file-dummy {
+        background: var(--background-color);
+        border-color: var(--form-element-border-color);
+    }
+    .file-area input[type=file]:valid + .file-dummy .success {
+        display: inline-block;
+    }
+    .file-area input[type=file]:valid + .file-dummy .default {
+        display: none;
+    }
+    #delete {
+        width: 100%;
+    }
+    #playpause {
+        position: relative;
+        z-index: 10;
+    }
+    .player svg {
+        cursor: pointer;
+    }
+
 </style>
 
 <script>
     document.getElementById("switch").checked = false;
+    document.getElementById("audio").value = null;
+    document.getElementById("image").value = null;
     var checkBox = document.getElementById("switch");
     var textarea = document.getElementById("content");
     var preview = document.getElementById("preview-content");
     var form = document.getElementById("form");
     var autosave = document.getElementById("autosave");
+    let wavesurfer = null
 
     function previewMD() {
-
         if (checkBox.checked == true){
             textarea.style.display = "none";
             preview.style.display = "block";
@@ -132,22 +242,33 @@
     let typingTimer;                //timer identifier
     let doneTypingInterval = 2000;  //time in ms (5 seconds)
 
-    inputs = document.forms["form"].getElementsByTagName("input")
+    inputs = document.forms["form"].querySelectorAll("textarea,input")
     for(var i = 0; i < inputs.length; i++) {
-        if((inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox')) {
-            form.addEventListener('click', event => {
+        if (inputs[i].name == 'audio') {
+            inputs[i].addEventListener('change', event => {
+                autosave.setAttribute("aria-busy", true)
+                uploadAudio().then(data => thenAudio(data))
+            });
+        } else if (inputs[i].name == 'image') {
+            inputs[i].addEventListener('change', event => {
+                autosave.setAttribute("aria-busy", true)
+                uploadImage().then(data => thenCover(data))
+            });
+        } else if (inputs[i].type.toLowerCase() == 'radio' || inputs[i].type.toLowerCase() == 'checkbox') {
+            inputs[i].addEventListener('click', event => {
                 if (event.target.name != "switch" && typeof event.target.type != "undefined") {
-                    clearTimeout(typingTimer);
-                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                    doneTyping()
                 }
+            });
+        } else {
+            inputs[i].addEventListener('keyup', event => {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
             });
         }
     }
 
-    form.addEventListener('keyup', event => {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(doneTyping, doneTypingInterval);
-    });
+
 
     function doneTyping () {
         var xhr = new XMLHttpRequest();
@@ -186,5 +307,93 @@
         return s;
     }
 
+    async function uploadAudio() {
+        let formData = new FormData();
+        formData.append("file", audio.files[0]);
+        formData.append("geosite", "{{ .page.Code }}")
+        const response = await fetch('{{ url "admin/upload" }}', {
+            method: "POST",
+            body: formData
+        });
+        return response
+    }
+
+    function thenAudio(data) {
+        if (data.status == 200) {
+            data.text().then(text => {
+                console.log(text)
+                document.getElementById("audio").value = null
+                document.getElementsByClassName("player")[0].style.display = "grid"
+                document.getElementsByTagName("wave").forEach(wave => {
+                    wave.remove()
+                });
+                waveformInit(text)
+            })
+        } else {
+            document.getElementById("audio").value = null
+        }
+        autosave.children[0].innerText = "Last saved: " + new Date().toLocaleTimeString()
+        autosave.setAttribute("aria-busy", false)
+    }
+
+    function thenCover(data) {
+        if (data.status == 200) {
+            data.text().then(text => {
+                console.log(text)
+                document.getElementById("image").value = null
+                document.getElementById("cover-img").src=text
+            })
+        } else {
+            document.getElementById("image").value = null
+        }
+        autosave.children[0].innerText = "Last saved: " + new Date().toLocaleTimeString()
+        autosave.setAttribute("aria-busy", false)
+    }
+
+    async function uploadImage() {
+        let formData = new FormData();
+        formData.append("file", image.files[0]);
+        formData.append("geosite", "{{ .page.Code }}")
+        const response = await fetch('{{ url "admin/upload" }}', {
+            method: "POST",
+            body: formData
+        });
+        return response
+    }
+
+    function waveformInit(url) {
+        wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            backend: 'MediaElement',
+            mediaControls: false,
+            hideScrollbar: true,
+            waveColor: '#d1924c',
+            progressColor: '#32a8cc',
+            cursorColor: '#32a8cc',
+            barWidth: 3,
+            barRadius: 3,
+            cursorWidth: 1,
+            height: 100,
+            normalize: true,
+            barGap: 3
+        });
+        wavesurfer.load(url);
+
+        wavesurfer.on("finish", function () {
+            document.querySelector(".player").classList.toggle("paused")
+        })
+    }
+
+    function playPause() {
+        wavesurfer.playPause()
+        document.querySelector(".player").classList.toggle("paused")
+    }
+
 </script>
+<script src="https://unpkg.com/wavesurfer.js"></script>
+{{ if .page.Audio.File }}
+<script>
+    waveformInit('{{ .page.Audio.URL }}')
+</script>
+{{ end }}
 {{ end }}

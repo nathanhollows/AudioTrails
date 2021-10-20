@@ -31,6 +31,7 @@
     </section>
 </main>
 
+{{ if .page.Cover.File }}
 <script src="https://unpkg.com/wavesurfer.js"></script>
 <script>
     var wavesurfer = WaveSurfer.create({
@@ -48,10 +49,11 @@
         normalize: true,
         barGap: 3
     });
-    wavesurfer.load('{{ url "public/uploads/Elephant Rocks.mp3" }}');
+    wavesurfer.load('{{ .page.Audio.URL }}');
     function playPause() {
         wavesurfer.playPause()
         document.querySelector(".player").classList.toggle("paused")
     }
 </script>
+{{ end }}
 {{ end }}
