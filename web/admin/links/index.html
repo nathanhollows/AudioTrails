@@ -11,10 +11,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Code</th>
                 <th scope="col">Title</th>
                 <th scope="col">Scans</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Get QR Code</th>
             </tr>
         </thead>
         <tbody>
@@ -22,23 +21,22 @@
             <tr>
                 <th scope="row">
                     <a href="{{ url (print "admin/links/edit/" .Code) }}">
-                        {{ .Code }}
+                        {{ .Title }}
                     </a>
                 </th>
-                <td>{{ .Title }}</td>
                 <td>{{ .Hits }}</td>
                 <td>
-                    <a href="{{ url (print "link/qr/" .Code ".svg") }}" target="_blank">QR Code</a>
+                    <a href="{{ url (print "qr/l/" .Code " - " .Title ".svg") }}" download>SVG</a> |
+                    <a href="{{ url (print "qr/l/" .Code " - " .Title ".png") }}" download>PNG</a>
                 </td>
             </tr>
             {{ end }}
         </tbody>
         <tfoot>
             <tr>
-                <th scope="col">Code</th>
                 <th scope="col">Title</th>
                 <th scope="col">Scans</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Get QR Code</th>
             </tr>
         </tfoot>
     </table>
