@@ -30,6 +30,7 @@ body {
     min-height: 100%;
     font-family: var(--font-family);
     color: var(--color-body);
+    overflow-x: hidden;
 }
 
 h1,
@@ -148,7 +149,6 @@ nav li.brand, nav li.brand a {
     overflow: hidden;
     position: relative;
     width: 100%;
-    background-color: #d1924c21;
 }
 
 @media (min-width:768px) {
