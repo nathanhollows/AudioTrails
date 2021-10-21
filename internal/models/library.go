@@ -6,5 +6,5 @@ import "gorm.io/gorm"
 type Library struct {
 	gorm.Model
 	Page Geosite `gorm:"foreignKey:ID"`
-	User User    `gorm:"foreignKey:ID"`
+	User string
 }

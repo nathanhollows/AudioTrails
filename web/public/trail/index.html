@@ -1,27 +1,42 @@
 {{ define "body" }}
-<div class="container found">
+<main class="container">
     <hgroup>
         <h1>You're on the trail</h1>
         <h2>Discover the geosites like never before</h2>
     </hgroup>
-</div>
-<main class="container">
-    <p>
-        Scan the QR codes at each site to listen to the audio
-    </p>
-    {{ $count := 0}}
-    {{ range .trails }}
-    {{ $count = (add $count .Found) }}
-    {{ end }}
-    <h2>Discovered {{ $count }}/{{ len .geosites }}</h2>
+    <h2>Discovered {{ len .found }}/{{ add (len .found) (len .geosites) }}</h2>
     {{ template "flash" . }}
     <div class="geosites">
+        {{ range .found }}
+        <a href="{{ .URL }}">
+            <div class="tile">
+                {{ if .Cover.File }}
+                <img src="{{ .Cover.URL }}" class="cover">
+                {{ else }}
+                <img src="{{ url "public/img/black.svg" }}" class="cover">
+                {{ end }}
+                <h3>{{ .Title }}</h3>
+                {{ if .Audio.File }}
+                <div class="audio-icon" data-tooltip="This site has exclusive audio">
+                    <img src="{{ url "public/img/music-note-beamed.svg" }}">
+                </div>
+                <div class="ticked-icon">
+                    <img src="{{ url "public/img/check-square.svg" }}">
+                </div>
+                {{ end }}
+            </div>
+        </a>
+        {{end}}
         {{ range .geosites }}
         <div class="tile">
+            {{ if .Cover.File }}
             <img src="{{ .Cover.URL }}" class="cover">
+            {{ else }}
+            <img src="{{ url "public/img/black.svg" }}" class="cover">
+            {{ end }}
             <h3>{{ .Title }}</h3>
             {{ if .Audio.File }}
-            <div class="audio-icon" data-tooltip="Has audio">
+            <div class="audio-icon" data-tooltip="This site has exclusive audio">
                 <img src="{{ url "public/img/music-note-beamed.svg" }}">
             </div>
             {{ end }}
@@ -35,6 +50,9 @@
         display: grid;
         grid-gap: var(--spacing);
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .geosites a {
+        text-decoration: none;
     }
     .tile {
         display: grid;
@@ -70,6 +88,18 @@
         position: absolute;
         bottom: -0.3em;
         right: -0.3em;
+        height: 2em;
+        box-shadow: -0.3em -0.3em white;
+        aspect-ratio: 1;
+        justify-content: center;
+        display: flex;
+    }
+    .ticked-icon {
+        background: var(--color-blue);
+        padding: 0.4em;
+        position: absolute;
+        bottom: -0.3em;
+        right: 1.7em;
         height: 2em;
         box-shadow: -0.3em -0.3em white;
         aspect-ratio: 1;

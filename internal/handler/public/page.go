@@ -3,6 +3,7 @@ package public
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
@@ -18,7 +19,7 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
 
-	code := chi.URLParam(r, "code")
+	code := strings.ToUpper(chi.URLParam(r, "code"))
 	page := models.Geosite{}
 	env.DB.Where("Code = ?", code).Preload(clause.Associations).Find(&page)
 	if page.Code == "" {
@@ -46,6 +47,10 @@ func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Values["id"] = id.String()
 		session.Save(r, w)
 	}
+
+	found := []models.ScanEvent{}
+	env.DB.Where("user_id = ?", session.Values["id"]).Distinct().Group("user_id, geosite_code").Find(&found)
+	data["found"] = found
 
 	data["title"] = page.Title
 	data["md"] = parseMD(page.Text)

@@ -17,14 +17,7 @@ func Trail(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data := make(map[string]interface{})
 	data["messages"] = flash.Get(w, r)
 	data["section"] = "trail"
-
-	geosites := []models.Geosite{}
-	env.DB.Where("published = true").Preload(clause.Associations).Find(&geosites)
-	data["geosites"] = geosites
-
-	library := []models.Library{}
-	env.DB.Find(&library)
-	data["library"] = library
+	data["title"] = "QR Audio Trail"
 
 	session, err := env.Session.Get(r, "uid")
 	if err != nil || session.Values["id"] == nil {
@@ -37,6 +30,14 @@ func Trail(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 		session.Values["id"] = id.String()
 		session.Save(r, w)
 	}
+
+	geosites := []models.Geosite{}
+	env.DB.Raw("SELECT DISTINCT geosites.* FROM geosites LEFT JOIN  (select geosite_code, user_id from scan_events WHERE user_id = ?) AS scan_events ON scan_events.geosite_code = geosites.code WHERE user_id IS NULL AND deleted_at IS NULL AND published", session.Values["id"]).Distinct().Preload(clause.Associations).Find(&geosites)
+	data["geosites"] = geosites
+
+	found := []models.Geosite{}
+	env.DB.Raw("SELECT DISTINCT geosites.* FROM geosites LEFT JOIN scan_events ON scan_events.geosite_code = geosites.code WHERE geosites.deleted_at IS NULL AND user_id = ?;", session.Values["id"]).Preload(clause.Associations).Find(&found)
+	data["found"] = found
 
 	return render(w, data, "trail/index.html")
 }

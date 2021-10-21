@@ -1,6 +1,9 @@
 package models
 
 import (
+	"strings"
+
+	"github.com/nathanhollows/Argon/internal/helpers"
 	"gorm.io/gorm"
 )
 
@@ -17,4 +20,9 @@ type Geosite struct {
 	Cover     Media `gorm:"foreignKey:CoverID"`
 	AudioID   int
 	Audio     Media `gorm:"foreignKey:AudioID"`
+}
+
+// URL generates the URL for a geosite
+func (g *Geosite) URL() string {
+	return helpers.URL(strings.ToUpper(g.Code))
 }

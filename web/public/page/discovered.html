@@ -10,11 +10,7 @@
 </div>
 <main class="container">
     <hgroup>
-        {{ $count := 0}}
-        {{ range .trails }}
-        {{ $count = (add $count .Found) }}
-        {{ end }}
-        <h1>Found {{ $count }}/{{ .count }}</h1>
+        <h1>Found {{ len .found }}/{{ .count }}</h1>
         <h2>On the trail</h2>
     </hgroup>
     {{ template "flash" . }}

@@ -205,6 +205,11 @@ nav li.brand, nav li.brand a {
     padding: var(--spacing) 0;
 }
 
+#footer ul {
+    margin-left: unset;
+    margin-right: unset;
+}
+
 #footer-links ul {
     gap: 1em;
     justify-content: center;
