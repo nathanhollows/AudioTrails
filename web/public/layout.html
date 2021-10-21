@@ -31,7 +31,7 @@
     </div>
     {{ template "body" .}}
     <footer id="footer">
-        <nav class="container offsite">
+        <nav class="container" id="footer-offsite">
             <ul>
                 <li><a href="{{ url "about" }}">
                     <h2>Our App</h2>
@@ -41,7 +41,7 @@
                 </a></li>
             </ul>
         </nav>
-        <nav class="container">
+        <nav class="container" id="footer-links">
             <ul>
                 <li><a href="{{ url "about" }}">About</a></li>
                 <li><a href="{{ url "privacy" }}">Privacy Policy</a></li>

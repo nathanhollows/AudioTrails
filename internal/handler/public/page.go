@@ -17,7 +17,6 @@ import (
 func Page(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	w.Header().Set("Content-Type", "text/html")
 	data := make(map[string]interface{})
-	data["section"] = "library"
 
 	code := chi.URLParam(r, "code")
 	page := models.Geosite{}

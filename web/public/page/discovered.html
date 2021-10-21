@@ -1,5 +1,14 @@
 {{ define "body" }}
-<div class="container found">
+
+<div class="container-fluid found{{ if .page.Cover.File }} img-header{{ end }}">
+    {{ if .page.Cover.File }}
+    <img src="{{ .page.Cover.URL }}">
+    {{ end }}
+    <div class="container">
+        <h1>{{.page.Title}}</h1>
+    </div>
+</div>
+<main class="container">
     <hgroup>
         {{ $count := 0}}
         {{ range .trails }}
@@ -8,13 +17,7 @@
         <h1>Found {{ $count }}/{{ .count }}</h1>
         <h2>On the trail</h2>
     </hgroup>
-</div>
-<main class="container">
     {{ template "flash" . }}
-    <hgroup>
-        <h1>{{.page.Title}}</h1>
-        <h2></h2>
-    </hgroup>
     <section>
         <div class="player paused">
             <div onclick="playPause()">
@@ -30,6 +33,10 @@
         {{.md}}
     </section>
 </main>
+
+<style>
+
+</style>
 
 {{ if .page.Cover.File }}
 <script src="https://unpkg.com/wavesurfer.js"></script>
