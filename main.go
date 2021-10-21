@@ -81,7 +81,7 @@ func routes() {
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})
 	router.Handle("/s/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.ScanGeosite})
 	router.Handle("/l/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.ScanLink})
-	router.Handle("/qr/{location:[A-z]{1}}/{code:[A-z]{5}}{fluff}.{format:[A-z]{3}}", handler.HandlePublic{Env: &env, H: public.QR})
+	router.Handle("/qr/{location:[A-z]{1}}/{code:[A-z]{5}} - {fluff}.{format:[A-z]{3}}", handler.HandlePublic{Env: &env, H: public.QR})
 
 	router.Handle("/login", handler.HandlePublic{Env: &env, H: public.Login})
 	router.Handle("/logout", handler.HandlePublic{Env: &env, H: public.Logout})
