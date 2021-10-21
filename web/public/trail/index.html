@@ -1,29 +1,80 @@
 {{ define "body" }}
 <div class="container found">
     <hgroup>
-        {{ $count := 0}}
-        {{ range .trails }}
-        {{ $count = (add $count .Found) }}
-        {{ end }}
-        <h1>Discovered {{ $count }}/{{ len .pages }}</h1>
-        <h2>On the trail</h2>
+        <h1>You're on the trail</h1>
+        <h2>Discover the geosites like never before</h2>
     </hgroup>
 </div>
 <main class="container">
-    <div>
-        {{ template "flash" . }}
-
-        {{ range $gallery := .galleries }}
-        <h2>{{ $gallery.gallery }}</h2>
-
-        {{ range $.trails }}
-        {{ if eq .Gallery $gallery.gallery}}
-        <p>
-            You have unlocked <b>{{ .Found }} / {{ .Unfound }} pages</b> from the {{ .Trail }} trail.
-        </p>
-        {{ end }}
-        {{ end }}
-        {{ end }}
+    <p>
+        Scan the QR codes at each site to listen to the audio
+    </p>
+    {{ $count := 0}}
+    {{ range .trails }}
+    {{ $count = (add $count .Found) }}
+    {{ end }}
+    <h2>Discovered {{ $count }}/{{ len .geosites }}</h2>
+    {{ template "flash" . }}
+    <div class="geosites">
+        {{ range .geosites }}
+        <div class="tile">
+            <img src="{{ .Cover.URL }}" class="cover">
+            <h3>{{ .Title }}</h3>
+            {{ if .Audio.File }}
+            <div class="audio-icon" data-tooltip="Has audio">
+                <img src="{{ url "public/img/music-note-beamed.svg" }}">
+            </div>
+            {{ end }}
+        </div>
+        {{end}}
     </div>
 </main>
+
+<style>
+    .geosites {
+        display: grid;
+        grid-gap: var(--spacing);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .tile {
+        display: grid;
+        aspect-ratio: 1;
+        position: relative;
+        justify-content: center;
+        align-content: center;
+        padding: var(--spacing);
+        background: #d2934b61;
+        transition: background 0.3s;
+    }
+    .tile:hover {
+        background: none;
+    }
+    .tile .cover {
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        object-fit: cover;
+        object-position: center;
+        top: 0;
+        left: 0;
+    }
+    .tile h3 {
+        margin: 0;
+        color: white;
+        text-align: center;
+    }
+    .audio-icon {
+        background: #d1944d;
+        padding: 0.5em;
+        position: absolute;
+        bottom: -0.3em;
+        right: -0.3em;
+        height: 2em;
+        box-shadow: -0.3em -0.3em white;
+        aspect-ratio: 1;
+        justify-content: center;
+        display: flex;
+    }
+</style>
 {{ end }}

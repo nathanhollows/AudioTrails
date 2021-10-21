@@ -68,14 +68,13 @@ func main() {
 
 // Set up the routes needed for the game.
 func routes() {
-	router.Handle("/", handler.HandlePublic{Env: &env, H: public.Index})
-
 	var pages = []models.Page{}
 	env.DB.Model(models.Page{}).Find(&pages)
 	for _, page := range pages {
 		router.Handle(fmt.Sprintf("/%v", page.Code), handler.HandlePublic{Env: &env, H: public.RegularPage})
 	}
 
+	router.Handle("/", handler.HandlePublic{Env: &env, H: public.Trail})
 	router.Handle("/trail", handler.HandlePublic{Env: &env, H: public.Trail})
 
 	router.Handle("/{code:[A-z]{5}}", handler.HandlePublic{Env: &env, H: public.Page})

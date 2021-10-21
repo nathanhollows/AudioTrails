@@ -8,6 +8,7 @@ import (
 	"github.com/nathanhollows/Argon/internal/flash"
 	"github.com/nathanhollows/Argon/internal/handler"
 	"github.com/nathanhollows/Argon/internal/models"
+	"gorm.io/gorm/clause"
 )
 
 // Trail shows the user all the unlocked pages they have found
@@ -17,9 +18,9 @@ func Trail(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["messages"] = flash.Get(w, r)
 	data["section"] = "trail"
 
-	pages := []models.Geosite{}
-	env.DB.Where("published = true").Find(&pages)
-	data["pages"] = pages
+	geosites := []models.Geosite{}
+	env.DB.Where("published = true").Preload(clause.Associations).Find(&geosites)
+	data["geosites"] = geosites
 
 	library := []models.Library{}
 	env.DB.Find(&library)
