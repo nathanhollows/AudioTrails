@@ -56,13 +56,20 @@
     }
     .tile {
         display: grid;
-        aspect-ratio: 1;
+        aspect-ratio: 5/4;
         position: relative;
         justify-content: center;
         align-content: center;
         padding: var(--spacing);
         background: #d2934b61;
         transition: background 0.3s;
+    }
+    .tile [data-tooltip]::after, .tile [data-tooltip]::before {
+        left: -4.6em;
+    }
+    .tile [data-tooltip]::after {
+        position: absolute;
+        left: 1em;
     }
     .tile:hover {
         background: none;
