@@ -26,22 +26,24 @@ func ScanGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) error
 		return nil
 	}
 
-	session, err := env.Session.Get(r, "uid")
-	if err != nil || session.Values["id"] == nil {
-		session, err = env.Session.New(r, "uid")
-		session.Options.HttpOnly = true
-		session.Options.SameSite = http.SameSiteStrictMode
-		session.Options.Secure = true
-		id := uuid.New()
-		session.Values["id"] = id.String()
-		session.Save(r, w)
-	}
+	if !(strings.Contains(r.UserAgent(), "facebook") || strings.Contains(r.UserAgent(), "ZXing")) {
+		session, err := env.Session.Get(r, "uid")
+		if err != nil || session.Values["id"] == nil {
+			session, err = env.Session.New(r, "uid")
+			session.Options.HttpOnly = true
+			session.Options.SameSite = http.SameSiteStrictMode
+			session.Options.Secure = true
+			id := uuid.New()
+			session.Values["id"] = id.String()
+			session.Save(r, w)
+		}
 
-	scan := models.ScanEvent{}
-	scan.Geosite = geosite
-	scan.UserID = fmt.Sprint(session.Values["id"])
-	scan.UserAgent = r.UserAgent()
-	env.DB.Model(&models.ScanEvent{}).Create(&scan)
+		scan := models.ScanEvent{}
+		scan.Geosite = geosite
+		scan.UserID = fmt.Sprint(session.Values["id"])
+		scan.UserAgent = r.UserAgent()
+		env.DB.Model(&models.ScanEvent{}).Create(&scan)
+	}
 
 	http.Redirect(w, r, fmt.Sprintf("/%s", geosite.Code), http.StatusTemporaryRedirect)
 	return nil
