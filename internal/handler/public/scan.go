@@ -40,6 +40,7 @@ func ScanGeosite(env *handler.Env, w http.ResponseWriter, r *http.Request) error
 	scan := models.ScanEvent{}
 	scan.Geosite = geosite
 	scan.UserID = fmt.Sprint(session.Values["id"])
+	scan.UserAgent = r.UserAgent()
 	env.DB.Model(&models.ScanEvent{}).Create(&scan)
 
 	http.Redirect(w, r, fmt.Sprintf("/%s", geosite.Code), http.StatusTemporaryRedirect)
@@ -63,6 +64,7 @@ func ScanLink(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	scan := models.ScanEvent{}
 	scan.Link = link
 	scan.UserID = "untracked"
+	scan.UserAgent = r.UserAgent()
 	env.DB.Model(&models.ScanEvent{}).Create(&scan)
 	link.Hits++
 	env.DB.Save(link)

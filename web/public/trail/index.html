@@ -1,34 +1,34 @@
 {{ define "body" }}
 <main class="container">
     <hgroup>
-        <h1>You're on the trail</h1>
-        <h2>Discover the geosites like never before</h2>
+        <h1>You're on the trail!</h1>
+        <h2>Scan each the QR code at each site to unlock audio stories</h2>
     </hgroup>
     <h2>Discovered {{ len .found }}/{{ add (len .found) (len .geosites) }}</h2>
     {{ template "flash" . }}
     <div class="geosites">
         {{ range .found }}
         <a href="{{ .URL }}">
-            <div class="tile">
+            <div class="tile found">
                 {{ if .Cover.File }}
                 <img src="{{ .Cover.URL }}" class="cover">
                 {{ else }}
                 <img src="{{ url "public/img/black.svg" }}" class="cover">
                 {{ end }}
                 <h3>{{ .Title }}</h3>
+                <div class="ticked-icon">
+                    <img src="{{ url "public/img/check-square.svg" }}">
+                </div>
                 {{ if .Audio.File }}
                 <div class="audio-icon" data-tooltip="This site has exclusive audio">
                     <img src="{{ url "public/img/music-note-beamed.svg" }}">
-                </div>
-                <div class="ticked-icon">
-                    <img src="{{ url "public/img/check-square.svg" }}">
                 </div>
                 {{ end }}
             </div>
         </a>
         {{end}}
         {{ range .geosites }}
-        <div class="tile">
+        <div class="tile unfound">
             {{ if .Cover.File }}
             <img src="{{ .Cover.URL }}" class="cover">
             {{ else }}

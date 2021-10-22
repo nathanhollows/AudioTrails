@@ -1,20 +1,61 @@
 {{ define "body" }}
 <main class="container">
-    <section>
-    <hgroup>
-        <h1>Analytics</h1>
-        <h2>To be developed</h2>
-    </hgroup>
-    {{ template "flash" . }}
+    <section id="actions">
+        <hgroup>
+            <h1>Analytics</h1>
+            <h2></h2>
+        </hgroup>
+        <a href="{{ url "admin/data.csv" }}" role="button" download="QR-code-scan-data.csv">Download full data set</a>
     </section>
+    {{ template "flash" . }}
+
+    <section>
+        <h2>Geosite Scans</h2>
+        <div class="grid" style="text-align: center;">
+            <article>
+                <hgroup>
+                    <h4>{{ len .geoScans }}</h4>
+                    <h5>All time</h5>
+                </hgroup>
+            </article>
+
+            <article>
+                <hgroup>
+                    <h4>{{ .year }}</h4>
+                    <h5>Past year</h5>
+                </hgroup>
+            </article>
+            <article>
+                <hgroup>
+                    <h4>{{ .month }}</h4>
+                    <h5>Past month</h5>
+                </hgroup>
+            </article>
+
+            <article>
+                <hgroup>
+                    <h4>{{ .week }}</h4>
+                    <h5>Past week</h5>
+                </hgroup>
+            </article>
+            <article>
+                <hgroup>
+                    <h4>{{ .today }}</h4>
+                    <h5>Today</h5>
+                </hgroup>
+            </article>
+        </div>
+    </section>
+
+    <hr>
 
     <div class="grid">
         <section>
             <h2>
-                Geosite Scans:
+                Recent Geosite Scans:
             </h2>
             <ul>
-                {{ range .dump }}
+                {{ range .geoScans }}
                 {{ if .Geosite.Code }}
                 <li>
                     {{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }}
@@ -26,34 +67,18 @@
         </section>
         <section>
             <h2>
-                Link Scans:
+                Recent Link Scans:
             </h2>
             <ul>
-                {{ range .dump }}
-                {{ if .Link.Code }}
+                {{ range .linkScans }}
                 <li>
-                    {{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }}:
-                    <em>{{.Link.Title}}</em>
+                    {{ .CreatedAt.Format "Jan 02, 2006 3:04 pm" }}
+                    <a href="{{ url (print "admin/links/edit/" .Link.Code ) }}">{{.Link.Title}}</a>
                 </li>
-                {{ end }}
                 {{ end }}
             </ul>
         </section>
     </div>
-    <hr>
-    <section>
-        <h2>Possible Analytics:</h2>
-        <ul>
-            <li>Scans today</li>
-            <li>Scans this week</li>
-            <li>Scans this month</li>
-            <li>New scanners</li>
-            <li>Completion rate</li>
-            <li>Time between scans</li>
-            <li>Time to completion</li>
-            <li>First scanned</li>
-        </ul>
-    </section>
 
 </main>
 {{ end }}

@@ -10,4 +10,5 @@ type ScanEvent struct {
 	Geosite     Geosite `gorm:"foreignKey:GeositeCode;references:Code"`
 	LinkCode    string
 	Link        Link `gorm:"foreignKey:LinkCode;references:Code"`
+	UserAgent   string
 }

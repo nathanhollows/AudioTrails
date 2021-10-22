@@ -26,8 +26,7 @@
                 </th>
                 <td>{{ .Hits }}</td>
                 <td>
-                    <a href="{{ url (print "qr/l/" .Code " - " .Title ".svg") }}" download>SVG</a> |
-                    <a href="{{ url (print "qr/l/" .Code " - " .Title ".png") }}" download>PNG</a>
+                    <a href="{{ url (print "qr/l/" .Code " - " .Title ".svg") }}" download>SVG</a>
                 </td>
             </tr>
             {{ end }}
