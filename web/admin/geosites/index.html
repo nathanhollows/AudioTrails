@@ -33,7 +33,7 @@
                 <td style="text-align: center;">{{if .Cover.File }}✔{{end}}</td>
                 <th scope="row">
                     <a href="{{ url (print "admin/geosites/edit/" .Code) }}">
-                        {{ .Title }}
+                        {{if .Title }}{{ .Title }}{{ else }}<em>Nameless Geosite</em>{{ end }}
                     </a>
                 </th>
                 <td>

@@ -16,14 +16,14 @@
                 <img src="{{ url "public/img/black.svg" }}" class="cover">
                 {{ end }}
                 <h3>{{ .Title }}</h3>
-                <div class="ticked-icon">
-                    <img src="{{ url "public/img/check-square.svg" }}">
-                </div>
                 {{ if .Audio.File }}
                 <div class="audio-icon" data-tooltip="This site has exclusive audio">
                     <img src="{{ url "public/img/music-note-beamed.svg" }}">
                 </div>
                 {{ end }}
+                <div class="ticked-icon">
+                    <img src="{{ url "public/img/check-square.svg" }}">
+                </div>
             </div>
         </a>
         {{end}}

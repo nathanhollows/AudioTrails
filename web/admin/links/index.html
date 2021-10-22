@@ -21,7 +21,7 @@
             <tr>
                 <th scope="row">
                     <a href="{{ url (print "admin/links/edit/" .Code) }}">
-                        {{ .Title }}
+                        {{if .Title }}{{ .Title }}{{ else }}<em>Nameless Link</em>{{ end }}
                     </a>
                 </th>
                 <td>{{ .Hits }}</td>
