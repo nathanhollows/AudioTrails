@@ -212,7 +212,7 @@
     var preview = document.getElementById("preview-content");
     var form = document.getElementById("form");
     var autosave = document.getElementById("autosave");
-    let wavesurfer = null
+    let wavesurfer
 
     function previewMD() {
         if (checkBox.checked == true){
@@ -323,7 +323,7 @@
                 console.log(text)
                 document.getElementById("audio").value = null
                 document.getElementsByClassName("player")[0].style.display = "grid"
-                document.getElementsByTagName("wave").forEach(wave => {
+                Array.prototype.forEach.call(document.getElementsByTagName("wave"), (wave) => {
                     wave.remove()
                 });
                 waveformInit(text)
