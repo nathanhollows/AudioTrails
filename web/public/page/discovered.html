@@ -3,6 +3,11 @@
 <div class="container-fluid found{{ if .page.Cover.File }} img-header{{ end }}">
     {{ if .page.Cover.File }}
     <img src="{{ .page.Cover.URL }}">
+    <img srcset="{{ .page.Cover.ImgURL "small" }} 576w,
+                {{ .page.Cover.ImgURL "medium" }} 1200w"
+     sizes="(max-width: 576px) 576px,
+            1200px">
+
     {{ end }}
     <div class="container">
         <h1>{{.page.Title}}</h1>

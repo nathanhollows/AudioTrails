@@ -11,7 +11,7 @@
         <a href="{{ .URL }}">
             <div class="tile found">
                 {{ if .Cover.File }}
-                <img src="{{ .Cover.URL }}" class="cover">
+                <img src="{{ .Cover.ImgURL "small" }}" class="cover">
                 {{ else }}
                 <img src="{{ url "public/img/black.svg" }}" class="cover">
                 {{ end }}
@@ -30,7 +30,7 @@
         {{ range .geosites }}
         <div class="tile unfound">
             {{ if .Cover.File }}
-            <img src="{{ .Cover.URL }}" class="cover">
+            <img src="{{ .Cover.ImgURL "small" }}" class="cover">
             {{ else }}
             <img src="{{ url "public/img/black.svg" }}" class="cover">
             {{ end }}

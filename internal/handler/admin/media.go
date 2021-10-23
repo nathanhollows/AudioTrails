@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -112,8 +113,22 @@ func Upload(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 			}
 		}
 
-		fmt.Fprintf(w, media.URL())
+		if filetype == "image" {
+			cmd := exec.Command("convert", filename, "-resize", "576x576^", "-quality", "90", "-define", "png:compression-filter=5", "small/"+filename)
+			cmd.Dir = "./web/static/uploads/image/"
+			cmd.Run()
+			cmd = exec.Command("convert", filename, "-resize", "1200x300^", "-quality", "90", "-define", "png:compression-filter=5", "medium/"+filename)
+			cmd.Dir = "./web/static/uploads/image/"
+			cmd.Run()
+			cmd = exec.Command("convert", filename, "-resize", "2000x700^", "-quality", "90", "-define", "png:compression-filter=5", "large/"+filename)
+			cmd.Dir = "./web/static/uploads/image/"
+			cmd.Run()
 
+			fmt.Fprintf(w, media.ImgURL("small"))
+			return nil
+		}
+
+		fmt.Fprintf(w, media.URL())
 	}
 	return nil
 }
