@@ -21,3 +21,6 @@ web/static/uploads/audio/*
 web/static/uploads/image/*
 !web/static/uploads/audio/.content
 !web/static/uploads/image/.content
+!web/static/uploads/image/small/.content
+!web/static/uploads/image/medium/.content
+!web/static/uploads/image/large/.content
