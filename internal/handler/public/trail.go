@@ -36,7 +36,7 @@ func Trail(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
 	data["geosites"] = geosites
 
 	found := []models.Geosite{}
-	env.DB.Raw("SELECT DISTINCT geosites.* FROM geosites LEFT JOIN scan_events ON scan_events.geosite_code = geosites.code WHERE geosites.deleted_at IS NULL AND user_id = ?;", session.Values["id"]).Preload(clause.Associations).Find(&found)
+	env.DB.Raw("SELECT DISTINCT geosites.* FROM geosites LEFT JOIN scan_events ON scan_events.geosite_code = geosites.code WHERE geosites.deleted_at IS NULL AND user_id = ? AND published;", session.Values["id"]).Preload(clause.Associations).Find(&found)
 	data["found"] = found
 
 	return render(w, data, "trail/index.html")
