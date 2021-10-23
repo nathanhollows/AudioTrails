@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/415827273.svg)](https://zenodo.org/badge/latestdoi/415827273)
+
 <p align="center">
   <a href="https://github.com/nathanhollows/AudioTrails">
     <img src="web/static/apple-touch-icon.png" alt="Logo" width="80" height="80">
