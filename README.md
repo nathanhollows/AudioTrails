@@ -1,8 +1,6 @@
-[![DOI](https://zenodo.org/badge/415827273.svg)](https://zenodo.org/badge/latestdoi/415827273)
-
 <p align="center">
   <a href="https://github.com/nathanhollows/Geotrace">
-    <img src="web/static/apple-touch-icon.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/13064427/138615526-69a8602f-b73a-41b9-8a46-af271feea375.png" alt="Logo" width="300">
   </a>
 
   <h3 align="center">Geotrace</h3>
