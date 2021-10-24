@@ -37,7 +37,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-QR Audio Trails were built for the [Waitaki White Geopark](https://www.whitestonegeopark.nz/) as part of a [Centre for Science Communication](https://www.otago.ac.nz/science-communication/index.html) paper at the University of Otago.
+Geotrace was built for the [Waitaki White Geopark](https://www.whitestonegeopark.nz/) as part of a [Centre for Science Communication](https://www.otago.ac.nz/science-communication/index.html) paper at the University of Otago.
 
 This project was built in two parts. The first part is a set of audio stories (you can listen to these in the demo). The second is an online platform that enables visitors to each geosite to listen to the stories. The website presents itself as a sort of scavenger hunt, allowing visitors to explore the area to collect each site. Once visited, visitors may listen to past stories again.
 
