@@ -1,7 +1,7 @@
 [![DOI](https://zenodo.org/badge/415827273.svg)](https://zenodo.org/badge/latestdoi/415827273)
 
 <p align="center">
-  <a href="https://github.com/nathanhollows/AudioTrails">
+  <a href="https://github.com/nathanhollows/Geotrace">
     <img src="web/static/apple-touch-icon.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -11,9 +11,9 @@
     <br />
     <a href="https://geo.trace.co.nz">View Demo</a>
     ·
-    <a href="https://github.com/nathanhollows/AudioTrails/issues">Report Bug</a>
+    <a href="https://github.com/nathanhollows/Geotrace/issues">Report Bug</a>
     ·
-    <a href="https://github.com/nathanhollows/AudioTrails/issues">Request Feature</a>
+    <a href="https://github.com/nathanhollows/Geotrace/issues">Request Feature</a>
   </p>
 </p>
 
@@ -64,7 +64,7 @@ Additional features:
 
 ### Built With
 
-* [Go 1.16](https://golang.org)\
+* [Go 1.16](https://golang.org)
 * [Wavesurfer.js](https://wavesurfer-js.org/)
 * [Pico CSS](https://picocss.com/)
 * [ImageMagick](https://imagemagick.org/index.php)
@@ -81,7 +81,7 @@ Additional features:
 
 1. Clone the repo
 ```sh
-git clone https://github.com/nathanhollows/AudioTrails.git
+git clone https://github.com/nathanhollows/Geotrace.git
 ```
 2. Set environment variables
 ```sh
@@ -90,7 +90,19 @@ export GEOTRACE_SITEURL=""
 export GEOTRACE_PORT=""
 ```
 
-`GEOTRACE_SESSION_KEY` is used to encrypt session variables. Use <https://randomkeygen.com/> for generating secure keys. `GEOTRACE_SITEURL` is used to generate internal URLs. `GEOTRACE_PORT` is the port AudioTrails will run on locally.
+`GEOTRACE_SESSION_KEY` is used to encrypt session variables. Use <https://randomkeygen.com/> for generating secure keys.   
+`GEOTRACE_SITEURL` is used to generate internal URLs.   
+`GEOTRACE_PORT` is the port Geotrace will run on locally.  
+
+3. Rename the template database
+```sh
+cp trace.db.template trace.db
+```
+4. Build and run
+```sh
+go build -o geo
+./geo
+```
 
 
 <!-- ROADMAP -->
@@ -125,6 +137,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - me@example.nathanhollows.com
+Nathan Hollows - me@nathanhollows.com
 
-Project Link: [https://github.com/nathanhollows/AudioTrails](https://github.com/nathanhollows/AudioTrails)
+Project Link: [https://github.com/nathanhollows/Geotrace](https://github.com/nathanhollows/Geotrace)
