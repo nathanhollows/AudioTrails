@@ -1,3 +1,7 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5595591.svg)](https://doi.org/10.5281/zenodo.5595591)
+
+
+
 <p align="center">
   <a href="https://github.com/nathanhollows/Geotrace">
     <img src="https://user-images.githubusercontent.com/13064427/138615526-69a8602f-b73a-41b9-8a46-af271feea375.png" alt="Logo" width="300">
